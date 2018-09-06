@@ -1,45 +1,32 @@
--- This is a skeleton file for you to edit
+-- Do not modify this file!
 
-{-# OPTIONS_GHC -W #-}  -- Just in case you forgot...
+module Definitions where
 
-module Arithmetic
-  (
-  showExp,
-  evalSimple,
-  extendEnv,
-  evalFull,
-  evalErr,
-  showCompact,
-  evalEager,
-  evalLazy
-  )
+data Exp =
+-- Simple
+    Cst Integer
+  | Add Exp Exp
+  | Sub Exp Exp
+  | Mul Exp Exp
+  | Div Exp Exp
+  | Pow Exp Exp
+-- Full
+  | If {test, yes, no :: Exp}
+  | Var VName
+  | Let {var :: VName, aux, body :: Exp}
+  | Sum {var :: VName, from, to, body :: Exp}
+  deriving (Eq, Show)
 
-where
+type VName = String
 
-import Definitions
+type Env = VName -> Maybe Integer
 
-showExp :: Exp -> String
-showExp = undefined
+initEnv :: Env
+initEnv = \_v -> Nothing
 
-evalSimple :: Exp -> Integer
-evalSimple = undefined
-
-extendEnv :: VName -> Integer -> Env -> Env
-extendEnv = undefined
-
-evalFull :: Exp -> Env -> Integer
-evalFull = undefined
-
-evalErr :: Exp -> Env -> Either ArithError Integer
-evalErr = undefined
-
--- optional parts (if not attempted, leave them unmodified)
-
-showCompact :: Exp -> String
-showCompact = undefined
-
-evalEager :: Exp -> Env -> Either ArithError Integer
-evalEager = undefined
-
-evalLazy :: Exp -> Env -> Either ArithError Integer
-evalLazy = undefined
+data ArithError =
+    EBadVar VName  -- undefined variable
+  | EDivZero       -- attempted division by zero
+  | ENegPower      -- attempted raising to negative power
+  | EOther String  -- any other errors, if relevant
+  deriving (Eq, Show)
