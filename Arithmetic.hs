@@ -47,10 +47,22 @@ evalFull (Var vName) env            = case (env vName) of
                                       Just x  -> x
 evalFull (Let vName aux body) env   = let newEnv = extendEnv vName (evalFull aux env) env in
                                         evalFull body newEnv  
+evalFull (Sum v from to body) env   = listSum [(evalFull from env)..(evalFull to env)] v env body
+  where listSum [] _ _ _ = 0
+        listSum (x:xs) vName env body = (evalFull (Let vName (Cst x) body) env) + listSum xs vName env body
 evalFull exp _                      = evalSimple exp
 
 evalErr :: Exp -> Env -> Either ArithError Integer
-evalErr = undefined
+evalErr (Cst a) _ = Right a
+evalErr (Div exp1 exp2) env = case evalErr exp1 env of 
+                                Left er -> Left er
+                                Right x -> case evalErr exp2 env of
+                                        Left er -> Left er 
+                                        Right y -> if y == 0 then Left EDivZero
+                                                             else Right (x `div` y)
+evalErr (Pow exp1 exp2) env = case evalErr exp1 env of
+                                Left er -> Left er
+                                Right x -> Right 0
 
 -- optional parts (if not attempted, leave them unmodified)
 
