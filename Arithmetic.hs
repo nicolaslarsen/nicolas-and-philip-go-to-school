@@ -63,8 +63,8 @@ evalErr (Div exp1 exp2) env = case evalErr exp1 env of
 evalErr (Pow exp1 exp2) env = case evalErr exp1 env of
                                 Left er -> Left er
                                 Right x -> case evalErr exp2 env of
-                                        Left er ->
-                                        Right y -> if y == 0 then Left ENegPower
+                                        Left er -> Left er
+                                        Right y -> if y == 0 then Left ENegPower else Right (x ^ y)
 evalErr (Sub exp1 exp2) env = case evalErr exp1 env of
                                 Left er -> Left er
                                 Right x -> case evalErr exp2 env of
