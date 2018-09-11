@@ -29,21 +29,15 @@ showExp (Div exp1 exp2) = "(" ++ (showExp exp1) ++ "/" ++ (showExp exp2) ++ ")"
 showExp (Pow exp1 exp2) = "(" ++ (showExp exp1) ++ "^" ++ (showExp exp2) ++ ")"
 showExp _ = error "Not a valid expression"
 
-power x y 
-  | y < 0 = error "test"
-  | y == 0 = 1
-  | y == 1 = x 
-  | otherwise = x * power x (y-1)
-
 evalSimple :: Exp -> Integer
 evalSimple (Cst m) = m
 evalSimple (Add exp1 exp2) = (evalSimple exp1) + (evalSimple exp2)
 evalSimple (Sub exp1 exp2) = (evalSimple exp1) - (evalSimple exp2)
 evalSimple (Mul exp1 exp2) = (evalSimple exp1) * (evalSimple exp2)
 evalSimple (Div exp1 exp2) = (evalSimple exp1) `div` (evalSimple exp2)
-evalSimple (Pow exp1 exp2) = let x = (evalSimple exp1) in 
-                               power x (evalSimple exp2)
-evalSimple _ = error "Not a valid expression"
+evalSimple (Pow exp1 exp2) = let x = (evalSimple exp1) in if x == 3 
+                             then x ^ (evalSimple exp2) else x ^ (evalSimple exp2)
+evalSimple _ = error "Not a valid simple expression"
 
 extendEnv :: VName -> Integer -> Env -> Env
 extendEnv name value env = (\_v -> if _v == name then Just value else env _v)
@@ -60,7 +54,13 @@ evalFull (Let vName aux body) env   = let newEnv = extendEnv vName (evalFull aux
 evalFull (Sum v from to body) env   = listSum [(evalFull from env)..(evalFull to env)] v env body
   where listSum [] _ _ _ = 0
         listSum (x:xs) vName env body = (evalFull (Let vName (Cst x) body) env) + listSum xs vName env body
-evalFull exp _                      = evalSimple exp
+evalFull (Cst m) _ = m
+evalFull (Add exp1 exp2) env = (evalFull exp1 env) + (evalFull exp2 env)
+evalFull (Sub exp1 exp2) env = (evalFull exp1 env) - (evalFull exp2 env)
+evalFull (Mul exp1 exp2) env = (evalFull exp1 env) * (evalFull exp2 env)
+evalFull (Div exp1 exp2) env = (evalFull exp1 env) `div` (evalFull exp2 env)
+evalFull (Pow exp1 exp2) env = let x = (evalFull exp1 env) in if x == 3 then x ^ exponent else x ^ exponent
+  where exponent = (evalFull exp2 env)
 
 evalErr :: Exp -> Env -> Either ArithError Integer
 evalErr (Cst a) _ = Right a
@@ -74,7 +74,7 @@ evalErr (Pow exp1 exp2) env = case evalErr exp1 env of
                                 Left er -> Left er
                                 Right x -> case evalErr exp2 env of
                                         Left er -> Left er
-                                        Right y -> if y == 0 then Left ENegPower else Right (x ^ y)
+                                        Right y -> if y < 0 then Left ENegPower else Right (x ^ y)
 evalErr (Sub exp1 exp2) env = case evalErr exp1 env of
                                 Left er -> Left er
                                 Right x -> case evalErr exp2 env of
