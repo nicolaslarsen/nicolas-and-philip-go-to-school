@@ -79,7 +79,7 @@ evalFull (Pow exp1 exp2) env = let x = evalFull exp1 env in
                                       else x ^ exponent
   where exponent = evalFull exp2 env
 
---  Takes an expression and an environment. 
+--  Takes an expression and an environment.
 --  Returns an integer if everything goes well, and an ArithError
 --  if an error is found along the way.
 evalErr :: Exp -> Env -> Either ArithError Integer
@@ -97,7 +97,7 @@ evalErr (If test yes no) env = case evalErr test env of
                                                         Right x -> Right x
                                                 else case evalErr no env of
                                                         Left er -> Left er
-                                                        Right x -> Right x 
+                                                        Right x -> Right x
 evalErr (Var vName) env = case env vName of
                             Nothing -> Left (EBadVar vName)
                             Just x  -> Right x
@@ -113,38 +113,32 @@ evalErr (Sum vName from to body) env =
           Right x -> case evalErr to env of
                         Left er -> Left er
                         -- We create a list of integers from x to y and pass it
-                        Right y -> errListSum [x..y] vName env body
+                        Right y -> evalErrSum [x..y] vName env body
   -- errListSum takes a list of integers, a variable name, an environment and a body.
   -- Each integer is bound to the variable name vName to be used in the body.
   -- The body can also use the variables already defined in the given environment
   -- Returns either an ArithErr or the sum of each iteration of the body.
-  where errListSum [] _ _ _ = Right 0
-        errListSum (x:xs) vName env body =
-          case evalErr (Let vName (Cst x) body) env of
-            Left er -> Left er
-            Right x -> case (Right x, errListSum xs vName env body) of
-                          (Right m, Right n)  -> Right (m+n)
-                          (_, Left err) -> Left err
-                          (Left err, _) -> Left err
+  where evalErrSum [] _ _ _ = Right 0
+        evalErrSum (x:xs) vName env body =
+            case evalErr (Let vName (Cst x) body) env of
+              Left er -> Left er
+              Right x -> case evalErrSum xs vName env body of
+                            Left er -> Left er
+                            Right y -> Right (x + y)
 
-
-
--- Takes two expressions, an environment and a function 
+-- Takes two expressions, an environment and a function
 -- f (integer -> integer -> integer). Then it checks for errors,
 -- if it finds any, it is returned, otherwise f x y is returned.
-evalErrHelper exp1 exp2 env f = case evalErr exp1 env of 
-  Left er -> Left er 
-  Right x -> 
+evalErrHelper exp1 exp2 env f = case evalErr exp1 env of
+  Left er -> Left er
+  Right x ->
     case evalErr exp2 env of
         Left er -> Left er
         Right y -> f x y
 
 -- Simple functions to return error or integer for a function
 divide x y = if y == 0 then Left EDivZero else Right(x `div` y)
-power x y = if y < 0 then Left ENegPower else Right (x^y) 
-
-
-
+power x y = if y < 0 then Left ENegPower else Right (x^y)
 
 -- optional parts (if not attempted, leave them unmodified)
 
