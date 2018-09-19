@@ -50,17 +50,13 @@ instance Monad SubsM where
   return x = SubsM $ \c -> case c of
                       (env, penv) -> Right (x, env)
                       _ -> Left "Err"
-  --m >>= f = undefined
   m >>= f = SubsM $ \(c1,c2) -> case m of SubsM x ->
                                               let var = x (c1,c2) in
                                                 case var of
                                                   Right (a, env) -> case f a of
                                                                       SubsM y -> y (env,c2)
                                                   Left er -> Left er
-                                     --     case var of
-                                      --      Right (a, env) -> Right (a,env)
-                                       --     Left err -> Left err
-  fail s = undefined
+  fail s =  SubsM $ \context -> Left s
 
 
 -- You may modify these if you want, but it shouldn't be necessary
@@ -83,15 +79,15 @@ lt _ = Left "Values can not be compared"
 
 plus :: Primitive
 plus [(IntVal x), (IntVal y)] = Right $ IntVal (x+y)
-plus _ = Left "test"
+plus _ = Left "Values can not be added"
 
 mul :: Primitive
 mul [(IntVal x), (IntVal y)] = Right $ IntVal (x*y)
-mul _ = Left "test"
+mul _ = Left "Values can not be multiplied"
 
 sub :: Primitive
 sub [(IntVal x), (IntVal y)] = Right $ IntVal (x-y)
-sub _ = Left "test"
+sub _ = Left "Values can not be subtracted"
 
 lol :: Context -> Either Error (Int, Env)
 lol (env, penv) = Right (1, env)
@@ -102,13 +98,13 @@ mkArray [IntVal n] | n >= 0 = return $ ArrayVal (replicate n UndefinedVal)
 mkArray _ = Left "Array() called with wrong number or type of arguments"
 
 modifyEnv :: (Env -> Env) -> SubsM ()
-modifyEnv f = undefined
+modifyEnv f = SubsM $ \(env, penv) -> Right ((), f env)
 
 putVar :: Ident -> Value -> SubsM ()
-putVar name val = undefined
+putVar name val = let f = \env -> Map.insert name val env in modifyEnv f
 
 getVar :: Ident -> SubsM Value
-getVar name = undefined
+getVar name = SubsM $ \(env, penv) -> Right (env Map.! name, env)
 
 getFunction :: FunName -> SubsM Primitive
 getFunction name = undefined
