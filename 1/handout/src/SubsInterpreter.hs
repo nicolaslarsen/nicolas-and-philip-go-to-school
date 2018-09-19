@@ -104,13 +104,39 @@ putVar :: Ident -> Value -> SubsM ()
 putVar name val = let f = \env -> Map.insert name val env in modifyEnv f
 
 getVar :: Ident -> SubsM Value
-getVar name = SubsM $ \(env, penv) -> Right (env Map.! name, env)
+getVar name = SubsM $ \(env, penv) -> case Map.lookup name env of
+                                        Just a  -> Right (a, env)
+                                        Nothing -> Left "Error"
 
 getFunction :: FunName -> SubsM Primitive
-getFunction name = undefined
+getFunction name = SubsM $ \(env, penv) -> case Map.lookup name penv of
+                                        Just a  -> Right (a, env)
+                                        Nothing -> Left "Error"
 
 evalExpr :: Expr -> SubsM Value
-evalExpr expr = undefined
+evalExpr expr = case expr of
+                    Number i -> return $ IntVal i
+                    String s -> return $ StringVal s
+                    Array xs -> SubsM $ \(env,penv) -> let li = map evalExpr xs in 
+                                                           let ls = ($ (env,penv)) li in
+                                                               helper ls
+                    --Array (x:xs) -> ArrayVal(evalExpr x) >>= evalExpr $ Array xs
+                    --Array (x:xs) -> return $ case evalExpr x of
+                     --                 SubsM a -> ArrayVal $ a ++ evalExpr $ Array xs
+                    Var id -> getVar id
+                    --Assign id exp -> putVar id $ case evalExpr exp of 
+                            --putVar id >>= evalExpr exp
+                    TrueConst -> return TrueVal
+                    FalseConst -> return FalseVal
+                    Undefined -> return UndefinedVal
+
+--helper :: [Either Error (Value, Env)] -> Either Error ([Value], env)
+helper (x:xs) = case x of Left er       -> Left er
+                          Right (a,env) -> case helper xs of Left er -> Left er
+                                                             Right (ys, env2) -> Right ((a : ys),env)
+helper [] = Right ([], Map.empty)
 
 runExpr :: Expr -> Either Error Value
-runExpr expr = undefined
+runExpr expr = case evalExpr expr of SubsM a -> case a initialContext of
+                                                              Left er -> Left er
+                                                              Right (a,_) -> Right a
