@@ -113,12 +113,27 @@ evalExpr :: Expr -> SubsM Value
 evalExpr expr = case expr of
                     Number i -> return $ IntVal i
                     String s -> return $ StringVal s
+                    Array [] -> return $ ArrayVal []
+                    Array arr -> return $ helpEval (Array arr)
                     Var id -> getVar id
-                    Assign id exp -> (evalExpr exp) >>= putVar id >>= (\_ -> getVar id)
+                    Assign id exp -> (evalExpr exp) >>= putVar id >> getVar id
+                    --Call fun exps -> 
                     TrueConst -> return TrueVal
                     FalseConst -> return FalseVal
                     Undefined -> return UndefinedVal
                     _ -> return UndefinedVal
+
+helpEval :: Expr -> Value
+helpEval (Number i)   = IntVal i
+helpEval (String s)   = StringVal s
+helpEval (Array arr)  = ArrayVal (exprToValueList arr)
+helpEval TrueConst    = TrueVal
+helpEval FalseConst   = FalseVal
+helpEval Undefined    = UndefinedVal
+
+exprToValueList :: [Expr] -> [Value]
+exprToValueList [] = []
+exprToValueList (x:xs) = helpEval x : (exprToValueList xs)
 
 runExpr :: Expr -> Either Error Value
 runExpr expr = case evalExpr expr of SubsM a -> case a initialContext of

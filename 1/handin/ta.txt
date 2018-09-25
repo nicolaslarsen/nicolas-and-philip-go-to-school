@@ -1,0 +1,436 @@
+Comment:
+  src/.SubsInterpreter.hs.swp doesn't look like source code, purging.
+  Consider purging this before submitting to a human.
+Comment:
+  GHC with -Wall -Werror wasn't happy.
+  Hence, your TA not likely to be happy.
+Running hlint...
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:50:22: Suggestion: Use lambda-case
+Found:
+  \ c ->
+    case c of
+        (env, penv) -> Right (x, env)
+        _ -> Left "Err"
+Perhaps:
+  \case
+      (env, penv) -> Right (x, env)
+      _ -> Left "Err"
+Note: may require `{-# LANGUAGE LambdaCase #-}` adding to the top of the file
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:81:6: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [IntVal x, (IntVal y)]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:81:6: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [(IntVal x), IntVal y]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:85:5: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [IntVal x, (IntVal y)]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:85:5: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [(IntVal x), IntVal y]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:89:5: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [IntVal x, (IntVal y)]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:89:5: Suggestion: Redundant bracket
+Found:
+  [(IntVal x), (IntVal y)]
+Perhaps:
+  [(IntVal x), IntVal y]
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:100:23: Warning: Redundant lambda
+Found:
+  f = \ env -> Map.insert name val env
+Perhaps:
+  f env = Map.insert name val env
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:100:27: Suggestion: Avoid lambda
+Found:
+  \ env -> Map.insert name val env
+Perhaps:
+  Map.insert name val
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:120:38: Suggestion: Redundant bracket
+Found:
+  (evalExpr exp) >>= putVar id
+Perhaps:
+  evalExpr exp >>= putVar id
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:136:1: Warning: Use map
+Found:
+  exprToValueList [] = []
+  exprToValueList (x : xs) = helpEval x : (exprToValueList xs)
+Perhaps:
+  exprToValueList xs = map helpEval xs
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:137:26: Suggestion: Redundant bracket
+Found:
+  helpEval x : (exprToValueList xs)
+Perhaps:
+  helpEval x : exprToValueList xs
+
+/tmp/tmpo2yiywdg/src/SubsInterpreter.hs:148:29: Suggestion: Move brackets to avoid $
+Found:
+  x : (concatM $ ArrayVal xs)
+Perhaps:
+  x : concatM (ArrayVal xs)
+
+13 hints
+src/SubsInterpreter.hs:57:1: too long line (91 chars)
+src/SubsInterpreter.hs:117:1: too long line (89 chars)
+src/SubsInterpreter.hs:118:1: too long line (126 chars)
+src/SubsInterpreter.hs:153:1: too long line (84 chars)
+src/SubsInterpreter.hs:53:40: break line after "of"
+src/SubsInterpreter.hs:117:31: put one blank after -- in ---(
+src/SubsInterpreter.hs:118:39: put one blank after -- in --(x
+src/SubsInterpreter.hs:133:3: put one blank after -- in --he
+src/SubsInterpreter.hs:142:3: put one blank after -- in --te
+src/SubsInterpreter.hs:143:3: put one blank after -- in --te
+src/SubsInterpreter.hs:144:3: put one blank after -- in --te
+src/SubsInterpreter.hs:151:35: break line after "of"
+Warning:
+  It appears that you are using these functions:
+    undefined
+  
+  These are partial functions. We advise against using them, since they
+  may lead to undefined behaviour. Consider implementing them yourself,
+  in a non-partial way.
+  
+  See also https://wiki.haskell.org/Avoiding_partial_functions
+Running some property-based tests...
+
+SubsInterpreter.hs:52:23: warning: [-Woverlapping-patterns]
+    Pattern match is redundant
+    In a case alternative: _ -> ...
+   |
+52 |                       _ -> Left "Err"
+   |                       ^^^^^^^^^^^^^^^
+Tests
+  Simple expressions
+    Variable declaration:           OK
+    Addition:                       FAIL
+      test.hs:24:
+      Call "+" [Number 2,Number 3]
+      expected: Right (IntVal 5)
+       but got: Right UndefinedVal
+    Addition and multiplication:    FAIL
+      test.hs:24:
+      Call "+"
+           [Call "*" [Number 2,Number 3],Number 3]
+      expected: Right (IntVal 9)
+       but got: Right UndefinedVal
+    String concatenation:           FAIL
+      test.hs:24:
+      Call "+" [String "a",String "b"]
+      expected: Right (StringVal "ab")
+       but got: Right UndefinedVal
+    String/Number concatenation:    FAIL
+      test.hs:24:
+      Call "+" [String "a",Number 2]
+      expected: Right (StringVal "a2")
+       but got: Right UndefinedVal
+    String/Number concatenation:    FAIL
+      test.hs:24:
+      Call "+" [Number 2,String "a"]
+      expected: Right (StringVal "2a")
+       but got: Right UndefinedVal
+    Undefined:                      OK
+    Undefined assignment:           OK
+    True constant:                  OK
+    False constant:                 OK
+    String constant:                OK
+    Comma:                          FAIL
+      test.hs:24:
+      Comma (Number 2) (Number 3)
+      expected: Right (IntVal 3)
+       but got: Right UndefinedVal
+    Array:                          OK
+    Compare false === false:        FAIL
+      test.hs:24:
+      Call "===" [FalseConst,FalseConst]
+      expected: Right TrueVal
+       but got: Right UndefinedVal
+    Compare false === true:         FAIL
+      test.hs:24:
+      Call "===" [FalseConst,TrueConst]
+      expected: Right FalseVal
+       but got: Right UndefinedVal
+    Compare true === false:         FAIL
+      test.hs:24:
+      Call "===" [TrueConst,FalseConst]
+      expected: Right FalseVal
+       but got: Right UndefinedVal
+    Compare true === true:          FAIL
+      test.hs:24:
+      Call "===" [TrueConst,TrueConst]
+      expected: Right TrueVal
+       but got: Right UndefinedVal
+    Compare arrays:                 FAIL
+      test.hs:24:
+      Call "==="
+           [Array [Number 1,Number 2],
+            Array [Number 1,Number 2]]
+      expected: Right TrueVal
+       but got: Right UndefinedVal
+    Compare arrays:                 FAIL
+      test.hs:24:
+      Call "==="
+           [Array [Number 1,Number 2],
+            Array [Number 1,Number 3]]
+      expected: Right FalseVal
+       but got: Right UndefinedVal
+  Multiple expressions
+    Assignments are stored:         FAIL
+      test.hs:24:
+      Comma (Assign "x" (Number 2))
+            (Comma (Assign "y" (Number 3)) (Var "x"))
+      expected: Right (IntVal 2)
+       but got: Right UndefinedVal
+    Assignments can be overridden:  FAIL
+      test.hs:24:
+      Comma (Assign "x" (Number 2))
+            (Comma (Assign "y" (Number 3))
+                   (Comma (Assign "x" (Number 4))
+                          (Comma (Assign "y" (Number 5))
+                                 (Call "+" [Var "x",Var "y"]))))
+      expected: Right (IntVal 9)
+       but got: Right UndefinedVal
+    Variable-swap:                  FAIL
+      test.hs:24:
+      Comma (Assign "x" (Number 2))
+            (Comma (Assign "y" (Number 3))
+                   (Comma (Assign "tmp" (Var "x"))
+                          (Comma (Assign "x" (Var "y"))
+                                 (Comma (Assign "y" (Var "tmp"))
+                                        (Array [Var "x",Var "y",
+                                                Var "tmp"])))))
+      expected: Right (ArrayVal [IntVal 3,IntVal 2,IntVal 2])
+       but got: Right UndefinedVal
+    Nested assignment expressions:  FAIL
+      test.hs:24:
+      Comma (Assign "a" (Assign "b" (Number 2)))
+            (Var "a")
+      expected: Right (IntVal 2)
+       but got: Right UndefinedVal
+  Array comprehensions
+    Simple For:                     FAIL
+      test.hs:24:
+      Compr (ACFor "x"
+                   (Array [Number 1,Number 2,Number 3])
+                   (ACBody (Call "+" [Var "x",Number 1])))
+      expected: Right (ArrayVal [IntVal 2,IntVal 3,IntVal 4])
+       but got: Right UndefinedVal
+    Computing array of squares:     FAIL
+      test.hs:24:
+      Compr (ACFor "x"
+                   (Array [Number 2,Number 3,Number 4])
+                   (ACBody (Call "*" [Var "x",Var "x"])))
+      expected: Right (ArrayVal [IntVal 4,IntVal 9,IntVal 16])
+       but got: Right UndefinedVal
+    Nested For:                     FAIL
+      test.hs:24:
+      Comma (Assign "xs"
+                    (Array [Number 1,Number 2,Number 3]))
+            (Compr (ACFor "x"
+                          (Var "xs")
+                          (ACFor "y" (Var "xs") (ACBody (Number 0)))))
+      expected: Right (ArrayVal [IntVal 0,IntVal 0,IntVal 0,IntVal 0,IntVal 0,IntVal 0,IntVal 0,IntVal 0,IntVal 0])
+       but got: Right UndefinedVal
+    Filter:                         FAIL
+      test.hs:24:
+      Comma (Assign "xs"
+                    (Array [Number 1,Number 2,Number 3,Number 4,
+                            Number 5,Number 6,Number 7,Number 8,Number 9]))
+            (Compr (ACFor "x"
+                          (Var "xs")
+                          (ACIf (Call "==="
+                                      [Call "%" [Var "x",Number 2],
+                                       Number 1])
+                                (ACBody (Var "x")))))
+      expected: Right (ArrayVal [IntVal 1,IntVal 3,IntVal 5,IntVal 7,IntVal 9])
+       but got: Right UndefinedVal
+    Array comprehension scope test: FAIL
+      test.hs:24:
+      Comma (Assign "x" (Number 1))
+            (Comma (Compr (ACFor "x"
+                                 (Array [Number 2,Number 3])
+                                 (ACBody (Var "x"))))
+                   (Var "x"))
+      expected: Right (IntVal 1)
+       but got: Right UndefinedVal
+    Array comprehension scope test: FAIL
+      test.hs:24:
+      Comma (Assign "x" (Number 0))
+            (Comma (Compr (ACFor "y"
+                                 (Array [Number 1,Number 2,Number 3])
+                                 (ACBody (Assign "x" (Var "y")))))
+                   (Var "x"))
+      expected: Right (IntVal 3)
+       but got: Right UndefinedVal
+
+22 out of 29 tests failed (0.02s)
+Our tests could not be run with your source.
+static/strict-compile.sh FAILED
+static/hlint.sh FAILED
+static/style-scanner.sh FAILED
+dynamic/hunit.sh FAILED
+---
+I am not fully satisfied.
+---
+Found a bug? Are the messages too cryptic?
+Let us know at Absalon.
+
+
+SubsInterpreter.hs:47:26: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘runSubsM’
+   |
+47 | newtype SubsM a = SubsM {runSubsM :: Context -> Either Error (a, Env)}
+   |                          ^^^^^^^^
+
+SubsInterpreter.hs:51:29: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘penv’
+   |
+51 |                       (env, penv) -> Right (x, env)
+   |                             ^^^^
+
+SubsInterpreter.hs:52:23: error: [-Woverlapping-patterns, -Werror=overlapping-patterns]
+    Pattern match is redundant
+    In a case alternative: _ -> ...
+   |
+52 |                       _ -> Left "Err"
+   |                       ^^^^^^^^^^^^^^^
+
+SubsInterpreter.hs:59:22: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘context’
+   |
+59 |   fail s =  SubsM $ \context -> Left s
+   |                      ^^^^^^^
+
+SubsInterpreter.hs:97:30: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘penv’
+   |
+97 | modifyEnv f = SubsM $ \(env, penv) -> Right ((), f env)
+   |                              ^^^^
+
+SubsInterpreter.hs:103:30: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘penv’
+    |
+103 | getVar name = SubsM $ \(env, penv) -> case Map.lookup name env of
+    |                              ^^^^
+
+SubsInterpreter.hs:108:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘getFunction’
+    |
+108 | getFunction name = SubsM $ \(env, penv) -> case Map.lookup name penv of
+    | ^^^^^^^^^^^
+
+SubsInterpreter.hs:119:25: error: [-Wname-shadowing, -Werror=name-shadowing]
+    This binding for ‘id’ shadows the existing binding
+      imported from ‘Prelude’ at SubsInterpreter.hs:1:8-22
+      (and originally defined in ‘GHC.Base’)
+    |
+119 |                     Var id -> getVar id
+    |                         ^^
+
+SubsInterpreter.hs:120:28: error: [-Wname-shadowing, -Werror=name-shadowing]
+    This binding for ‘id’ shadows the existing binding
+      imported from ‘Prelude’ at SubsInterpreter.hs:1:8-22
+      (and originally defined in ‘GHC.Base’)
+    |
+120 |                     Assign id exp -> (evalExpr exp) >>= putVar id >> getVar id
+    |                            ^^
+
+SubsInterpreter.hs:120:31: error: [-Wname-shadowing, -Werror=name-shadowing]
+    This binding for ‘exp’ shadows the existing binding
+      imported from ‘Prelude’ at SubsInterpreter.hs:1:8-22
+      (and originally defined in ‘GHC.Float’)
+    |
+120 |                     Assign id exp -> (evalExpr exp) >>= putVar id >> getVar id
+    |                               ^^^
+
+SubsInterpreter.hs:127:1: error: [-Wincomplete-patterns, -Werror=incomplete-patterns]
+    Pattern match(es) are non-exhaustive
+    In an equation for ‘helpEval’:
+        Patterns not matched:
+            (Var _)
+            (Compr _)
+            (Call _ _)
+            (Assign _ _)
+            ...
+    |
+127 | helpEval (Number i)   = IntVal i
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+
+SubsInterpreter.hs:139:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘concatValue’
+    |
+139 | concatValue (ArrayVal []) (ArrayVal []) = ArrayVal []
+    | ^^^^^^^^^^^
+
+SubsInterpreter.hs:139:1: error: [-Wmissing-signatures, -Werror=missing-signatures]
+    Top-level binding with no type signature:
+      concatValue :: Value -> Value -> Value
+    |
+139 | concatValue (ArrayVal []) (ArrayVal []) = ArrayVal []
+    | ^^^^^^^^^^^
+
+SubsInterpreter.hs:139:1: error: [-Wincomplete-patterns, -Werror=incomplete-patterns]
+    Pattern match(es) are non-exhaustive
+    In an equation for ‘concatValue’:
+        Patterns not matched:
+            (IntVal _) _
+            UndefinedVal _
+            TrueVal _
+            FalseVal _
+            ...
+    |
+139 | concatValue (ArrayVal []) (ArrayVal []) = ArrayVal []
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^...
+
+SubsInterpreter.hs:147:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘concatM’
+    |
+147 | concatM (ArrayVal []) = []
+    | ^^^^^^^
+
+SubsInterpreter.hs:147:1: error: [-Wmissing-signatures, -Werror=missing-signatures]
+    Top-level binding with no type signature:
+      concatM :: Value -> [Value]
+    |
+147 | concatM (ArrayVal []) = []
+    | ^^^^^^^
+
+SubsInterpreter.hs:147:1: error: [-Wincomplete-patterns, -Werror=incomplete-patterns]
+    Pattern match(es) are non-exhaustive
+    In an equation for ‘concatM’:
+        Patterns not matched:
+            (IntVal _)
+            UndefinedVal
+            TrueVal
+            FalseVal
+            ...
+    |
+147 | concatM (ArrayVal []) = []
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^...
+
+SubsInterpreter.hs:153:70: error: [-Wname-shadowing, -Werror=name-shadowing]
+    This binding for ‘a’ shadows the existing binding
+      bound at SubsInterpreter.hs:151:44
+    |
+153 |                                                               Right (a,_) -> Right a
+    |                                                                      ^
