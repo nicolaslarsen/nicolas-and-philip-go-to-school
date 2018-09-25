@@ -136,7 +136,6 @@ divide x y = if y == 0 then Left EDivZero else Right(x `div` y)
 power x y = if y < 0 then Left ENegPower else Right (x^y)
 
 -- optional parts (if not attempted, leave them unmodified)
-
 showCompact :: Exp -> String
 showCompact = undefined
 
