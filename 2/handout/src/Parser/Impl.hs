@@ -46,7 +46,8 @@ expr1Parser = do
 
 --}
 
-valP = trueP <|> falseP <|> undP <|> numP
+valP = do v <- trueP <|> falseP <|> undP <|> numP
+          return v
 
 trueP = do 
   string "true"
@@ -59,18 +60,16 @@ falseP = do
 undP = do 
   string "undefined"
   return (Undefined) 
-{--
 ex4 = do 
-  str <- munch (\c -> True)
+  str <- string "true" 
   return (String str)
---}
 
 
 --symbol = skipSpaces . string
 
 
 numP = do 
-  num <- munch (\char -> char >= '0' && char <= '9')
+  num <- munch1 (\char -> char >= '0' && char <= '9')
   return (Number $ read num)
 
 {-- e = do val <- p1
@@ -82,6 +81,16 @@ e1 = do nm <- valP
         ev <- eopt nm
         return ev
 
+e = do nm <- e1
+       ev <- opt nm
+       return ev
+
+opt inval = (do (do symbol "," 
+                    nm <- e 
+                    ev <- opt (Comma inval nm)
+                    return ev) <|> return inval)
+
+
 eopt inval = (do 
                  fnHelper inval "-"
              <|> fnHelper inval "+"
@@ -90,6 +99,10 @@ eopt inval = (do
              <|> fnHelper inval "/"
              <|> fnHelper inval "==="
              <|> return inval)
+
+
+
+
 
 fnHelper inval c = (do symbol c 
                        nm <- valP
