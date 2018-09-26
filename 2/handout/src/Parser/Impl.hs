@@ -45,15 +45,18 @@ expr1Parser = do
 
 
 --}
-ex1 = do 
+
+valP = trueP <|> falseP <|> undP <|> numP
+
+trueP = do 
   string "true"
   return (TrueConst)
 
-ex2 = do 
+falseP = do 
   string "false"
   return (FalseConst)
 
-ex3 = do 
+undP = do 
   string "undefined"
   return (Undefined) 
 {--
@@ -75,7 +78,7 @@ numP = do
 token p = skipSpaces >> p
 symbol = token . string
 
-e1 = do nm <- numP
+e1 = do nm <- valP 
         ev <- eopt nm
         return ev
 
@@ -89,7 +92,7 @@ eopt inval = (do
              <|> return inval)
 
 fnHelper inval c = (do symbol c 
-                       nm <- numP
+                       nm <- valP
                        ev <- eopt (Call c [inval, nm])
                        return ev)
 
