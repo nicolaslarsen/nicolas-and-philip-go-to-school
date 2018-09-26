@@ -10,21 +10,8 @@ import Control.Applicative as Applicative
 data ParseError = ParseError String
                 deriving (Show, Eq)
 
-parseString :: String -> Either ParseError Expr
-parseString = undefined
-
-
 {--
-expr = do
-  exp <- comma <|> expr1
-  return exp
 
-comma = do 
-  exp1 <- expr
-  c <- satisfy (\c -> c == ',')
-  exp2 <- expr
-  return (Comma exp1 exp2)
- --}
 
 
 expr = do 
@@ -46,13 +33,18 @@ expr1Paren = do
   char ')'
   return exp
 
+
+
+
 expr1 = expr1Parser
 
 expr1Parser = do 
-  expr <- ex1 <|> ex2 <|> ex3 <|> ex5
-  return (expr)
+  op1 <- ex1 <|> ex2 <|> ex3 <|> ex5
+  fn <- funParser
+  
 
 
+--}
 ex1 = do 
   string "true"
   return (TrueConst)
@@ -69,8 +61,36 @@ ex4 = do
   str <- munch (\c -> True)
   return (String str)
 --}
-ex5 = do 
+
+
+--symbol = skipSpaces . string
+
+
+numP = do 
   num <- munch (\char -> char >= '0' && char <= '9')
   return (Number $ read num)
 
+{-- e = do val <- p1
+    eopt val --}
+token p = skipSpaces >> p
+symbol = token . string
 
+e1 = do nm <- numP
+        ev <- eopt nm
+        return ev
+
+eopt inval = (do 
+                 fnHelper inval "-"
+             <|> fnHelper inval "+"
+             <|> fnHelper inval "%"
+             <|> fnHelper inval "*"
+             <|> fnHelper inval "/"
+             <|> fnHelper inval "==="
+             <|> return inval)
+
+fnHelper inval c = (do symbol c 
+                       nm <- numP
+                       ev <- eopt (Call c [inval, nm])
+                       return ev)
+
+ 
