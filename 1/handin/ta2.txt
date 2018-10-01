@@ -8,7 +8,7 @@ Comment:
   GHC with -Wall -Werror wasn't happy.
   Hence, your TA not likely to be happy.
 Running hlint...
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:48:22: Suggestion: Use lambda-case
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:48:22: Suggestion: Use lambda-case
 Found:
   \ c ->
     case c of
@@ -20,109 +20,109 @@ Perhaps:
       _ -> Left "Err"
 Note: may require `{-# LANGUAGE LambdaCase #-}` adding to the top of the file
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:83:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:83:6: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [IntVal x, (IntVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:83:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:83:6: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [(IntVal x), IntVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:84:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:84:6: Suggestion: Redundant bracket
 Found:
   [(StringVal x), (StringVal y)]
 Perhaps:
   [StringVal x, (StringVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:84:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:84:6: Suggestion: Redundant bracket
 Found:
   [(StringVal x), (StringVal y)]
 Perhaps:
   [(StringVal x), StringVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:85:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:85:6: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (StringVal y)]
 Perhaps:
   [IntVal x, (StringVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:85:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:85:6: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (StringVal y)]
 Perhaps:
   [(IntVal x), StringVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:85:56: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:85:56: Suggestion: Redundant bracket
 Found:
   (show x) ++ y
 Perhaps:
   show x ++ y
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:86:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:86:6: Suggestion: Redundant bracket
 Found:
   [(StringVal x), (IntVal y)]
 Perhaps:
   [StringVal x, (IntVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:86:6: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:86:6: Suggestion: Redundant bracket
 Found:
   [(StringVal x), (IntVal y)]
 Perhaps:
   [(StringVal x), IntVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:86:57: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:86:57: Suggestion: Redundant bracket
 Found:
   x ++ (show y)
 Perhaps:
   x ++ show y
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:90:5: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:90:5: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [IntVal x, (IntVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:90:5: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:90:5: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [(IntVal x), IntVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:94:5: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:94:5: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [IntVal x, (IntVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:94:5: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:94:5: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [(IntVal x), IntVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:98:8: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:98:8: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [IntVal x, (IntVal y)]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:98:8: Suggestion: Redundant bracket
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:98:8: Suggestion: Redundant bracket
 Found:
   [(IntVal x), (IntVal y)]
 Perhaps:
   [(IntVal x), IntVal y]
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:157:1: Warning: Eta reduce
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:159:1: Warning: Eta reduce
 Found:
   festHelp list = map evalExpr list
 Perhaps:
   festHelp = map evalExpr
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:160:1: Warning: Eta reduce
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:162:1: Warning: Eta reduce
 Found:
   testHelp listSub
     = map
@@ -139,14 +139,14 @@ Perhaps:
                Right (a, _) -> a
                Left er -> UndefinedVal)
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:164:16: Warning: Redundant return
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:166:16: Warning: Redundant return
 Found:
   do expr <- evalExpr exp
      return expr
 Perhaps:
   do evalExpr exp
 
-/tmp/tmp98rycsvs/src/SubsInterpreter.hs:177:1: Warning: Eta reduce
+/tmp/tmpfncybrj5/src/SubsInterpreter.hs:179:1: Warning: Eta reduce
 Found:
   exprToValueList list = map helpEval list
 Perhaps:
@@ -156,24 +156,25 @@ Perhaps:
 src/SubsInterpreter.hs:51:66: trailing (1) white space
 src/SubsInterpreter.hs:60:1: too long line (91 chars)
 src/SubsInterpreter.hs:128:40: trailing (1) white space
-src/SubsInterpreter.hs:135:68: trailing (1) white space
-src/SubsInterpreter.hs:138:1: too long line (98 chars)
-src/SubsInterpreter.hs:139:1: too long line (100 chars)
-src/SubsInterpreter.hs:139:101: trailing (1) white space
-src/SubsInterpreter.hs:141:1: too long line (88 chars)
-src/SubsInterpreter.hs:146:1: too long line (94 chars)
-src/SubsInterpreter.hs:161:50: trailing (1) white space
-src/SubsInterpreter.hs:182:1: too long line (84 chars)
+src/SubsInterpreter.hs:133:44: trailing (1) white space
+src/SubsInterpreter.hs:136:68: trailing (1) white space
+src/SubsInterpreter.hs:140:1: too long line (87 chars)
+src/SubsInterpreter.hs:141:1: too long line (92 chars)
+src/SubsInterpreter.hs:141:93: trailing (1) white space
+src/SubsInterpreter.hs:145:1: trailing (36) white space
+src/SubsInterpreter.hs:148:1: too long line (94 chars)
+src/SubsInterpreter.hs:163:50: trailing (1) white space
+src/SubsInterpreter.hs:184:1: too long line (84 chars)
 src/SubsInterpreter.hs:55:11: non-conventional comment start: {--
  
 src/SubsInterpreter.hs:62:14: non-conventional comment end:   --}
 src/SubsInterpreter.hs:132:31: put one blank after -- in --(e
-src/SubsInterpreter.hs:138:37: non-conventional comment start: {-- r
-src/SubsInterpreter.hs:143:40: non-conventional comment end:   --}
-src/SubsInterpreter.hs:144:31: put one blank after -- in --f 
-src/SubsInterpreter.hs:145:31: put one blank after -- in --Su
-src/SubsInterpreter.hs:146:31: put one blank after -- in --re
-src/SubsInterpreter.hs:180:35: break line after "of"
+src/SubsInterpreter.hs:134:29: non-conventional comment start: {--do
+src/SubsInterpreter.hs:139:32: non-conventional comment end:   --}
+src/SubsInterpreter.hs:146:31: put one blank after -- in --f 
+src/SubsInterpreter.hs:147:31: put one blank after -- in --Su
+src/SubsInterpreter.hs:148:31: put one blank after -- in --re
+src/SubsInterpreter.hs:182:35: break line after "of"
 Running some property-based tests...
 
 SubsInterpreter.hs:50:23: warning: [-Woverlapping-patterns]
@@ -186,7 +187,12 @@ Tests
   Simple expressions
     Variable declaration:           OK
     Addition:                       OK
-    Addition and multiplication:    OK
+    Addition and multiplication:    FAIL
+      test.hs:24:
+      Call "+"
+           [Call "*" [Number 2,Number 3],Number 3]
+      expected: Right (IntVal 9)
+       but got: Right UndefinedVal
     String concatenation:           OK
     String/Number concatenation:    OK
     String/Number concatenation:    OK
@@ -274,7 +280,7 @@ Tests
       expected: Right (IntVal 3)
        but got: Right (IntVal 0)
 
-7 out of 29 tests failed (0.01s)
+8 out of 29 tests failed (0.01s)
 Our tests could not be run with your source.
 static/strict-compile.sh FAILED
 static/hlint.sh FAILED
@@ -345,51 +351,69 @@ SubsInterpreter.hs:128:31: error: [-Wname-shadowing, -Werror=name-shadowing]
 SubsInterpreter.hs:133:36: error: [-Wunused-matches, -Werror=unused-matches]
     Defined but not used: ‘x’
     |
-133 |                     Call fun exps@(x:xs) -> do
+133 |                     Call fun exps@(x:xs) -> 
     |                                    ^
 
 SubsInterpreter.hs:133:38: error: [-Wunused-matches, -Werror=unused-matches]
     Defined but not used: ‘xs’
     |
-133 |                     Call fun exps@(x:xs) -> do
+133 |                     Call fun exps@(x:xs) -> 
     |                                      ^^
 
-SubsInterpreter.hs:136:38: error: [-Wunused-matches, -Werror=unused-matches]
-    Defined but not used: ‘er’
+SubsInterpreter.hs:143:54: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘err’
     |
-136 |                                 Left er -> UndefinedVal
-    |                                      ^^
+143 |                                                 Left err -> UndefinedVal
+    |                                                      ^^^
 
-SubsInterpreter.hs:162:38: error: [-Wunused-matches, -Werror=unused-matches]
-    Defined but not used: ‘er’
+SubsInterpreter.hs:156:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘actualHelp’
     |
-162 |                                 Left er -> UndefinedVal) listSub
-    |                                      ^^
+156 | actualHelp list = testHelp $ festHelp list
+    | ^^^^^^^^^^
 
-SubsInterpreter.hs:164:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
-    Defined but not used: ‘exprHelp’
+SubsInterpreter.hs:159:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘festHelp’
     |
-164 | exprHelp exp = do
+159 | festHelp list = map evalExpr list
     | ^^^^^^^^
 
-SubsInterpreter.hs:164:1: error: [-Wmissing-signatures, -Werror=missing-signatures]
+SubsInterpreter.hs:162:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘testHelp’
+    |
+162 | testHelp listSub = map (\m -> case runSubsM m initialContext of
+    | ^^^^^^^^
+
+SubsInterpreter.hs:164:38: error: [-Wunused-matches, -Werror=unused-matches]
+    Defined but not used: ‘er’
+    |
+164 |                                 Left er -> UndefinedVal) listSub
+    |                                      ^^
+
+SubsInterpreter.hs:166:1: error: [-Wunused-top-binds, -Werror=unused-top-binds]
+    Defined but not used: ‘exprHelp’
+    |
+166 | exprHelp exp = do
+    | ^^^^^^^^
+
+SubsInterpreter.hs:166:1: error: [-Wmissing-signatures, -Werror=missing-signatures]
     Top-level binding with no type signature:
       exprHelp :: Expr -> SubsM Value
     |
-164 | exprHelp exp = do
+166 | exprHelp exp = do
     | ^^^^^^^^
 
-SubsInterpreter.hs:164:10: error: [-Wname-shadowing, -Werror=name-shadowing]
+SubsInterpreter.hs:166:10: error: [-Wname-shadowing, -Werror=name-shadowing]
     This binding for ‘exp’ shadows the existing binding
       imported from ‘Prelude’ at SubsInterpreter.hs:1:8-22
       (and originally defined in ‘GHC.Float’)
     |
-164 | exprHelp exp = do
+166 | exprHelp exp = do
     |          ^^^
 
-SubsInterpreter.hs:182:70: error: [-Wname-shadowing, -Werror=name-shadowing]
+SubsInterpreter.hs:184:70: error: [-Wname-shadowing, -Werror=name-shadowing]
     This binding for ‘a’ shadows the existing binding
-      bound at SubsInterpreter.hs:180:44
+      bound at SubsInterpreter.hs:182:44
     |
-182 |                                                               Right (a,_) -> Right a
+184 |                                                               Right (a,_) -> Right a
     |                                                                      ^
