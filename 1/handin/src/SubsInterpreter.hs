@@ -46,20 +46,11 @@ newtype SubsM a = SubsM {runSubsM :: Context -> Either Error (a, Env)}
 
 instance Monad SubsM where
   return x = SubsM $ \c -> case c of
-                      (env, penv) -> Right (x, env)
-                      _ -> Left "Err"
-  m >>= f = SubsM $ \(env, penv) -> case runSubsM m (env,penv) of 
+                      (env, _) -> Right (x, env)
+  m >>= f = SubsM $ \(env, penv) -> case runSubsM m (env,penv) of
                               Right (a,newEnv)  -> runSubsM (f a) (newEnv,penv)
                               Left err          -> Left err
-  fail s =  SubsM $ \context -> Left s
-          {--
-           SubsM $ \(c1,c2) -> case m of SubsM x ->
-                                              let var = x (c1,c2) in
-                                                case var of
-                                                  Right (a, env) -> case f a of
-                                                                      SubsM y -> y (env,c2)
-                                                  Left er -> Left er
-          --}
+  fail s =  SubsM $ \_-> Left s
 
 -- You may modify these if you want, but it shouldn't be necessary
 instance Functor SubsM where
@@ -103,13 +94,13 @@ mkArray [IntVal n] | n >= 0 = return $ ArrayVal (replicate n UndefinedVal)
 mkArray _ = Left "Array() called with wrong number or type of arguments"
 
 modifyEnv :: (Env -> Env) -> SubsM ()
-modifyEnv f = SubsM $ \(env, penv) -> Right ((), f env)
+modifyEnv f = SubsM $ \(env, _) -> Right ((), f env)
 
 putVar :: Ident -> Value -> SubsM ()
 putVar name val = modifyEnv $ Map.insert name val
 
 getVar :: Ident -> SubsM Value
-getVar name = SubsM $ \(env, penv) -> case Map.lookup name env of
+getVar name = SubsM $ \(env, _) -> case Map.lookup name env of
                                         Just a  -> Right (a, env)
                                         Nothing -> Left "Error"
 
@@ -122,71 +113,52 @@ evalExpr :: Expr -> SubsM Value
 evalExpr expr = case expr of
                     Number i -> return $ IntVal i
                     String s -> return $ StringVal s
-                    Array [] -> return $ ArrayVal []
-                    Array arr -> return $ helpEval (Array arr)
+                    Array exps -> do
+                            vals <- let subsList = map evalExpr exps in
+                                        concatSubsM subsList
+                            return $ ArrayVal vals
                     Var id -> getVar id
-                    Assign id exp -> do 
+                    Assign id exp -> do
                             value <- evalExpr exp
                             putVar id value
                             getVar id
-                            --(evalExpr exp) >>= putVar id >> getVar id
-                    Call fun exps@(x:xs) -> do
+                    Call fun exps -> do
                             f <- getFunction fun
-                            vals <- case exps of 
-                              (x:y:[]) -> twoSubsAppendedToOne (evalExpr x) (evalExpr y)
-                            return $ case f vals of
-                                Left er -> UndefinedVal
-                                Right val -> val
-                            {-- do
-                            func <- getFunction fun
-                            return $ case func (actualHelp exps) of 
-                                Left er -> UndefinedVal
-                                Right val -> val
-                                    -- return ( case runSubsM (getFunction fun) initialContext of
-                                              Right (prim, _) -> case prim (exprToValueList exps) of 
-                                                                Right a -> a
-                                                                Left err -> UndefinedVal
-                                              Left _ -> UndefinedVal)
-                                    --}
-                            --f <- (getFunction fun)
-                            --SubsM $ f (exprToValueList exps)
-                            --return $ (getFunction fun initialContext) (exprToValueList exps)
+                            vals <- let subsMList = map evalExpr exps in
+                                        concatSubsM subsMList
+                            case f vals of
+                              Left err -> fail err
+                              Right val -> return val
                     Comma exp1 exp2 -> evalExpr exp1 >> evalExpr exp2
+                    Compr (ACBody exp) -> evalExpr exp
+                    Compr (ACFor id exp arrCmp) -> do
+                            list <- evalExpr exp
+                            case list of
+                              ArrayVal arr -> do
+                                vals <- let subsMList = map mapHelp arr
+                                        in concatSubsM subsMList
+                                -- The filter is just used to remove undefined values,
+                                -- since we return them in the ACIf if the expression
+                                -- returns false.
+                                return $ ArrayVal (filter (\v -> v /= UndefinedVal) vals)
+                              _ -> fail "Expression must be an ArrayVal"
+                      -- binds the id to a variable x then evaluates expr with this new context
+                      where mapHelp x = putVar id x >> evalExpr (Compr arrCmp)
+                    Compr (ACIf exp arrCmp) -> do
+                            bool <- evalExpr exp
+                            case bool of
+                              TrueVal   -> evalExpr (Compr arrCmp)
+                              FalseVal  -> return UndefinedVal
+                              _         -> fail "Not a boolean"
                     TrueConst -> return TrueVal
                     FalseConst -> return FalseVal
                     Undefined -> return UndefinedVal
-                    _ -> return UndefinedVal
 
-twoSubsAppendedToOne :: SubsM a -> SubsM a -> SubsM [a]
-twoSubsAppendedToOne = liftM2 (\a b -> a : b : [])
-
-actualHelp :: [Expr] -> [Value]
-actualHelp list = testHelp $ festHelp list
-
-festHelp :: [Expr] -> [SubsM Value]
-festHelp list = map evalExpr list
-
-testHelp :: [SubsM Value] -> [Value]
-testHelp listSub = map (\m -> case runSubsM m initialContext of
-                                Right (a, _) -> a 
-                                Left er -> UndefinedVal) listSub
-
-exprHelp exp = do
-        expr <- evalExpr exp
-        return expr
-
-helpEval :: Expr -> Value
-helpEval (Number i)   = IntVal i
-helpEval (String s)   = StringVal s
-helpEval (Array arr)  = ArrayVal (exprToValueList arr)
-helpEval TrueConst    = TrueVal
-helpEval FalseConst   = FalseVal
-helpEval _    = UndefinedVal
-
-exprToValueList :: [Expr] -> [Value]
-exprToValueList list = map helpEval list
+-- "Concatinates" an entire list of SubsM Values into a single SubsM [Value]
+concatSubsM :: [SubsM Value] -> SubsM [Value]
+concatSubsM list = foldr (liftM2 (\a b -> a : b)) (return []) list
 
 runExpr :: Expr -> Either Error Value
-runExpr expr = case evalExpr expr of SubsM a -> case a initialContext of
-                                                              Left er -> Left er
-                                                              Right (a,_) -> Right a
+runExpr expr = case runSubsM (evalExpr expr) initialContext of
+                              Left er -> Left er
+                              Right (a, _) -> Right a
