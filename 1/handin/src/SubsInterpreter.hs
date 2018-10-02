@@ -14,7 +14,6 @@ import Control.Monad
 import qualified Data.Map as Map
 import Data.Map(Map)
 
-
 -- | A value is either an integer, the special constant undefined,
 --   true, false, a string, or an array of values.
 -- Expressions are evaluated to values.
@@ -24,7 +23,6 @@ data Value = IntVal Int
            | StringVal String
            | ArrayVal [Value]
            deriving (Eq, Show)
-
 
 type Error = String
 type Env = Map Ident Value
@@ -132,11 +130,24 @@ evalExpr expr = case expr of
                             putVar id value
                             getVar id
                             --(evalExpr exp) >>= putVar id >> getVar id
-                    Call fun exps@(x:xs) -> return ( case runSubsM (getFunction fun) initialContext of
+                    Call fun exps@(x:xs) -> do
+                            f <- getFunction fun
+                            vals <- case exps of 
+                              (x:y:[]) -> twoSubsAppendedToOne (evalExpr x) (evalExpr y)
+                            return $ case f vals of
+                                Left er -> UndefinedVal
+                                Right val -> val
+                            {-- do
+                            func <- getFunction fun
+                            return $ case func (actualHelp exps) of 
+                                Left er -> UndefinedVal
+                                Right val -> val
+                                    -- return ( case runSubsM (getFunction fun) initialContext of
                                               Right (prim, _) -> case prim (exprToValueList exps) of 
                                                                 Right a -> a
                                                                 Left err -> UndefinedVal
                                               Left _ -> UndefinedVal)
+                                    --}
                             --f <- (getFunction fun)
                             --SubsM $ f (exprToValueList exps)
                             --return $ (getFunction fun initialContext) (exprToValueList exps)
@@ -145,6 +156,24 @@ evalExpr expr = case expr of
                     FalseConst -> return FalseVal
                     Undefined -> return UndefinedVal
                     _ -> return UndefinedVal
+
+twoSubsAppendedToOne :: SubsM a -> SubsM a -> SubsM [a]
+twoSubsAppendedToOne = liftM2 (\a b -> a : b : [])
+
+actualHelp :: [Expr] -> [Value]
+actualHelp list = testHelp $ festHelp list
+
+festHelp :: [Expr] -> [SubsM Value]
+festHelp list = map evalExpr list
+
+testHelp :: [SubsM Value] -> [Value]
+testHelp listSub = map (\m -> case runSubsM m initialContext of
+                                Right (a, _) -> a 
+                                Left er -> UndefinedVal) listSub
+
+exprHelp exp = do
+        expr <- evalExpr exp
+        return expr
 
 helpEval :: Expr -> Value
 helpEval (Number i)   = IntVal i
