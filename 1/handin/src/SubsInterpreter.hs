@@ -131,11 +131,18 @@ evalExpr expr = case expr of
                             getVar id
                             --(evalExpr exp) >>= putVar id >> getVar id
                     Call fun exps@(x:xs) -> do
+                            f <- getFunction fun
+                            vals <- case exps of 
+                              (x:y:[]) -> twoSubsAppendedToOne (evalExpr x) (evalExpr y)
+                            return $ case f vals of
+                                Left er -> UndefinedVal
+                                Right val -> val
+                            {-- do
                             func <- getFunction fun
                             return $ case func (actualHelp exps) of 
                                 Left er -> UndefinedVal
                                 Right val -> val
-                                    {-- return ( case runSubsM (getFunction fun) initialContext of
+                                    -- return ( case runSubsM (getFunction fun) initialContext of
                                               Right (prim, _) -> case prim (exprToValueList exps) of 
                                                                 Right a -> a
                                                                 Left err -> UndefinedVal
@@ -149,6 +156,9 @@ evalExpr expr = case expr of
                     FalseConst -> return FalseVal
                     Undefined -> return UndefinedVal
                     _ -> return UndefinedVal
+
+twoSubsAppendedToOne :: SubsM a -> SubsM a -> SubsM [a]
+twoSubsAppendedToOne = liftM2 (\a b -> a : b : [])
 
 actualHelp :: [Expr] -> [Value]
 actualHelp list = testHelp $ festHelp list
