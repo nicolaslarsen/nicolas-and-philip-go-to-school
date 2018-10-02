@@ -40,7 +40,7 @@ initialContext = (Map.empty, initialPEnv)
                        , ("+", plus)
                        , ("*", mul)
                        , ("-", sub)
-                       , ("%", undefined)
+                       , ("%", modulo)
                        , ("Array", mkArray)
                        ]
 
@@ -50,14 +50,18 @@ instance Monad SubsM where
   return x = SubsM $ \c -> case c of
                       (env, penv) -> Right (x, env)
                       _ -> Left "Err"
-  m >>= f = SubsM $ \(c1,c2) -> case m of SubsM x ->
+  m >>= f = SubsM $ \(env, penv) -> case runSubsM m (env,penv) of 
+                              Right (a,newEnv)  -> runSubsM (f a) (newEnv,penv)
+                              Left err          -> Left err
+  fail s =  SubsM $ \context -> Left s
+          {--
+           SubsM $ \(c1,c2) -> case m of SubsM x ->
                                               let var = x (c1,c2) in
                                                 case var of
                                                   Right (a, env) -> case f a of
                                                                       SubsM y -> y (env,c2)
                                                   Left er -> Left er
-  fail s =  SubsM $ \context -> Left s
-
+          --}
 
 -- You may modify these if you want, but it shouldn't be necessary
 instance Functor SubsM where
@@ -79,6 +83,9 @@ lt _ = Left "Values can not be compared"
 
 plus :: Primitive
 plus [(IntVal x), (IntVal y)] = Right $ IntVal (x+y)
+plus [(StringVal x), (StringVal y)] = Right $ StringVal (x ++ y)
+plus [(IntVal x), (StringVal y)] = Right $ StringVal $ (show x) ++ y
+plus [(StringVal x), (IntVal y)] = Right $ StringVal $  x ++ (show y)
 plus _ = Left "Values can not be added"
 
 mul :: Primitive
@@ -89,6 +96,10 @@ sub :: Primitive
 sub [(IntVal x), (IntVal y)] = Right $ IntVal (x-y)
 sub _ = Left "Values can not be subtracted"
 
+modulo :: Primitive
+modulo [(IntVal x), (IntVal y)] = Right $ IntVal (x `mod` y)
+modulo _ = Left "Values can not be modded"
+
 mkArray :: Primitive
 mkArray [IntVal n] | n >= 0 = return $ ArrayVal (replicate n UndefinedVal)
 mkArray _ = Left "Array() called with wrong number or type of arguments"
@@ -97,7 +108,7 @@ modifyEnv :: (Env -> Env) -> SubsM ()
 modifyEnv f = SubsM $ \(env, penv) -> Right ((), f env)
 
 putVar :: Ident -> Value -> SubsM ()
-putVar name val = let f = \env -> Map.insert name val env in modifyEnv f
+putVar name val = modifyEnv $ Map.insert name val
 
 getVar :: Ident -> SubsM Value
 getVar name = SubsM $ \(env, penv) -> case Map.lookup name env of
@@ -116,8 +127,20 @@ evalExpr expr = case expr of
                     Array [] -> return $ ArrayVal []
                     Array arr -> return $ helpEval (Array arr)
                     Var id -> getVar id
-                    Assign id exp -> (evalExpr exp) >>= putVar id >> getVar id
-                    --Call fun exps -> 
+                    Assign id exp -> do 
+                            value <- evalExpr exp
+                            putVar id value
+                            getVar id
+                            --(evalExpr exp) >>= putVar id >> getVar id
+                    Call fun exps@(x:xs) -> return ( case runSubsM (getFunction fun) initialContext of
+                                              Right (prim, _) -> case prim (exprToValueList exps) of 
+                                                                Right a -> a
+                                                                Left err -> UndefinedVal
+                                              Left _ -> UndefinedVal)
+                            --f <- (getFunction fun)
+                            --SubsM $ f (exprToValueList exps)
+                            --return $ (getFunction fun initialContext) (exprToValueList exps)
+                    Comma exp1 exp2 -> evalExpr exp1 >> evalExpr exp2
                     TrueConst -> return TrueVal
                     FalseConst -> return FalseVal
                     Undefined -> return UndefinedVal
@@ -129,11 +152,10 @@ helpEval (String s)   = StringVal s
 helpEval (Array arr)  = ArrayVal (exprToValueList arr)
 helpEval TrueConst    = TrueVal
 helpEval FalseConst   = FalseVal
-helpEval Undefined    = UndefinedVal
+helpEval _    = UndefinedVal
 
 exprToValueList :: [Expr] -> [Value]
-exprToValueList [] = []
-exprToValueList (x:xs) = helpEval x : (exprToValueList xs)
+exprToValueList list = map helpEval list
 
 runExpr :: Expr -> Either Error Value
 runExpr expr = case evalExpr expr of SubsM a -> case a initialContext of

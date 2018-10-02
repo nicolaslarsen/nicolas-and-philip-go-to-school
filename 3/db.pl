@@ -12,7 +12,7 @@ likes([Head | Tail], X, Y) :- likes(Tail, X, Y).
 /**
 * X likes Y, Y no likes X, Y in X
 **/
-
+dislikes([person(X, Friends)|Tail], X, Y) :- likes([person(X, Friends)|Tail], Y, X), different(
 
 
 popular(G, X) :- pop1(G, X, G).
