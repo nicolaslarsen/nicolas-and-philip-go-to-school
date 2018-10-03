@@ -1,3 +1,4 @@
+
 import Test.Tasty
 import Test.Tasty.HUnit
 
@@ -8,11 +9,19 @@ main = defaultMain tests
 
 tests :: TestTree
 tests = testGroup "Tests"
-  [ testCase "intro" $
-      runExpr introExpr @?= Right introResult
-  , testCase "scope" $
+	 [testCase "intro" $ runExpr simpleExpr @?= Right simpleResult]
+{--  [ testCase "intro" $
+      runExpr introExpr @?= Right introResult]
+--}
+{--  , testCase "scope" $
       runExpr scopeExpr @?= Right scopeResult
   ]
+--}
+
+simpleExpr = Number 42
+simpleResult = IntVal 42
+
+
 
 introExpr :: Expr
 introExpr =
@@ -43,10 +52,6 @@ introExpr =
 introResult :: Value
 introResult = ArrayVal
   [ ArrayVal [IntVal n | n <- [0..9]]
-  , undefined
-  , undefined
-  , undefined
-  , undefined
   ]
 
 scopeExpr :: Expr
@@ -56,6 +61,3 @@ scopeExpr =
                                (ACBody (Var "x")))))
      (Array [Var "x", Var "y"]))
 
-scopeResult :: Value
-scopeResult = ArrayVal
-  undefined
