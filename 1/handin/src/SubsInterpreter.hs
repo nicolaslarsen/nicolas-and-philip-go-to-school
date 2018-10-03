@@ -71,10 +71,10 @@ lt [StringVal x, StringVal y] = if x < y then Right TrueVal else Right FalseVal
 lt _ = Left "Values can not be compared"
 
 plus :: Primitive
-plus [(IntVal x), (IntVal y)] = Right $ IntVal (x+y)
-plus [(StringVal x), (StringVal y)] = Right $ StringVal (x ++ y)
-plus [(IntVal x), (StringVal y)] = Right $ StringVal $ (show x) ++ y
-plus [(StringVal x), (IntVal y)] = Right $ StringVal $  x ++ (show y)
+plus [(IntVal x), (IntVal y)] = Right $ IntVal $ x+y
+plus [(StringVal x), (StringVal y)] = Right $ StringVal $ x ++ y
+plus [(IntVal x), (StringVal y)] = Right $ StringVal $ show x ++ y
+plus [(StringVal x), (IntVal y)] = Right $ StringVal $  x ++ show y
 plus _ = Left "Values can not be added"
 
 mul :: Primitive
@@ -117,11 +117,11 @@ evalExpr expr = case expr of
                             vals <- let subsList = map evalExpr exps in
                                         concatSubsM subsList
                             return $ ArrayVal vals
-                    Var id -> getVar id
-                    Assign id exp -> do
-                            value <- evalExpr exp
-                            putVar id value
-                            getVar id
+                    Var ident -> getVar ident
+                    Assign ident exp1 -> do
+                            value <- evalExpr exp1
+                            putVar ident value
+                            getVar ident
                     Call fun exps -> do
                             f <- getFunction fun
                             vals <- let subsMList = map evalExpr exps in
@@ -130,9 +130,9 @@ evalExpr expr = case expr of
                               Left err -> fail err
                               Right val -> return val
                     Comma exp1 exp2 -> evalExpr exp1 >> evalExpr exp2
-                    Compr (ACBody exp) -> evalExpr exp
-                    Compr (ACFor id exp arrCmp) -> do
-                            list <- evalExpr exp
+                    Compr (ACBody exp1) -> evalExpr exp1
+                    Compr (ACFor ident exp1 arrCmp) -> do
+                            list <- evalExpr exp1
                             case list of
                               ArrayVal arr -> do
                                 vals <- let subsMList = map mapHelp arr
@@ -140,12 +140,12 @@ evalExpr expr = case expr of
                                 -- The filter is just used to remove undefined values,
                                 -- since we return them in the ACIf if the expression
                                 -- returns false.
-                                return $ ArrayVal (filter (\v -> v /= UndefinedVal) vals)
+                                return $ ArrayVal (filter (/= UndefinedVal) vals)
                               _ -> fail "Expression must be an ArrayVal"
-                      -- binds the id to a variable x then evaluates expr with this new context
-                      where mapHelp x = putVar id x >> evalExpr (Compr arrCmp)
-                    Compr (ACIf exp arrCmp) -> do
-                            bool <- evalExpr exp
+                      -- binds the id to a variable x then evaluates exp1 with this new context
+                      where mapHelp x = putVar ident x >> evalExpr (Compr arrCmp)
+                    Compr (ACIf exp1 arrCmp) -> do
+                            bool <- evalExpr exp1
                             case bool of
                               TrueVal   -> evalExpr (Compr arrCmp)
                               FalseVal  -> return UndefinedVal
@@ -156,9 +156,9 @@ evalExpr expr = case expr of
 
 -- "Concatinates" an entire list of SubsM Values into a single SubsM [Value]
 concatSubsM :: [SubsM Value] -> SubsM [Value]
-concatSubsM list = foldr (liftM2 (\a b -> a : b)) (return []) list
+concatSubsM = foldr (liftM2 (:)) (return [])
 
 runExpr :: Expr -> Either Error Value
-runExpr expr = case runSubsM (evalExpr expr) initialContext of
+runExpr exp1 = case runSubsM (evalExpr exp1) initialContext of
                               Left er -> Left er
                               Right (a, _) -> Right a
