@@ -7,27 +7,18 @@ import SubsAst
 main = defaultMain tests
 
 tests :: TestTree
-tests = testGroup "Tests" [ 
-  testCase "Boolean Tests" $ 
-    [runExpr TrueConst, runExpr FalseConst] @?= [Right TrueVal, Right FalseVal],
-  testCase "Number Tests" $ 
-    runExpr (Number 37) @?= Right (IntVal 37),
-  testCase "String Tests" $ 
-    runExpr (String "lol") @?= Right (StringVal "lol"),
-  testCase "Undefined Tests" $
-    runExpr Undefined @?= Right UndefinedVal,
-  testCase "Array Tests" $
-    runExpr arrExpr @?= Right assResult,
-  testCase "Comma Tests" $
-    runExpr commaExpr @?= Right commaResult,
-  testCase "Functions calls" $ 
-    funExpressions @?= funResults,
-  testCase "Other Tests" $ "" @?= ""]
-arrExpr = Array [Number 0, Number 1, Number 2, Number 3]
-assResult = ArrayVal [IntVal 0, IntVal 1, IntVal 2, IntVal 3]
+tests = testGroup "Tests"
 
-funExpressions = [runExpr (Call "+" [Number 1, Number 2]), runExpr (Call "/" [Number 6, Number 2])]
-funResults = [Right (IntVal 3), Left "Error"] 
+[ testCase "Simple Tests" $ 
+  runExpr TrueConst @?= Right TrueVal
+]
+
+{--[ testCase "intro" $
+      runExpr introExpr @?= Right introResult
+  , testCase "scope" $
+      runExpr scopeExpr @?= Right scopeResult
+  ]
+
 
 
 introExpr :: Expr
@@ -75,12 +66,4 @@ scopeExpr =
 scopeResult :: Value
 scopeResult = ArrayVal
   undefined
-
-
-commaExpr = Comma (Number 82) (String "weTesting")
-commaResult = StringVal "weTesting"
-
-
-
-
-
+--}}
