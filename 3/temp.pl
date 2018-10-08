@@ -12,18 +12,8 @@ likes([Head | Tail], X, Y) :- likes(Tail, X, Y).
 /**
 * X likes Y, Y no likes X, Y in X
 **/
-same(X,X).
-isFalse(X) :- same("this", "false").
-dis([], X).
-dis([A|Tail], X) :- dis(Tail, X), (X \= A).
+dislikes([person(X, Friends)|Tail], X, Y) :- likes([person(X, Friends)|Tail], Y, X), different(
 
-%different([person(Z, Friends) | Tail], X, Y) :- different(Tail, X, Y).
-different([person(X, Friends) | Tail], X, Y) :- mem(person(Y, _), Tail).
-different([person(Y, Friends) | Tail], X, Y) :- mem(person(X, _), Tail).
-
-dislikes(G, X, Y) :- likes(G, Y, X), different(G, X, Y), helper(G, X, Y).
-helper([person(X, Friends)|Tail], X, Y) :- dis(Friends, Y).
-helper([Head|Tail], X, Y) :- helper(Tail, X, Y).
 
 popular(G, X) :- pop1(G, X, G).
 pop1([person(X, Friends)|Tail], X, G):- allLike(G, X, Friends).
@@ -39,4 +29,6 @@ allDisLike(G, X, []).
 
 
 
-
+chill(G, X, Y) :- likes(G, X, Y), likes(G, Y, X).
+chill(G, X, Y) :- likes(G, X, :w
+)
