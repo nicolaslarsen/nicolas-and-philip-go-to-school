@@ -2,7 +2,7 @@
 
 -export([new/1, request/4, route/4, drop_group/2, request_reply/2, loop/2, new_mapping/4]).
 
-request_reply(Pid, Request) -> 
+request_reply(Pid, Request) ->
     Pid ! {self(), Request},
     receive
         {Pid, Response} -> Response
@@ -21,8 +21,8 @@ request(_Flamingo, _Request, _From, _Ref) ->
 
 route(_Flamingo, _Path, _Fun, _Arg) ->
     _Flamingo ! {self(), {route, _Path, _Fun, _Arg}},
-    receive 
-        {_Flamingo, B} -> B;
+    receive
+        {ok, _Flamingo} -> {ok, _Flamingo};
         _ -> "we super failed"
     end.
 
@@ -30,18 +30,22 @@ drop_group(_Flamingo, _Id) ->
     not_implemented.
 
 
-loop(State, LocalState) -> 
+loop(State, LocalState) ->
+    Me = self(),
     receive
-        {From, {request, {_Path, _Args}, _Ref}} ->  
-            From ! {_Ref, apply(maps:get(_Path, LocalState), [{_Path, _Args}, State, LocalState])},
+        {From, {request, {_Path, _Args}, _Ref}} ->
+            case maps:find(_Path, LocalState) of
+              {ok, Fun} -> 
+                From ! {_Ref, {200, apply(Fun, [{_Path, _Args}, State, LocalState])}};
+              {error} -> 
+                From ! {_Ref, {404, "Path not found"}}
+            end,
+            %% From ! {_Ref, {200, apply(maps:get(_Path, LocalState), [{_Path, _Args}, State, LocalState])}},
             loop(State, LocalState);
-        {From, {route, Path, Fun, Args}} -> 
+        {From, {route, Path, Fun, Args}} ->
             NewMap = new_mapping(Path, Fun, Args, LocalState),
-            %NewMap = LocalState#{Path => Fun},
-            From ! {self(), "something may have worked"},
+            From ! {ok, Me},
             loop(State, NewMap);
-                                         
-%Must figure out how to include local State in the lines above
         _ -> "we Failed"
     end.
 
