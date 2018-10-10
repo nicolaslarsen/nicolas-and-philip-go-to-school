@@ -33,7 +33,7 @@ drop_group(_Flamingo, _Id) ->
 loop(State, LocalState) -> 
     receive
         {From, {request, {_Path, _Args}, _Ref}} ->  
-            From ! {_Ref, maps:get(_Path, LocalState)},
+            From ! {_Ref, apply(maps:get(_Path, LocalState), [{_Path, _Args}, State, LocalState])},
             loop(State, LocalState);
         {From, {route, Path, Fun, Args}} -> 
             NewMap = new_mapping(Path, Fun, Args, LocalState),
