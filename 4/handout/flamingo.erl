@@ -13,11 +13,11 @@ request_reply(Pid, Request) ->
 new(_Global) -> {ok, spawn(flamingo, loop, [_Global, #{}])}.
 
 request(_Flamingo, _Request, _From, _Ref) ->
-    _Flamingo ! {_From, {request, _Request, _Ref}},
-    receive
-        {_Ref, Response} -> Response;
-        _ -> "this failed epically"
-    end.
+    _Flamingo ! {_From, {request, _Request, _Ref}}.
+    %receive
+     %   {_Ref, Response} -> Response;
+      %  _ -> "this failed epically"
+    %end.
 
 route(_Flamingo, _Path, _Fun, _Arg) ->
     _Flamingo ! {self(), {route, _Path, _Fun, _Arg}},
