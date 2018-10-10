@@ -1,6 +1,6 @@
 -module(flamingo).
 
--export([new/1, request/4, route/4, drop_group/2, request_reply/2, loop/2]).
+-export([new/1, request/4, route/4, drop_group/2, request_reply/2, loop/2, new_mapping/4]).
 
 request_reply(Pid, Request) -> 
     Pid ! {self(), Request},
@@ -35,12 +35,19 @@ loop(State, LocalState) ->
         {From, {request, {_Path, _Args}, _Ref}} ->  
             From ! {_Ref, maps:get(_Path, LocalState)},
             loop(State, LocalState);
-        {From, {route, Path, Fun, _}} -> 
-            NewMap = LocalState#{Path => Fun},
+        {From, {route, Path, Fun, Args}} -> 
+            NewMap = new_mapping(Path, Fun, Args, LocalState),
+            %NewMap = LocalState#{Path => Fun},
             From ! {self(), "something may have worked"},
             loop(State, NewMap);
                                          
 %Must figure out how to include local State in the lines above
         _ -> "we Failed"
+    end.
+
+new_mapping(Path, Fun, Args, Map) ->
+    case (Path) of
+        [H|T] -> new_mapping(T, Fun, Args, Map#{H => Fun});
+        [] -> Map
     end.
 
