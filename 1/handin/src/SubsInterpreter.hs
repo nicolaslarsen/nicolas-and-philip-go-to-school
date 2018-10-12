@@ -140,7 +140,12 @@ evalExpr expr = case expr of
                                 -- The filter is just used to remove undefined values,
                                 -- since we return them in the ACIf if the expression
                                 -- returns false.
-                                return $ ArrayVal (filter (/= UndefinedVal) vals)
+                                filtered <- return $ filter (/= UndefinedVal) vals
+                                return $ ArrayVal $ case filtered of
+                                  -- For nested loops, we get a list of ArrayVals,
+                                  -- we just want a single list.
+                                  (ArrayVal _ : _)  -> concatArrayVals filtered
+                                  _                 -> filtered
                               _ -> fail "Expression must be an ArrayVal"
                       -- binds the id to a variable x then evaluates exp1 with this new context
                       where mapHelp x = putVar ident x >> evalExpr (Compr arrCmp)
@@ -157,6 +162,12 @@ evalExpr expr = case expr of
 -- "Concatinates" an entire list of SubsM Values into a single SubsM [Value]
 concatSubsM :: [SubsM Value] -> SubsM [Value]
 concatSubsM = foldr (liftM2 (:)) (return [])
+
+-- Concatinates an ArrayVal of ArrayVal xs to a single ArrayVal xs
+concatArrayVals :: [Value] -> [Value]
+concatArrayVals = concatMap valueList
+  where valueList (ArrayVal xs) = xs
+        valueList ys = [ys]
 
 runExpr :: Expr -> Either Error Value
 runExpr exp1 = case runSubsM (evalExpr exp1) initialContext of
