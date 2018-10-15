@@ -22,6 +22,13 @@ tests = testGroup "Tests" [
     runExpr commaExpr @?= Right commaResult,
   testCase "Functions calls" $ 
     funExpressions @?= funResults,
+  {--testCase "Left Identity" $ 
+    return a  >>= f @?= f a,
+  testCase "Right Identity" $
+    return m >>= return = m,
+  testCase "Associativity"
+    (m >>= f) >>= g @?= m >>= (\x -> f x >>= g)
+  --}
   testCase "Other Tests" $ "" @?= ""]
 arrExpr = Array [Number 0, Number 1, Number 2, Number 3]
 assResult = ArrayVal [IntVal 0, IntVal 1, IntVal 2, IntVal 3]
@@ -55,6 +62,8 @@ introExpr =
                                          (Call "+" [Var "i", Number 1]))))))))
            (Array [Var "xs", Var "squares", Var "evens",
                    Var "many_a", Var "hundred"])))))
+
+
 
 introResult :: Value
 introResult = ArrayVal

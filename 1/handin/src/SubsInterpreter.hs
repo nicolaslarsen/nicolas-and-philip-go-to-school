@@ -100,6 +100,7 @@ putVar :: Ident -> Value -> SubsM ()
 putVar name val = modifyEnv $ Map.insert name val
 
 getVar :: Ident -> SubsM Value
+
 getVar name = SubsM $ \(env, _) -> case Map.lookup name env of
                                         Just a  -> Right (a, env)
                                         Nothing -> Left "Error"
