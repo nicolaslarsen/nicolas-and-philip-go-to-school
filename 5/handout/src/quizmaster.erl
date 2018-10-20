@@ -10,7 +10,15 @@ start() -> {ok, spawn(quizmaster, loop, [queue:new(), #{}])}.
 
 
 add_question(Q, {Description, MarkedAnswers}) -> 
-    Q ! {self(), {add_question, Description, MarkedAnswers}}.
+    Q ! {self(), {add_question, Description, MarkedAnswers}},
+    receive
+      {Q, ok} -> ok;
+      {Q, {error, Message}} -> {error, Message};
+      _ -> {error, undefined_error}
+    after 1000 ->
+      {error, timed_out}
+    end.
+
 
 get_questions(Q) ->
     Q ! {self(), get_questions},
@@ -24,16 +32,17 @@ loop(Questions, Players) ->
     Me = self(),
     receive
         {From, {add_question, Description, MarkedAnswers}} ->
+            From ! {Me, ok},
             loop(queue:snoc(Questions, {Description, MarkedAnswers}), Players);
         {From, get_questions} ->
             From ! {Me, {questions, Questions}},
             loop(Questions, Players);
-        _ -> "This failed"
+        {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}}
     end.
 
 play(Q) -> "not implemented".
 next(Q) -> "not implemented".
 timesup(Q) -> "not implemented".
+leave(Q, Player) -> "not implemented".
 join(Q, Player) -> "not implemented".
 guess(Q, Ref, Index) -> "not implemented".
-leave(Q, Player) -> "not implemented".
