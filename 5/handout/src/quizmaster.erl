@@ -2,7 +2,8 @@
 
 %% API exports.
 -export([start/0, add_question/2, get_questions/1,
-         play/1, next/1, timesup/1, loop/3, playermap/1,
+         play/1, next/1, timesup/1, loop/3, 
+         playermap/1, hideAnswers/1,
          join/2, leave/2, guess/3]).
 loop(Questions, Players, Status) ->
     Me = self(),
@@ -21,10 +22,18 @@ loop(Questions, Players, Status) ->
         {From, play} ->
                     From ! {Me, ok},
                     loop(Questions, Players,
-                         % I was thinking the status could be {conductor, state, score}
-                         % but this is starting to feel funky.
-                         % However, I would just leave status as "edible" until play(Q) is called
-                         {From, {playing, between_questions}, playermap(Players)});
+                         {From, playing_between_questions, playermap(Players)});
+        {From, next} ->
+                    case Status of 
+                      {Conductor, playing_between_questions, _} ->
+                        if 
+                          From =:= Conductor ->
+                            From ! {Me, {ok, hideAnswers(queue:get(Questions))}};
+                          true -> From ! {error, who_are_you}
+                        end;
+                      {_, playing_active_question, _} -> 
+                          From ! {error, has_active_question}
+                    end;
         {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}}
     end.
 
@@ -33,6 +42,18 @@ loop(Questions, Players, Status) ->
 playermap(Players) ->
         Keys = maps:keys(Players),
         maps:from_list(lists:map(fun(X) -> {X, 0} end, Keys)).
+
+hideAnswers({Description, Answers}) ->
+        HideAnswer = 
+          fun(X) -> 
+              case X of
+                      {correct, Answer} -> Answer;
+                      Answer            -> Answer
+              end
+          end,
+ 
+        {Description, lists:map(HideAnswer, Answers)}.
+
 
 %Need to add a pattern match for case of failure
 start() -> {ok, spawn(quizmaster, loop, [queue:new(), #{}, editable])}.
@@ -43,7 +64,7 @@ add_question(Q, {Description, MarkedAnswers}) ->
     receive
       {Q, ok} -> ok;
       {Q, {error, Message}} -> {error, Message};
-      _ -> {error, undefined_error}
+      Anything -> Anything
     after 1000 ->
       {error, timed_out}
     end.
@@ -66,7 +87,12 @@ play(Q) ->
           end
     end.
 
-next(Q) -> "not implemented".
+next(Q) ->
+        Q ! {self(), next},
+        receive
+          {Q, {ok, Question}} -> Question
+        end.
+
 timesup(Q) -> "not implemented".
 leave(Q, Player) -> "not implemented".
 join(Q, Player) -> "not implemented".
