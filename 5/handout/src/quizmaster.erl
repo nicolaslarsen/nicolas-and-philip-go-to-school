@@ -25,16 +25,22 @@ loop(Questions, Players, Status) ->
                          {From, playing_between_questions, playermap(Players)});
         {From, next} ->
                     case Status of 
-                      {Conductor, playing_between_questions, _} ->
+                      {Conductor, playing_between_questions, Scores} ->
                         if 
                           From =:= Conductor ->
-                            From ! {Me, {ok, hideAnswers(queue:get(Questions))}};
-                          true -> From ! {error, who_are_you}
+                            From ! {Me, {ok, hideAnswers(queue:get(Questions))}},
+                            loop(Questions, Players, 
+                                 {Conductor, playing_active_question, Scores});
+                          true -> 
+                            From ! {error, who_are_you},
+                            loop(Questions, Players, Status)
                         end;
                       {_, playing_active_question, _} -> 
-                          From ! {error, has_active_question}
+                          From ! {error, has_active_question},
+                          loop(Questions, Players, Status)
                     end;
-        {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}}
+        {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}},
+                     loop(Questions, Players, Status)
     end.
 
 % We get the keys already defined in Players, then map each key to a {key, 0}.
