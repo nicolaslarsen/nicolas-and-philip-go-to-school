@@ -4,7 +4,7 @@
 -export([start/0, add_question/2, get_questions/1,
          play/1, next/1, timesup/1, loop/3,
          playerscore/1, hideAnswers/1, addToTotal/2,
-         join/2, leave/2, guess/3]).
+         name_free/2, join/2, leave/2, guess/3]).
 loop(Questions, Players, Status) ->
     Me = self(),
     receive
@@ -20,9 +20,15 @@ loop(Questions, Players, Status) ->
             From ! {Me, {questions, Questions}},
             loop(Questions, Players, Status);
         {From, play} ->
-                    From ! {Me, ok},
-                    loop(Questions, Players,
-                         {From, playing_between_questions, playerscore(Players)});
+                    if
+                      Status =:= editable ->
+                        From ! {Me, ok},
+                        loop(Questions, Players,
+                          {From, playing_between_questions, playerscore(Players)});
+                      true -> 
+                        From ! {Me, {error, conductor_exists}},
+                        loop(Questions, Players, Status)
+                    end;
         {From, next} ->
                     case Status of
                       {Conductor, playing_between_questions, Scores} ->
@@ -33,7 +39,7 @@ loop(Questions, Players, Status) ->
 
                             % Sends next_question to player, to be used with map
                             SendToPlayer =
-                              fun(Pid, {Name, Ref}) ->
+                              fun(Pid, {_, Ref}) ->
                                       Pid ! {next_question, Ref, Question}
                               end,
 
@@ -56,14 +62,34 @@ loop(Questions, Players, Status) ->
                           NewTotal = addToTotal(maps:to_list(LastQ), Scores),
                           % We still need to remove placeholders
                           From ! {Me, {ok, dist_undefined, LastQ, NewTotal, false}},
-                          loop(Questions, Players, 
+                          loop(Questions, Players,
                                {Conductor, playing_between_questions, NewTotal});
                         true ->
                           From ! {Me, {error, nice_try}},
                           loop(Questions, Players, Status)
                         end;
-                      {_, playing_between_questions, _} -> 
+                      {_, playing_between_questions, _} ->
                           From ! {Me, {error, no_question_asked}},
+                          loop(Questions, Players, Status);
+                      _ -> From ! {Me, {error, not_even_playing}},
+                           loop(Questions, Players, Status)
+                    end;
+        {From, join, Player} ->
+                    case Status of
+                      {editable} ->
+                            NameIsFree = name_free(Player, maps:values(Players)),
+                            if
+                              NameIsFree ->
+                                    Ref = make_ref(),
+                                    NewPlayers = maps:put(From, {Player, Ref}),
+                                    From ! {Me, {ok, Ref}},
+                                    loop(Questions, NewPlayers, editable);
+                              true -> 
+                                    From ! {Me, {error, is_taken}},
+                                    loop(Questions, Players, Status)
+                            end;
+                      _ -> 
+                          From ! {Me, {error, cant_join_yet}},
                           loop(Questions, Players, Status)
                     end;
         {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}},
@@ -80,17 +106,28 @@ hideAnswers({Description, Answers}) ->
         HideAnswer =
           fun(X) ->
               case X of
-                      {correct, Answer} -> Answer;
+                      {_, Answer} -> Answer;
                       Answer            -> Answer
               end
           end,
         {Description, lists:map(HideAnswer, Answers)}.
 
+% Increments the value for key Pid in Total by each score in a list of {Pid, Score}
 addToTotal([], Total) -> Total;
-addToTotal([{Pid, Score} | Scores], Total) -> 
+addToTotal([{Pid, Score} | Scores], Total) ->
         CurrentScore = maps:get(Pid, Total, 0),
         NewTotal = maps:update(Pid, Score + CurrentScore, Total),
-        addToTotal(Scores, NewTotal). 
+        addToTotal(Scores, NewTotal).
+
+% Player name is not in use
+name_free(_, []) -> true;
+name_free(Player, [{Name, _} | Players]) ->
+        if
+          Player =:= Name -> false;
+          true -> name_free(Player, Players)
+        end.
+
+
 
 %Need to add a pattern match for case of failure
 start() -> {ok, spawn(quizmaster, loop, [queue:new(), #{}, editable])}.
@@ -132,11 +169,17 @@ next(Q) ->
 
 timesup(Q) ->
         Q ! {self(), times_up},
-        receive 
+        receive
           {Q, {error, nice_try}} -> nice_try;
           {Q, Response} -> Response
         end.
 
+join(Q, Player) ->
+        Q ! {self(), join, Player},
+        receive
+          {Q, {ok, Ref}} -> {ok, Ref};
+          {Q, {error, Error}} -> {error, Error}
+        end.
+
 leave(Q, Player) -> "not implemented".
-join(Q, Player) -> "not implemented".
 guess(Q, Ref, Index) -> "not implemented".
