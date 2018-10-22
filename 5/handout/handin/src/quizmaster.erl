@@ -82,10 +82,10 @@ loop(Questions, Players, Status) ->
                               Dist = get_dist(Guesses, length(Answers)),
                               LastQ = maps:map(GivePoints, Guesses),
                               NewTotal = addToTotal(maps:to_list(LastQ), Scores),
-                              Final = queue:is_empty(RemQuestions) =:= true,
+                              Final = queue:is_empty(RemQuestions),
 
-                              % We still need to remove placeholders
                               From ! {Me, {ok, Dist, LastQ, NewTotal, Final}},
+                              % We still need to remove placeholders
 
                               if
                                 % game should end
@@ -109,7 +109,7 @@ loop(Questions, Players, Status) ->
                           loop(Questions, Players, Status)
                         end;
                       {_, playing_between_questions, _} ->
-                          From ! {Me, {error, no_question_asked}},
+                          From ! {Me, {error, no_questions_asked}},
                           loop(Questions, Players, Status);
                       _ -> From ! {Me, {error, not_even_playing}},
                            loop(Questions, Players, Status)
@@ -138,10 +138,10 @@ loop(Questions, Players, Status) ->
                     UserExists = maps:is_key(Ref, Players),
                     if
                       UserExists ->
-                            From ! {Me, ok},
+                            From ! {Ref, ok},
                             loop(Questions, maps:remove(Ref, Players), Status);
                       true ->
-                            From ! {Me, {error, who_are_you}},
+                            From ! {Ref, {error, who_are_you}},
                             loop(Questions, Players, Status)
                     end;
         {_, guess, Ref, Index} ->
@@ -242,8 +242,7 @@ play(Q) ->
 next(Q) ->
         Q ! {self(), next},
         receive
-          {Q, {ok, Question}} -> Question;
-          {Q, Message}        -> Message
+          {Q, Message} -> Message
         end.
 
 timesup(Q) ->
@@ -263,8 +262,8 @@ join(Q, Player) ->
 leave(Q, Ref) ->
         Q ! {self(), leave, Ref},
         receive
-          {Q, ok} -> ok;
-          {Q, {error, Reason}} -> {error, Reason}
+          {Ref, ok} -> ok;
+          {Ref, {error, Reason}} -> {error, Reason}
         end.
 
 guess(Q, Ref, Index) ->
