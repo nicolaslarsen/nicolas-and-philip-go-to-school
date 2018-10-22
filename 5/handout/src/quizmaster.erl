@@ -6,6 +6,10 @@
          inc_nth/2, playerscore/1, hideAnswers/1, addToTotal/2,
          player_free/2, join/2, leave/2, guess/3]).
 
+% This is the quiz loop. Questions is a queue, pretty self-explanatory.
+% Players is a map, where we decided to store the players by their reference, for easy lookup.
+% Status however, can either be the atom "editable", or some {Conductor, State, Score}
+% Where state will also contain the guesses of the players, if a question is active
 loop(Questions, Players, Status) ->
     Me = self(),
     receive
@@ -45,6 +49,7 @@ loop(Questions, Players, Status) ->
                               end,
 
                             maps:map(SendToPlayer, Players),
+                            % We store the guesses in this map
                             loop(Questions, Players,
                                  {Conductor, {playing_active_question, #{}}, Scores});
                           true ->
@@ -58,7 +63,6 @@ loop(Questions, Players, Status) ->
                           From ! {Me, {error, not_playing_yet}},
                           loop(Questions, Players, Status)
                     end;
-            % TODO: At least end the game?
         {From, times_up} ->
                     case Status of
                       {Conductor, {playing_active_question, Guesses}, Scores} ->
@@ -67,8 +71,8 @@ loop(Questions, Players, Status) ->
                             {{_, {_, Answers}}, RemQuestions} ->
 
                               % Give points for a single guess
-                              GivePoints = 
-                                fun(_, Index) -> 
+                              GivePoints =
+                                fun(_, Index) ->
                                     case lists:nth(Index, Answers) of
                                         {correct, _}  -> 1;
                                         _             -> 0
@@ -82,8 +86,22 @@ loop(Questions, Players, Status) ->
 
                               % We still need to remove placeholders
                               From ! {Me, {ok, Dist, LastQ, NewTotal, Final}},
-                              loop(RemQuestions, Players,
-                                {Conductor, playing_between_questions, NewTotal});
+
+                              if
+                                % game should end
+                                Final ->
+                                    % Sends a message to a player, to be used with map
+                                    SendToPlayer =
+                                      fun(_, {_, Pid}) ->
+                                        Pid ! {Me, quiz_over}
+                                      end,
+                                    maps:map(SendToPlayer, Players),
+                                    % Just to reinitialize the quiz
+                                    loop(RemQuestions, #{}, editable);
+                                true ->
+                                    loop(RemQuestions, Players,
+                                        {Conductor, playing_between_questions, NewTotal})
+                              end;
                             _ -> From ! {Me, {error, question_wrong_format}}
                           end;
                         true ->
@@ -117,9 +135,16 @@ loop(Questions, Players, Status) ->
         % Players does not have to be deleted from the scoreboard,
         % so there's no reason to check the status
         {From, leave, Ref} ->
-                    From ! {Me, ok},
-                    loop(Questions, maps:remove(Ref, Players), Status);
-        {From, guess, Ref, Index} ->
+                    UserExists = maps:is_key(Ref, Players),
+                    if
+                      UserExists ->
+                            From ! {Me, ok},
+                            loop(Questions, maps:remove(Ref, Players), Status);
+                      true ->
+                            From ! {Me, {error, who_are_you}},
+                            loop(Questions, Players, Status)
+                    end;
+        {_, guess, Ref, Index} ->
             case Status of
               {Conductor, {playing_active_question, Guesses}, Scores} ->
                 PlayerExists = maps:is_key(Ref, Players),
@@ -128,14 +153,16 @@ loop(Questions, Players, Status) ->
                     loop(Questions, Players,
                          {Conductor,
                           {playing_active_question, maps:put(Ref, Index, Guesses)},
-                           Scores})
+                           Scores});
+                  true ->
+                    loop(Questions, Players, Status) % We just ignore the guess
                 end;
               _ -> loop(Questions, Players, Status) % We just ignore the guess
             end;
-        {From, _} -> From ! {Me, {error, "Arguments are on the wrong form"}},
-                     loop(Questions, Players, Status)
+        {From, _} ->
+                    From ! {Me, {error, "Arguments are on the wrong form"}},
+                    loop(Questions, Players, Status)
     end.
-
 
 % We get the keys already defined in Players, then map each key to a {key, 0}.
 % This way our scoreboard is initialized. Then we convert this new list to a map.
@@ -143,7 +170,7 @@ playerscore(Players) ->
         Keys = maps:keys(Players),
         maps:from_list(lists:map(fun(X) -> {X, 0} end, Keys)).
 
-% Player name is not in use
+% Check if player name is free
 player_free(_, []) -> true;
 player_free(Player, [{Name, _} | Players]) ->
         if
@@ -151,13 +178,14 @@ player_free(Player, [{Name, _} | Players]) ->
           true -> player_free(Player, Players)
         end.
 
+% Increment the nth element of a list
 inc_nth(_, []) -> [];
 inc_nth(N, [X | Xs]) ->
-        if 
+        if
           N =:= 1 -> [X + 1 | Xs];
           true -> [X | inc_nth(N-1, Xs)]
         end.
-        
+
 % Builds a distribution of answers
 get_dist(Guesses, NumAnswers) ->
         Initial = lists:duplicate(NumAnswers, 0),
@@ -165,7 +193,7 @@ get_dist(Guesses, NumAnswers) ->
         Fun = fun(X, List) -> inc_nth(X, List) end,
         lists:foldl(Fun, Initial, Indexes).
 
-
+% Just removes the correct part of {correct, answer}
 hideAnswers({Description, Answers}) ->
         HideAnswer =
           fun(X) ->
@@ -190,10 +218,7 @@ add_question(Q, {Description, MarkedAnswers}) ->
     Q ! {self(), {add_question, Description, MarkedAnswers}},
     receive
       {Q, ok} -> ok;
-      {Q, {error, Message}} -> {error, Message};
-      Anything -> Anything
-    after 1000 ->
-      {error, timed_out}
+      {Q, Message} -> Message
     end.
 
 
@@ -225,7 +250,7 @@ timesup(Q) ->
         Q ! {self(), times_up},
         receive
           {Q, {error, nice_try}} -> nice_try;
-          {Q, Response} -> Response
+          {Q, Message} -> Message
         end.
 
 join(Q, Player) ->
