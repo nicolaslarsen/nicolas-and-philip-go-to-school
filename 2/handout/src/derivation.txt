@@ -1,0 +1,23 @@
+Example from Text File
+
+The Original Example
+
+E ::= T '-' E | T
+T ::= '0' | '1'
+
+We can transform this with a left factorization into the following
+
+E    ::= T Eopt
+Eopt ::= '-' T Eopt | eps
+T    ::= '0' | '1'
+
+For Expression in the homework we have the following Grammar
+
+Expr ::= Expr ',' Expr | Expr1
+
+We can then similarly transfrom with the following equivalent grammer
+
+Expr     ::= Expr1 | ExprOpt
+ExprOpt  ::= ',' Expr1 ExprOpt | eps
+Expr1    ::= .... | .... | ....  
+
