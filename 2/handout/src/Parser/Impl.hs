@@ -23,10 +23,21 @@ isDigit char = char >= '0' && char <= '9'
 
 ident :: ReadP Expr
 ident = do
-   firstLetter <- satisfy isLetter
-   remainder <- many1 (satisfy (\c -> isLetter c || isDigit c))
-   satisfy (== ' ')
-   return (Var  ([firstLetter] ++  remainder))
+    val <- ident1 <|> ident2
+    return val    
+
+ident1 :: ReadP Expr
+ident1 = do
+    firstLetter <- satisfy isLetter
+    remainder <- many1 (satisfy (\c -> isLetter c || isDigit c))
+    satisfy (== ' ')
+    return (Var  ([firstLetter] ++  remainder))
+
+ident2 :: ReadP Expr
+ident2 = do
+  letter <- satisfy isLetter
+  satisfy (== ' ')
+  return (Var [letter])
    
 number1 :: ReadP Expr 
 number1 = do 
@@ -35,6 +46,7 @@ number1 = do
    satisfy (== ' ')
    return (Number (read ([firstDigit] ++ remainder)::Int))
 
+number2 :: ReadP Expr
 number2 = do
    dig <- satisfy isDigit
    satisfy (== ' ')
@@ -94,10 +106,6 @@ arraycompr = do
    result <- arrayFor <|> arrayIf <|> arrayBody 
    return result
 
-
-
-
-
 isInString char = (char >= '!' && char <= '~' && char /= '\\' && char /= '\'')
 
 stringReader = do
@@ -105,7 +113,26 @@ stringReader = do
   str <- many1 (satisfy isInString)
   satisfy (== '\'')
   return (String str)
+
+commaExpr = do
+        exp1 <- expr1
+        string ","
+        exp2 <- expr1
+        return (Comma exp1 exp2)
+
+funReader = do
+    exp1 <- expr1
+    fun  <- string "+" <|> string "-" <|> string "*" <|> string "%"
+            <|> string "<" <|> string "==="
+    exp2 <- expr1
+    return (Call fun [exp1, exp2])
+        
+
+expr = do
+    val <- expr1 <|> commaExpr
+    return val
  
 expr1 = do 
-   val <- trueReader <|> falseReader <|> ident <|> number
+   val <- trueReader <|> falseReader <|> ident <|> number <|>
+           undefinedReader <|> funReader
    return val
