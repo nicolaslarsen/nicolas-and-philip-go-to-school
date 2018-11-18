@@ -35,15 +35,15 @@ number1 = do
    satisfy (== ' ')
    return (Number (read ([firstDigit] ++ remainder)::Int))
 
-number0 :: ReadP Expr
-number0 = do
-   satisfy (\c -> c == '0')
+number2 = do
+   dig <- satisfy isDigit
    satisfy (== ' ')
-   return (Number 0) 
+   return (Number (read [dig]::Int))
+
 
 number :: ReadP Expr
 number = do 
-   val <- number0 <|> number1
+   val <- number1 <|> number2
    return val
 
 string1  word = do
@@ -91,7 +91,7 @@ arrayIf = do
 
 
 arraycompr = do
-   result <- arrayFor <|> arrayIf <|> arrayBody
+   result <- arrayFor <|> arrayIf <|> arrayBody 
    return result
 
 
