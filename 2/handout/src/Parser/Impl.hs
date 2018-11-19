@@ -19,6 +19,12 @@ isLetter char = (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')
 
 isDigit char = char >= '0' && char <= '9'
 
+token str = do
+        skipSpaces
+        s <- string str
+        skipSpaces
+        return s
+
 ident = do
     val <- ident1 <|> ident2
     return val
@@ -64,15 +70,16 @@ undefinedReader = do
 
 arrayFor = do
    string "for"
-   string "("
+   token "("
    iden <- ident
-   string "of"
+   token "of"
    exp1 <- expr1
    string ")"
+   skipSpaces
    ac <- arraycompr
    case iden of
       Var id -> return (ACFor id exp1 ac)
-      _ -> return (ACFor "royal fuck up" exp1 ac)
+      _ -> return (ACFor "error" exp1 ac)
 
 arrayBody = do
    result <- expr1
@@ -114,24 +121,50 @@ expr = do
     return eval
 
 expr1Opt firstVal = do 
-	funHelper firstVal "-" 
+        funHelper firstVal "-" 
         <|> funHelper firstVal "+" <|>
-	funHelper firstVal "%" <|>
-	funHelper firstVal "*" <|>
-	funHelper firstVal "/" <|>
-	funHelper firstVal "===" <|>
-	return firstVal
+        funHelper firstVal "%" <|>
+        funHelper firstVal "*" <|>
+        funHelper firstVal "/" <|>
+        funHelper firstVal "===" <|>
+        return firstVal
+
+assignParse = do
+        id <- ident
+        token "="
+        val <- expr
+        return $ case id of
+          Var iden  -> (Assign iden val)
+          _         -> (Assign "error" val)
+
+bracketParser = do
+        token "["
+        array <- expr <|> wrapper
+        token "]"
+        return $ case array of
+                (Compr arrComp) -> Compr arrComp
+                val             -> Array [val]
+
+parenParser = do
+        token "("
+        exp <- expr
+        token ")"
+        return exp
+
+wrapper = do
+        array <- arrayFor
+        return $ Compr array
 
 funHelper firstVal fnString = do 
-  skipSpaces
-  string fnString
+  token fnString
   secondVal <- expr1
   eval <- expr1Opt (Call fnString [firstVal, secondVal])
   return eval
 
 
 expr1 = do
-   val <- trueReader <|> falseReader <|> ident <|> number <|>
+   val <- trueReader <|> falseReader <|> assignParse <|> 
+           parenParser <|> bracketParser <|> ident <|> number <|>
            undefinedReader
    skipSpaces
    return val
@@ -142,8 +175,12 @@ tempExpr1 = do
   eval <- expr1Opt val
   return eval
 
-exprOpt firstVal = do (do skipSpaces
-  			  string ","
-  		       	  secondVal <- expr
-                          eval <- exprOpt (Comma firstVal secondVal)
-                          return eval) <|> return firstVal
+exprOpt firstVal = do
+        (do
+            token ","
+            secondVal <- expr
+            eval <- exprOpt (Comma firstVal secondVal)
+            return eval) 
+        <|> return firstVal
+                
+
