@@ -105,38 +105,45 @@ commaExpr = do
         exp2 <- expr1
         return (Comma exp1 exp2)
 
-funReader = do
-    exp1 <- expr1
-    fun  <- string "+" <|> string "-" <|> string "*" <|> string "%"
-            <|> string "<" <|> string "==="
-    exp2 <- expr1
-    return (Call fun [exp1, exp2])
 
-data Ex =
-        Expr
-      | Eof
-      deriving (Read, Show)
 
-eo = do
-    eof
-    return Eof
-
-exprs = do
-    eo <|> exprs2
-
-exprs2 = do
-    exp1  <- expr1
-    ce    <- commaExprs
-    case ce of
-      Eof  -> return exp1
-      _   -> return (Comma exp1, ce)
 
 expr = do
-    val <- expr1 <|> commaExpr
-    return val
+    firstVal <- tempExpr1
+    eval <- exprOpt firstVal
+    return eval
+
+expr1Opt firstVal = do 
+	funHelper firstVal "-" 
+        <|> funHelper firstVal "+" <|>
+	funHelper firstVal "%" <|>
+	funHelper firstVal "*" <|>
+	funHelper firstVal "/" <|>
+	funHelper firstVal "===" <|>
+	return firstVal
+
+funHelper firstVal fnString = do 
+  skipSpaces
+  string fnString
+  secondVal <- expr1
+  eval <- expr1Opt (Call fnString [firstVal, secondVal])
+  return eval
+
 
 expr1 = do
    val <- trueReader <|> falseReader <|> ident <|> number <|>
            undefinedReader
    skipSpaces
    return val
+
+
+tempExpr1 = do
+  val <- expr1
+  eval <- expr1Opt val
+  return eval
+
+exprOpt firstVal = do (do skipSpaces
+  			  string ","
+  		       	  secondVal <- expr
+                          eval <- exprOpt (Comma firstVal secondVal)
+                          return eval) <|> return firstVal
