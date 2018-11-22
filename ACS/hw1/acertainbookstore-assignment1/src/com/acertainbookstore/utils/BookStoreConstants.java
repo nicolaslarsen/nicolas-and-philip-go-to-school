@@ -54,6 +54,9 @@ public final class BookStoreConstants {
 	/** The Constant NULL_INPUT. */
 	public static final String NULL_INPUT = "null input parameters";
 
+	/** The Constant NEGATIVE_INPUT. */
+	public static final String NEGAVIVE_INPUT = "negative input parameters";
+
 	/** The Constant PROPERTY_KEY_LOCAL_TEST. */
 	public static final String PROPERTY_KEY_LOCAL_TEST = "localtest";
 
