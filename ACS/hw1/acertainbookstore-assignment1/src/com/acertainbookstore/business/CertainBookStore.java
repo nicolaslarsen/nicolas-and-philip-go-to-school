@@ -309,16 +309,18 @@ public class CertainBookStore implements BookStore, StockManager {
 	 */
 	@Override
 	public synchronized List<Book> getTopRatedBooks(int numBooks) throws BookStoreException {
-	    if (numBooks < 0) {
-			throw new BookStoreException(BookStoreConstants.NEGAVIVE_INPUT);
+		if (numBooks < 0) {
+			throw new BookStoreException("numBooks = " + numBooks + ", but it must be positive");
 		}
 
+		// Make sure that numBooks does not exceed number of books
 	    if(bookMap.size() < numBooks){
 	    	throw new BookStoreException(BookStoreConstants.BOOK_NUM_PARAM + BookStoreConstants.INVALID);
 		}
 
-	    List list = new ArrayList(bookMap.values());
-	    Collections.sort(list, new Comparator<BookStoreBook>(){
+	    // We get all books and sort them by their average rating
+	    List<BookStoreBook> ratedBooks = new ArrayList<BookStoreBook>(bookMap.values());
+	    ratedBooks.sort(new Comparator<BookStoreBook>(){
 			public int compare(BookStoreBook b1, BookStoreBook b2){
 				if(b1.getAverageRating() == b2.getAverageRating()){
 					return 0;
@@ -329,7 +331,9 @@ public class CertainBookStore implements BookStore, StockManager {
 			}
 		});
 
-	    return list.subList(0, numBooks);
+	    // Return the first numBooks number of books as immutable books.
+	    return ratedBooks.subList(0, numBooks).stream().map(book -> book.immutableBook())
+				.collect(Collectors.toList());
 	}
 
 	/*
@@ -356,6 +360,7 @@ public class CertainBookStore implements BookStore, StockManager {
 		int isbn;
 		BookStoreBook book;
 
+		// Make sure that all books exists and all ratings are valid
 		for (BookRating bookRating : bookRatings){
 			isbn = bookRating.getISBN();
 			validateISBNInStock(isbn);
@@ -364,6 +369,7 @@ public class CertainBookStore implements BookStore, StockManager {
 			}
 		}
 
+		// Add the ratings to the books
 		for (BookRating bookRating : bookRatings){
 			book = bookMap.get(bookRating.getISBN());
 
