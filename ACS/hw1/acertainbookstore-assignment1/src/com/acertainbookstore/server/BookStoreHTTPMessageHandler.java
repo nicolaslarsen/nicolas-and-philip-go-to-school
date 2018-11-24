@@ -123,6 +123,18 @@ public class BookStoreHTTPMessageHandler extends AbstractHandler {
 				getEditorPicks(request, response);
 				break;
 
+			case GETTOPRATEDBOOKS:
+			    getTopRatedBooks(request, response);
+				break;
+
+			case GETBOOKSINDEMAND:
+				getBooksInDemand(response);
+				break;
+
+			case RATEBOOKS:
+				rateBooks(request, response);
+				break;
+
 			case GETSTOCKBOOKSBYISBN:
 				getStockBooksByISBN(request, response);
 				break;
@@ -243,7 +255,7 @@ public class BookStoreHTTPMessageHandler extends AbstractHandler {
 
 
 	/**
-	 * Lists the books.
+	 * Get the books in demand.
 	 *
 	 * @param response
 	 *            the response

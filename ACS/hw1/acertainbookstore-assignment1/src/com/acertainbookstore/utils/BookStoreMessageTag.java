@@ -18,6 +18,15 @@ public enum BookStoreMessageTag {
 	/** The tag for the get books message. */
 	GETBOOKS,
 
+	/** The tag for the get top rated books message */
+	GETTOPRATEDBOOKS,
+
+	/** The tag for the get top rated books message */
+	GETBOOKSINDEMAND,
+
+	/** The tag for the get top rated books message */
+	RATEBOOKS,
+
 	/** The tag for the buy books message. */
 	BUYBOOKS,
 

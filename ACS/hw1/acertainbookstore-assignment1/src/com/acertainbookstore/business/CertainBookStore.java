@@ -326,7 +326,7 @@ public class CertainBookStore implements BookStore, StockManager {
 					return 0;
 				}
 				else {
-					return b1.getAverageRating() < b2.getAverageRating() ? -1 : 1;
+					return b1.getAverageRating() > b2.getAverageRating() ? -1 : 1;
 				}
 			}
 		});
