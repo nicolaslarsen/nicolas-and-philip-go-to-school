@@ -1,0 +1,1153 @@
+
+==================== FINAL INTERFACE ====================
+2018-10-14 14:55:16.921193 UTC
+
+interface main:Main 8043
+  interface hash: 994d46b3939732f48ef1ca8186b34c3a
+  ABI hash: 1df0629cf2223be585c52f5d6f148ca3
+  export-list hash: 0ce9e88d236847663907952a52170cdf
+  orphan hash: 155819ad1a5541a792262bd25b279b25
+  flag hash: be3b07cdd2954b02792fa6c1ad6ce9f5
+  opt_hash: 14e536840aca4e889cad654e6f9b79c1
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Main.main
+module dependencies:
+package dependencies: ansi-terminal-0.8.0.4 ansi-wl-pprint-0.6.8.2
+                      array-0.5.2.0 async-2.2.1 base-4.11.1.0 binary-0.8.5.1
+                      bytestring-0.10.8.2 call-stack-0.1.0 clock-0.7.2 colour-2.3.4
+                      containers-0.5.11.0 deepseq-1.4.3.0 ghc-prim-0.5.2.0
+                      hashable-1.2.7.0 integer-gmp-1.0.2.0 mtl-2.2.2
+                      optparse-applicative-0.14.2.0 process-1.6.3.0 stm-2.4.5.0
+                      subscript-interpreter-0.0.0 tagged-0.8.5 tasty-1.1.0.3
+                      tasty-hunit-0.10.0.1 text-1.2.3.0 transformers-0.5.5.0
+                      unbounded-delays-0.1.1.0 unix-2.7.2.2 wcwidth-0.0.2
+orphans: stm-2.4.5.0:Control.Monad.STM
+         hashable-1.2.7.0:Data.Hashable.Generic text-1.2.3.0:Data.Text.Lazy
+         text-1.2.3.0:Data.Text binary-0.8.5.1:Data.Binary.Generic
+         bytestring-0.10.8.2:Data.ByteString.Builder
+         text-1.2.3.0:Data.Text.Show
+         transformers-0.5.5.0:Control.Monad.Trans.Error
+         colour-2.3.4:Data.Colour base-4.11.1.0:GHC.Float
+         base-4.11.1.0:GHC.Base
+family instance modules: base-4.11.1.0:Control.Applicative
+                         base-4.11.1.0:Data.Complex base-4.11.1.0:Data.Functor.Compose
+                         base-4.11.1.0:Data.Functor.Const
+                         base-4.11.1.0:Data.Functor.Identity
+                         base-4.11.1.0:Data.Functor.Product base-4.11.1.0:Data.Functor.Sum
+                         base-4.11.1.0:Data.Monoid base-4.11.1.0:Data.Semigroup
+                         base-4.11.1.0:Data.Semigroup.Internal base-4.11.1.0:Data.Version
+                         base-4.11.1.0:Data.Void base-4.11.1.0:GHC.Exts
+                         base-4.11.1.0:GHC.Generics base-4.11.1.0:GHC.IO.Exception
+                         clock-0.7.2:System.Clock containers-0.5.11.0:Data.IntMap.Internal
+                         containers-0.5.11.0:Data.IntSet.Internal
+                         containers-0.5.11.0:Data.Map.Internal
+                         containers-0.5.11.0:Data.Sequence.Internal
+                         containers-0.5.11.0:Data.Set.Internal containers-0.5.11.0:Data.Tree
+                         tagged-0.8.5:Data.Tagged tasty-1.1.0.3:Test.Tasty.Core
+                         text-1.2.3.0:Data.Text text-1.2.3.0:Data.Text.Lazy
+import  -/  base-4.11.1.0:Data.Either 39d922b371c4c52d426e9ee66de8371a
+import  -/  base-4.11.1.0:GHC.Err 5e26aa744981f14e0f1e4d29c44ac52e
+import  -/  base-4.11.1.0:Prelude 0750c25585e2b797cd78291d423d39dd
+import  -/  subscript-interpreter-0.0.0:SubsAst e67bbe2d632931e75465f5c170593d9e
+import  -/  subscript-interpreter-0.0.0:SubsInterpreter 8e3a074eb1da8ff16dbfe49a991c530c
+import  -/  tasty-1.1.0.3:Test.Tasty 76bef15fa365d39b56e8b5f4f1da53e3
+import  -/  tasty-1.1.0.3:Test.Tasty.Core 1ca28062ff55b3d2b18e23a2a965b2b9
+import  -/  tasty-hunit-0.10.0.1:Test.Tasty.HUnit cdb80dd194bc667b3a8b4f07f5da7c8b
+import  -/  tasty-hunit-0.10.0.1:Test.Tasty.HUnit.Orig eaa0b10673ab6d8aa2d32b170f906247
+4d37d41c5f156ed98978fa1164ad2339
+  $s$fEqEither ::
+    GHC.Classes.Eq
+      (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                  (\ (ds :: Data.Either.Either
+                              [GHC.Types.Char] SubsInterpreter.Value)
+                     (ds1 :: Data.Either.Either
+                               [GHC.Types.Char] SubsInterpreter.Value) ->
+                   case ds of wild {
+                     Data.Either.Left a1
+                     -> case ds1 of wild1 {
+                          Data.Either.Left b1 -> GHC.Base.eqString a1 b1
+                          Data.Either.Right ipv -> GHC.Types.False }
+                     Data.Either.Right a1
+                     -> case ds1 of wild1 {
+                          Data.Either.Left ipv -> GHC.Types.False
+                          Data.Either.Right b1 -> SubsInterpreter.$fEqValue_$c== a1 b1 } })
+                  Main.$s$fEqEither_$s$fEqEither_$c/= -}
+23ad81a2d6022030bd77029b6200cad1
+  $s$fEqEither_$s$fEqEither_$c/= ::
+    Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value
+    -> Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value
+    -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Inline: (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ (x :: Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                   (y :: Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value) ->
+                 case x of wild {
+                   Data.Either.Left a1
+                   -> case y of wild1 {
+                        Data.Either.Left b1
+                        -> case GHC.Base.eqString a1 b1 of wild2 {
+                             GHC.Types.False -> GHC.Types.True
+                             GHC.Types.True -> GHC.Types.False }
+                        Data.Either.Right ipv -> GHC.Types.True }
+                   Data.Either.Right a1
+                   -> case y of wild1 {
+                        Data.Either.Left ipv -> GHC.Types.True
+                        Data.Either.Right b1
+                        -> case SubsInterpreter.$fEqValue_$c== a1 b1 of wild2 {
+                             GHC.Types.False -> GHC.Types.True
+                             GHC.Types.True -> GHC.Types.False } } }) -}
+6747929ad9600372c0dd54474cbe50b6
+  $s$fShowEither ::
+    GHC.Show.Show
+      (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                  (Data.Either.$fShowEither_$cshowsPrec
+                     @ [GHC.Types.Char]
+                     @ SubsInterpreter.Value
+                     GHC.Show.$fShow[]_$s$fShow[]1
+                     SubsInterpreter.$fShowValue)
+                  (\ (x :: Data.Either.Either
+                             [GHC.Types.Char] SubsInterpreter.Value) ->
+                   case x of wild {
+                     Data.Either.Left b1
+                     -> GHC.Base.augment
+                          @ GHC.Types.Char
+                          (\ @ b
+                             (c :: GHC.Types.Char -> b -> b)[OneShot]
+                             (n :: b)[OneShot] ->
+                           GHC.Base.foldr @ GHC.Types.Char @ b c n Data.Either.$fShowEither4)
+                          (GHC.Types.:
+                             @ GHC.Types.Char
+                             GHC.Show.$fShow(,)3
+                             (GHC.Show.showLitString
+                                b1
+                                (GHC.Types.:
+                                   @ GHC.Types.Char
+                                   GHC.Show.$fShow(,)3
+                                   (GHC.Types.[] @ GHC.Types.Char))))
+                     Data.Either.Right b1
+                     -> GHC.Base.augment
+                          @ GHC.Types.Char
+                          (\ @ b
+                             (c :: GHC.Types.Char -> b -> b)[OneShot]
+                             (n :: b)[OneShot] ->
+                           GHC.Base.foldr @ GHC.Types.Char @ b c n Data.Either.$fShowEither2)
+                          (SubsInterpreter.$fShowValue_$cshowsPrec
+                             Data.Either.$fReadEither6
+                             b1
+                             (GHC.Types.[] @ GHC.Types.Char)) })
+                  (\ (ls :: [Data.Either.Either
+                               [GHC.Types.Char] SubsInterpreter.Value])
+                     (s :: GHC.Base.String) ->
+                   GHC.Show.showList__
+                     @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                     (Data.Either.$fShowEither_$cshowsPrec
+                        @ [GHC.Types.Char]
+                        @ SubsInterpreter.Value
+                        GHC.Show.$fShow[]_$s$fShow[]1
+                        SubsInterpreter.$fShowValue
+                        Data.Either.$fShowEither1)
+                     ls
+                     s) -}
+8ef33c50c79aab91a3458d46656f5d3c
+  $s$fShowEither_$cshowsPrec ::
+    GHC.Types.Int
+    -> Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value
+    -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S(S),1*U(U)><S,1*U>, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w2 :: GHC.Types.Int)
+                   (w3 :: Data.Either.Either
+                            [GHC.Types.Char] SubsInterpreter.Value) ->
+                 case w2 of ww { GHC.Types.I# ww1 ->
+                 Data.Either.$w$cshowsPrec
+                   @ [GHC.Types.Char]
+                   @ SubsInterpreter.Value
+                   GHC.Show.$fShow[]_$s$fShow[]1
+                   SubsInterpreter.$fShowValue
+                   ww1
+                   w3 }) -}
+e6e8e9485d016298783918298ec15548
+  $s$fShow[] ::
+    GHC.Show.Show
+      [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+                  (\ (ds :: GHC.Types.Int)
+                     (ls :: [Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value])
+                     (s :: GHC.Base.String) ->
+                   GHC.Show.showList__
+                     @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                     (Data.Either.$fShowEither_$cshowsPrec
+                        @ [GHC.Types.Char]
+                        @ SubsInterpreter.Value
+                        GHC.Show.$fShow[]_$s$fShow[]1
+                        SubsInterpreter.$fShowValue
+                        Data.Either.$fShowEither1)
+                     ls
+                     s)
+                  (\ (x :: [Data.Either.Either
+                              SubsInterpreter.Error SubsInterpreter.Value]) ->
+                   GHC.Show.showList__
+                     @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                     (Data.Either.$fShowEither_$cshowsPrec
+                        @ [GHC.Types.Char]
+                        @ SubsInterpreter.Value
+                        GHC.Show.$fShow[]_$s$fShow[]1
+                        SubsInterpreter.$fShowValue
+                        Data.Either.$fShowEither1)
+                     x
+                     (GHC.Types.[] @ GHC.Types.Char))
+                  (\ (ls :: [[Data.Either.Either
+                                SubsInterpreter.Error SubsInterpreter.Value]])
+                     (s :: GHC.Base.String) ->
+                   GHC.Show.showList__
+                     @ [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+                     (\ (ls1 :: [Data.Either.Either
+                                   [GHC.Types.Char] SubsInterpreter.Value])
+                        (s1 :: GHC.Base.String)[OneShot] ->
+                      GHC.Show.showList__
+                        @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                        (Data.Either.$fShowEither_$cshowsPrec
+                           @ [GHC.Types.Char]
+                           @ SubsInterpreter.Value
+                           GHC.Show.$fShow[]_$s$fShow[]1
+                           SubsInterpreter.$fShowValue
+                           Data.Either.$fShowEither1)
+                        ls1
+                        s1)
+                     ls
+                     s) -}
+be86c9d078d3acbf19ba91fe74a24273
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module Main.$trModule3 Main.$trModule1) -}
+b09d86f2c49dd5176b544d8d13ddb6c5
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS Main.$trModule2) -}
+e5875966b74dad2d29772660b8a75e33
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Main"#) -}
+23b03bd7d075a00f5ad1ee10e6add7b8
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS Main.$trModule4) -}
+d026be77cb9ced20e35a61514e0458aa
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("main"#) -}
+fee626ba0ca2660f617910c090283133
+  main :: GHC.Types.IO ()
+  {- Arity: 1,
+     Unfolding: InlineRule (0, True, True)
+                Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
+0691ed9fbb300074c4389934b3c5fd7f
+  main1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1,
+     Unfolding: (Test.Tasty.CmdLine.defaultMainWithIngredients1
+                   Test.Tasty.defaultIngredients
+                   Main.tests) -}
+787df50e6b38032af790855babf00770
+  main10 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main13
+                   Main.main11
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+3615c14313a4da458b234ff72580684a
+  main100 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main109
+                   Main.main101
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+c5f0600e79425db14fff7c78f934ad72
+  main101 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case GHC.Classes.$fEq[]_$c==
+                        @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                        Main.$s$fEqEither
+                        Main.main_eta8
+                        Main.main_eta7 of wild {
+                   GHC.Types.False
+                   -> case Main.main102 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) }) -}
+40d245afc095d609adbdb2c3b8827b3f
+  main102 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+b3a940c566468601f40a17665e015dd8
+  main103 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main104
+                   (GHC.Types.[]
+                      @ (Data.Either.Either
+                           SubsInterpreter.Error SubsInterpreter.Value))) -}
+8884707b12f6390e816d033813a3c859
+  main104 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.FalseVal) -}
+4cf48050a7abbabeda68849394b7d1ab
+  main105 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.TrueVal) -}
+f8641039ca0b451188fec9b8c73b7d00
+  main106 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main107
+                   (GHC.Types.[]
+                      @ (Data.Either.Either
+                           SubsInterpreter.Error SubsInterpreter.Value))) -}
+fef4590d15889986ab887869db14806e
+  main107 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr SubsAst.FalseConst)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+b80b6f2c52b8ae5f26d03638189d8210
+  main108 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr SubsAst.TrueConst)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+04c33203a20d407c6474ae186b0b3afb
+  main109 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main110) -}
+dabd7c6f844be34874b2a7f4bdb73d18
+  main11 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case GHC.Base.eqString
+                        (GHC.Types.[] @ GHC.Types.Char)
+                        (GHC.Types.[] @ GHC.Types.Char) of wild {
+                   GHC.Types.False
+                   -> case Main.main12 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) }) -}
+3df54ed4d48ae91bcc449469596e7ffd
+  main110 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Boolean Tests"#) -}
+cdca8797e0a8a60f7310388515b34517
+  main111 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main112) -}
+60a841ae767726d1fc2aa8204caf4c3a
+  main112 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Tests"#) -}
+0809704de813a2ffa6dacf3e939e0477
+  main113 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1,
+     Unfolding: (GHC.TopHandler.runMainIO1
+                   @ ()
+                   Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R))) -}
+c6fb99b1ac4b046c3d818dfe9d9f0dca
+  main12 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+8ae29b19efdeb7d2c2fc6006b28cc973
+  main13 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main14) -}
+c35c8ff565a9ad85f28fafc1d428b98a
+  main14 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Other Tests"#) -}
+ebbd2114528a7efd68103479b3aa5994
+  main15 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main43
+                   Main.main16
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+f67f3f426de50a6352959125a518ba48
+  main16 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case GHC.Classes.$fEq[]_$c==
+                        @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                        Main.$s$fEqEither
+                        Main.main_eta
+                        Main.main_eta1 of wild {
+                   GHC.Types.False
+                   -> case Main.main17 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) }) -}
+4635739723ac1646c046642e98bb0f3d
+  main17 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+b2f22582cb6162d865f378cfa744a07b
+  main18 ::
+    [Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                   Main.main19
+                   (GHC.Types.[]
+                      @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value))) -}
+000c063649c3df649f97cd07d72abc28
+  main19 :: Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ [GHC.Types.Char]
+                   @ SubsInterpreter.Value
+                   Main.main20) -}
+1b26e9e4f4a07a1744b78826f90c096e
+  main2 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main100
+                   Main.main3) -}
+a49af3433e5684e8fe69eb262e6f5e8e
+  main20 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main21) -}
+646d3852223148dbf158b1b97b8cc7f9
+  main21 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Error"#) -}
+148485725c7368673b1ab0aa456ee5ab
+  main22 :: Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ [GHC.Types.Char]
+                   @ SubsInterpreter.Value
+                   Main.main23) -}
+6baf9746c721df00302c6956256b88fc
+  main23 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsInterpreter.IntVal Main.main24) -}
+6565a6c0eff40b920070503380b1e62a
+  main24 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 3#) -}
+a2986b78586895765aa21441206e1921
+  main25 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main26
+                   (GHC.Types.[]
+                      @ (Data.Either.Either
+                           SubsInterpreter.Error SubsInterpreter.Value))) -}
+6846276ed19226cae0006eb8c8f2807e
+  main26 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main27)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+6aad02a19d39ae09500a29187d0450dc
+  main27 :: SubsAst.Expr
+  {- Strictness: m9,
+     Unfolding: (SubsAst.Call Main.main34 Main.main28) -}
+47ad1e24b6212e97bd0ab7422ca20845
+  main28 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.: @ SubsAst.Expr Main.main32 Main.main29) -}
+46ac06c3f778234c6301b61e6e11e492
+  main29 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsAst.Expr
+                   Main.main30
+                   (GHC.Types.[] @ SubsAst.Expr)) -}
+f5f080c1a49e61cba8d3e487e4a0cb6e
+  main3 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main92
+                   Main.main4) -}
+7c5baa09a12ea8670ae5aecb2ba7d922
+  main30 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main31) -}
+72f65d31b7281082595a928c2bc04463
+  main31 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 2#) -}
+83a59a421fbc1853d578b5492767336e
+  main32 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main33) -}
+ddb607b8a64465925f1fbdd44f945dd2
+  main33 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 6#) -}
+318eaa28344d2cedbca54ff36772394d
+  main34 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main35) -}
+fcc149452f4759620c3c691170c5ce56
+  main35 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("/"#) -}
+95b67e84a7680c212edd587913ae0f38
+  main36 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main37)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+6a6c061be3811ef8c54f38ba8482e6b1
+  main37 :: SubsAst.Expr
+  {- Strictness: m9,
+     Unfolding: (SubsAst.Call Main.main41 Main.main38) -}
+54313786824d24bebbca7d38f2df15a6
+  main38 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.: @ SubsAst.Expr Main.main39 Main.main29) -}
+0f95cdc4da4b96708e13fae2b162be64
+  main39 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main40) -}
+8b21c4bdd27651445307607a96a560f5
+  main4 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main83
+                   Main.main5) -}
+d3f51aefb39f56bc65ebd223cc0bfc65
+  main40 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 1#) -}
+d05f46660b47587cc4e6b9bc1d82031c
+  main41 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main42) -}
+b3462f5d6b32a8128bcbff6966715844
+  main42 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("+"#) -}
+f6a7d44366724298be4960e593b14f1a
+  main43 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main44) -}
+d494d5f3912b52aacaf4132372005406
+  main44 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Functions calls"#) -}
+03de7bbbebaf4c58886875323c50668d
+  main45 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main55
+                   Main.main46
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+ce811ed7b03418dc7f0c8aeaa3116647
+  main46 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case Main.main_eta2 of wild {
+                   Data.Either.Left a1
+                   -> case Main.main50 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   Data.Either.Right a1
+                   -> case SubsInterpreter.$fEqValue_$c== a1 Main.main47 of wild1 {
+                        GHC.Types.False
+                        -> case Main.main50 s
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                           of {}
+                        GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) } }) -}
+3573dbd8e6216d8cbeb7ae04094d073f
+  main47 :: SubsInterpreter.Value
+  {- Strictness: m5,
+     Unfolding: (SubsInterpreter.StringVal Main.main48) -}
+43aed6812ab1f7c7d4f9a8c9b9a0f223
+  main48 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main49) -}
+b091d83c1fc528bf9c05dd20e2f627a8
+  main49 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("weTesting"#) -}
+a396005b271aaa1b5b70dfdb553b4802
+  main5 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main78
+                   Main.main6) -}
+b510a0f2cb4a89a920942e38de4205fe
+  main50 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+e91634993de8e4799e4b9409460af7b9
+  main51 :: SubsAst.Expr
+  {- Strictness: m11,
+     Unfolding: (SubsAst.Comma Main.main53 Main.main52) -}
+e2dbe67048699c41d198313341af3a64
+  main52 :: SubsAst.Expr
+  {- Strictness: m2, Unfolding: (SubsAst.String Main.main48) -}
+b38437066630bdc257dd9d41013888f8
+  main53 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main54) -}
+cdf2ef8d3d0ad798eeb3a5c4276583bd
+  main54 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 82#) -}
+492613a5bd2749560e95650ba9008b3d
+  main55 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main56) -}
+4fb69fa6d0f18aca30c6900f445e56b2
+  main56 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Comma Tests"#) -}
+4a5ff0a6a360b553770230a2c04cd257
+  main57 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main76
+                   Main.main58
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+ce6c911c4b28cc6c0382dcb47f3d7b02
+  main58 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case Main.main_eta3 of wild {
+                   Data.Either.Left a1
+                   -> case Main.main68 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   Data.Either.Right a1
+                   -> case SubsInterpreter.$fEqValue_$c== a1 Main.main59 of wild1 {
+                        GHC.Types.False
+                        -> case Main.main68 s
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                           of {}
+                        GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) } }) -}
+fb237aefe8e88bf012cd4d20c42f7b5b
+  main59 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m6,
+     Unfolding: (SubsInterpreter.ArrayVal Main.main60) -}
+6615d53ad988ae61b0c5c4175fb52574
+  main6 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main57
+                   Main.main7) -}
+edcccc6c43c6815ff0122f9b271121b9
+  main60 :: [SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsInterpreter.Value
+                   Main.main66
+                   Main.main61) -}
+614401b8a86e7505318bd21413d976e7
+  main61 :: [SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsInterpreter.Value
+                   Main.main65
+                   Main.main62) -}
+497bf55565ad1ecc8b702b2f59a725e8
+  main62 :: [SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsInterpreter.Value
+                   Main.main64
+                   Main.main63) -}
+63f0951d79c43f4e923d1faf2bea4c9f
+  main63 :: [SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsInterpreter.Value
+                   Main.main23
+                   (GHC.Types.[] @ SubsInterpreter.Value)) -}
+03de58b7039c90a2381fd693b9e9367f
+  main64 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsInterpreter.IntVal Main.main31) -}
+a6c59ac38156f8b4ec388d4f9bd49e83
+  main65 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsInterpreter.IntVal Main.main40) -}
+337f38b5a65bdc1a0441407744f859c2
+  main66 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsInterpreter.IntVal Main.main67) -}
+6208efd71e6aacbf7c62f93b02d37d65
+  main67 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
+d8c119aa610d86e50b4a08d214c7ca8d
+  main68 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+ec4d22cf2ab2c1d65cb297aa385fe7eb
+  main69 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m3,
+     Unfolding: (SubsAst.Array Main.main70) -}
+0ebfef4d61d3984109494340086839bf
+  main7 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main45
+                   Main.main8) -}
+327d9109c5df960c116fe7b96d8936d5
+  main70 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.: @ SubsAst.Expr Main.main75 Main.main71) -}
+5d4a69de7b7901e37ede26cfcbb3d5e5
+  main71 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.: @ SubsAst.Expr Main.main39 Main.main72) -}
+42eff894748eeecbe87b77fa752646d0
+  main72 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.: @ SubsAst.Expr Main.main30 Main.main73) -}
+efe6c8d24beffb32884ac0d23dbfa4cb
+  main73 :: [SubsAst.Expr]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ SubsAst.Expr
+                   Main.main74
+                   (GHC.Types.[] @ SubsAst.Expr)) -}
+45a702ce42a09c2509e1dacc751767e8
+  main74 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main24) -}
+c5520624109dd44adf9e369853342b88
+  main75 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main67) -}
+1975b534116bc3f26328539aabd8a898
+  main76 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main77) -}
+87b9751fb1b9b6ecce8abeca3be965a2
+  main77 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Array Tests"#) -}
+6961acc88a193bb337cc083445e40b3e
+  main78 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main81
+                   Main.main79
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+5488ffcab8495354b4ffa10752007ba5
+  main79 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case Main.main_eta4 of wild {
+                   Data.Either.Left a1
+                   -> case Main.main80 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   Data.Either.Right a1
+                   -> case SubsInterpreter.$fEqValue_$c==
+                             a1
+                             SubsInterpreter.UndefinedVal of wild1 {
+                        GHC.Types.False
+                        -> case Main.main80 s
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                           of {}
+                        GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) } }) -}
+5e844a755258f098ba3eee8da9177af5
+  main8 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main15
+                   Main.main9) -}
+a112d8d59a383e5232cf2fe5e7291097
+  main80 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+19aa35da4a0804ff1901598326852656
+  main81 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main82) -}
+014f184e54d68f39f7117ab1c7d4db3a
+  main82 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Undefined Tests"#) -}
+e8ee0295ae32bb0ccdfa99227d488dcb
+  main83 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main90
+                   Main.main84
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+0b0b00080753f95cabca11944436b52b
+  main84 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case Main.main_eta5 of wild {
+                   Data.Either.Left a1
+                   -> case Main.main88 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   Data.Either.Right a1
+                   -> case SubsInterpreter.$fEqValue_$c== a1 Main.main85 of wild1 {
+                        GHC.Types.False
+                        -> case Main.main88 s
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                           of {}
+                        GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) } }) -}
+67d95408f8c47564ed5f0cc3ce48ec88
+  main85 :: SubsInterpreter.Value
+  {- Strictness: m5,
+     Unfolding: (SubsInterpreter.StringVal Main.main86) -}
+0ce7d9b68c73095b7df72352dce0c24e
+  main86 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main87) -}
+91d30d463963a7a91706227891c8bc7a
+  main87 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("lol"#) -}
+5304c097bd0f1e0b3a5b440240219529
+  main88 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+342b192cd359048725dc18b9facd6868
+  main89 :: SubsAst.Expr
+  {- Strictness: m2, Unfolding: (SubsAst.String Main.main86) -}
+0b883bd59453a9842f42f755f5c2c0ba
+  main9 :: [Test.Tasty.Core.TestTree]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Test.Tasty.Core.TestTree
+                   Main.main10
+                   (GHC.Types.[] @ Test.Tasty.Core.TestTree)) -}
+92ab5247e2b630c73ce6b61617a1046a
+  main90 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main91) -}
+b1a65888061da9a3a2f175239a3ae04d
+  main91 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("String Tests"#) -}
+589b3d51bd4a1dc773c252b633950ebb
+  main92 :: Test.Tasty.Core.TestTree
+  {- Unfolding: (Test.Tasty.Core.SingleTest
+                   @ Test.Tasty.HUnit.TestCase
+                   Test.Tasty.HUnit.$fIsTestTestCase
+                   Main.main98
+                   Main.main93
+                     `cast`
+                   (Sym (GHC.Types.N:IO[0]
+                             <[GHC.Types.Char]>_R) ; Sym (Test.Tasty.HUnit.N:TestCase[0]))) -}
+892ec07a1354ab7b7027b427097c5950
+  main93 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case Main.main_eta6 of wild {
+                   Data.Either.Left a1
+                   -> case Main.main96 s
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                      of {}
+                   Data.Either.Right a1
+                   -> case SubsInterpreter.$fEqValue_$c== a1 Main.main94 of wild1 {
+                        GHC.Types.False
+                        -> case Main.main96 s
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+                           of {}
+                        GHC.Types.True -> (# s, GHC.Types.[] @ GHC.Types.Char #) } }) -}
+d91bb4804fd1fc03695ca15716f00ac0
+  main94 :: SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsInterpreter.IntVal Main.main95) -}
+51bec82ea653be43a90dfc9b6d0299fe
+  main95 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 37#) -}
+220385fa8b6dec3d45904ae17cb1e960
+  main96 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <B,U>x -}
+c8e724f1dcceb016a22d1dce557c5fc4
+  main97 :: SubsAst.Expr
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (SubsAst.Number Main.main95) -}
+d0747f4c33a3da39774f1be98c7325e2
+  main98 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# Main.main99) -}
+afaf6190c8e0ded7180a64d99e9644ec
+  main99 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Number Tests"#) -}
+fde70315a00993dc5cf90ad59fe746a3
+  main_eta ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main36
+                   Main.main25) -}
+0c843724749346a86e758ac99ac70ac5
+  main_eta1 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either [GHC.Types.Char] SubsInterpreter.Value)
+                   Main.main22
+                   Main.main18) -}
+b30ff5e5b21d5e999bd02e54c817d173
+  main_eta2 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main51)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+4d891ff647bfc753a6faa02ff4aa172d
+  main_eta3 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main69)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+36330584ec9898d2e0c16bc60d3e5a24
+  main_eta4 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr SubsAst.Undefined)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+6ee86a029d9ea33f559d4a0447343ca7
+  main_eta5 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main89)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+23671d4b8466c3adb9c08c23945851f8
+  main_eta6 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Unfolding: (case (SubsInterpreter.evalExpr Main.main97)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+6241fa64e5fdf7de38094d416f901144
+  main_eta7 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main105
+                   Main.main103) -}
+92df66cdd0b42c1c37d6fcc32bee12c9
+  main_eta8 ::
+    [Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   Main.main108
+                   Main.main106) -}
+6364f17999979ccdbebede0288203abe
+  tests :: Test.Tasty.Core.TestTree
+  {- Strictness: m2,
+     Unfolding: (Test.Tasty.Core.TestGroup Main.main111 Main.main2) -}
+"SPEC/Main $fEqEither @ [Char] @ Value" [orphan] forall (v1 :: GHC.Classes.Eq
+                                                                 SubsInterpreter.Value)
+                                                        (v :: GHC.Classes.Eq [GHC.Types.Char])
+  Data.Either.$fEqEither @ [GHC.Types.Char]
+                         @ SubsInterpreter.Value
+                         v
+                         v1
+  = Main.$s$fEqEither
+"SPEC/Main $fEqEither_$c/= @ [Char] @ Value" [orphan] forall ($dEq1 :: GHC.Classes.Eq
+                                                                         SubsInterpreter.Value)
+                                                             ($dEq :: GHC.Classes.Eq
+                                                                        [GHC.Types.Char])
+  Data.Either.$fEqEither_$c/= @ [GHC.Types.Char]
+                              @ SubsInterpreter.Value
+                              $dEq
+                              $dEq1
+  = Main.$s$fEqEither_$s$fEqEither_$c/=
+"SPEC/Main $fShowEither @ [Char] @ Value" [orphan] forall (v1 :: GHC.Show.Show
+                                                                   SubsInterpreter.Value)
+                                                          (v :: GHC.Show.Show [GHC.Types.Char])
+  Data.Either.$fShowEither @ [GHC.Types.Char]
+                           @ SubsInterpreter.Value
+                           v
+                           v1
+  = Main.$s$fShowEither
+"SPEC/Main $fShowEither_$cshowsPrec @ [Char] @ Value" [orphan] [0] forall (w1 :: GHC.Show.Show
+                                                                                   SubsInterpreter.Value)
+                                                                          (w :: GHC.Show.Show
+                                                                                  [GHC.Types.Char])
+  Data.Either.$fShowEither_$cshowsPrec @ [GHC.Types.Char]
+                                       @ SubsInterpreter.Value
+                                       w
+                                       w1
+  = Main.$s$fShowEither_$cshowsPrec
+"SPEC/Main $fShow[] @ (Either Error Value)" [orphan] forall (v :: GHC.Show.Show
+                                                                    (Data.Either.Either
+                                                                       SubsInterpreter.Error
+                                                                       SubsInterpreter.Value))
+  GHC.Show.$fShow[] @ (Data.Either.Either
+                         SubsInterpreter.Error SubsInterpreter.Value)
+                    v
+  = Main.$s$fShow[]
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

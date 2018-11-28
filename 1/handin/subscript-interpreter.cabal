@@ -1,0 +1,56 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 18956da1f772e56393dc87059014d0ff64371af570e7cede175e14f3ff21061a
+
+name:           subscript-interpreter
+version:        0.0.0
+build-type:     Simple
+cabal-version:  >= 1.10
+
+library
+  exposed-modules:
+      SubsInterpreter
+      SubsAst
+  other-modules:
+      Main
+      Paths_subscript_interpreter
+  hs-source-dirs:
+      src
+  build-depends:
+      base
+    , containers
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010
+
+executable subscript-interpreter
+  main-is: Main.hs
+  other-modules:
+      SubsAst
+      SubsInterpreter
+      Paths_subscript_interpreter
+  hs-source-dirs:
+      src
+  build-depends:
+      base
+    , containers
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010
+
+test-suite my-test-suite
+  type: exitcode-stdio-1.0
+  main-is: Test.hs
+  other-modules:
+      Paths_subscript_interpreter
+  hs-source-dirs:
+      tests
+  build-depends:
+      base
+    , containers
+    , subscript-interpreter
+    , tasty
+    , tasty-hunit
+  default-language: Haskell2010

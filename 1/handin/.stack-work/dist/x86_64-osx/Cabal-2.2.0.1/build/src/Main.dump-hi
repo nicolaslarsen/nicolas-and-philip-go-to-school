@@ -1,0 +1,167 @@
+
+==================== FINAL INTERFACE ====================
+2018-10-04 02:28:23.806058 UTC
+
+interface subscript-interpreter-0.0.0:Main 8043
+  interface hash: 8441c4f6ff31373fd4c2d1d5a1e5773d
+  ABI hash: b512ce0a16139b4e90847ea331711aaa
+  export-list hash: 9de9bf55c4f040b2908a3d56abc04016
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 8f52f5e5828eb5661f405d8d9ca450ec
+  opt_hash: 14e536840aca4e889cad654e6f9b79c1
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Main.main
+module dependencies: SubsAst SubsInterpreter
+package dependencies: array-0.5.2.0 base-4.11.1.0*
+                      containers-0.5.11.0 deepseq-1.4.3.0 ghc-prim-0.5.2.0
+                      integer-gmp-1.0.2.0
+orphans: base-4.11.1.0:GHC.Float base-4.11.1.0:GHC.Base
+family instance modules: base-4.11.1.0:Control.Applicative
+                         base-4.11.1.0:Data.Complex base-4.11.1.0:Data.Functor.Compose
+                         base-4.11.1.0:Data.Functor.Const
+                         base-4.11.1.0:Data.Functor.Identity
+                         base-4.11.1.0:Data.Functor.Product base-4.11.1.0:Data.Functor.Sum
+                         base-4.11.1.0:Data.Monoid base-4.11.1.0:Data.Semigroup
+                         base-4.11.1.0:Data.Semigroup.Internal base-4.11.1.0:Data.Version
+                         base-4.11.1.0:Data.Void base-4.11.1.0:GHC.Exts
+                         base-4.11.1.0:GHC.Generics base-4.11.1.0:GHC.IO.Exception
+                         containers-0.5.11.0:Data.Map.Internal
+                         containers-0.5.11.0:Data.Set.Internal
+import  -/  base-4.11.1.0:Data.Either 39d922b371c4c52d426e9ee66de8371a
+import  -/  base-4.11.1.0:Data.List 83dc843e47bfc0c5af51e19c6f3476d5
+import  -/  base-4.11.1.0:Data.OldList 1b35aa3c6805ff7c8887a35a866fe006
+import  -/  base-4.11.1.0:GHC.Base 604111500e81281298777e721c75643b
+import  -/  base-4.11.1.0:GHC.Err 5e26aa744981f14e0f1e4d29c44ac52e
+import  -/  base-4.11.1.0:GHC.Show 73be67392447c974f19c3befd83c46c0
+import  -/  base-4.11.1.0:Prelude 0750c25585e2b797cd78291d423d39dd
+import  -/  base-4.11.1.0:System.Environment 052ec29b676ed8efc1decd97140a27e3
+import  -/  base-4.11.1.0:System.IO ce09fff7d191d14067bddc2efd9b53a4
+import  -/  base-4.11.1.0:Text.Read 6c02630607b565ffcb34e8127673989b
+import  -/  ghc-prim-0.5.2.0:GHC.Types d9b3023de7feae4a5308d643da5543f7
+import  -/  SubsInterpreter 8e3a074eb1da8ff16dbfe49a991c530c
+  exports: fafea9c6eef7568c5661d93ba59b459a
+  ArrayVal 8caf623059625b3626ecdf8650e66a46
+  FalseVal 2fcff26be30f5d0c850a492ad95e19bd
+  IntVal d7861cdfaf6f90dc853c9aec7afc6279
+  StringVal 777558a528fb6ddb2b4276ad6d63d110
+  TrueVal 8dfc1b2330affdac93ec257c670bfff0
+  UndefinedVal 5334b6c5a947e4029317f74a25b7edca
+  Value 420b787d739ebcd819ef2dcb6901d357
+  runExpr d45c086eb604b76a4d9239ef2e07590d
+e24fcf725d90845abb9fc2a9be442692
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module Main.$trModule3 Main.$trModule1) -}
+cc3fd9204abc22199607150a545db5ec
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS Main.$trModule2) -}
+c860da8750e05740b348a7c6409bc935
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Main"#) -}
+10838317da490ada005f5a0288245e5b
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS Main.$trModule4) -}
+86c1a401862a6cbc05ca0d3f818cfb9e
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("subscript-interpreter-0.0.0-cqNtI5ej3dJQAhsvSA4ab"#) -}
+8333e23c984fd58ceeb231c2ef371a6b
+  main :: GHC.Types.IO ()
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: InlineRule (0, True, True)
+                Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
+007542e26f902f320dc46f8e2cfe20ee
+  main1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld) ->
+                 case System.Environment.getArgs1 s of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of wild {
+                   []
+                   -> case Main.main6
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                      of {}
+                   : file ds
+                   -> case ds of wild1 {
+                        []
+                        -> case GHC.IO.Handle.FD.openFile1
+                                  file
+                                  GHC.IO.IOMode.ReadMode
+                                  ipv of ds2 { (#,#) ipv2 ipv3 ->
+                           case GHC.IO.Handle.Text.hGetContents1
+                                  ipv3
+                                  ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                           case Text.Read.readEither8
+                                  @ SubsAst.Expr
+                                  (Text.ParserCombinators.ReadP.run
+                                     @ SubsAst.Expr
+                                     (SubsAst.$fReadExpr1
+                                        Text.ParserCombinators.ReadPrec.minPrec
+                                        @ SubsAst.Expr
+                                        (Text.Read.readEither7 @ SubsAst.Expr))
+                                     ipv5) of wild2 {
+                             []
+                             -> case Main.main5
+                                ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                                of {}
+                             : x ds4
+                             -> case ds4 of wild3 {
+                                  []
+                                  -> case (SubsInterpreter.evalExpr x)
+                                            `cast`
+                                          (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                                            SubsInterpreter.initialContext of wild4 {
+                                       Data.Either.Left er
+                                       -> case Main.main4 er
+                                          ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                                          of {}
+                                       Data.Either.Right ds5
+                                       -> case ds5 of wild5 { (,) a ds6 ->
+                                          GHC.IO.Handle.Text.hPutStr2
+                                            GHC.IO.Handle.FD.stdout
+                                            (GHC.CString.unpackAppendCString#
+                                               Main.main3
+                                               (Main.nice a))
+                                            GHC.Types.True
+                                            ipv4 } }
+                                  : ipv6 ipv7
+                                  -> case Main.main2
+                                     ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                                     of {} } } } }
+                        : ipv2 ipv3
+                        -> case Main.main6
+                           ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                           of {} } } }) -}
+b00e14c49de6447fcaa62ce52693c308
+  main2 :: SubsAst.Expr
+  {- Strictness: x -}
+5172e1294107f2a6bbe05f2367f9e3c3
+  main3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Result is: "#) -}
+d3fffea5936156178b1f9a65f06477fa
+  main4 :: SubsInterpreter.Error -> GHC.Types.IO ()
+  {- Arity: 1, Strictness: <B,U>x -}
+8099f0c11df22ab4d64c12e266d2cdb0
+  main5 :: SubsAst.Expr
+  {- Strictness: x -}
+fa6fe3ce5472032edab300e64bb9ec06
+  main6 :: GHC.Types.IO ()
+  {- Strictness: x -}
+f15972c5f735b3f1a4b02144b563e374
+  nice :: SubsInterpreter.Value -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U> -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

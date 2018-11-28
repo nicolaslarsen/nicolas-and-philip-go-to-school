@@ -1,0 +1,8 @@
+Configuring wcwidth-0.0.2...
+clang: warning: argument unused during compilation: '-nopie' [-Wunused-command-line-argument]
+Preprocessing library for wcwidth-0.0.2..
+Building library for wcwidth-0.0.2..
+[1 of 1] Compiling Data.Char.WCWidth ( Data/Char/WCWidth.hs, .stack-work/dist/x86_64-osx/Cabal-2.2.0.1/build/Data/Char/WCWidth.o )
+ignoring (possibly broken) abi-depends field for packages
+Installing library in /Users/philiplassen/.stack/snapshots/x86_64-osx/lts-12.6/8.4.3/lib/x86_64-osx-ghc-8.4.3/wcwidth-0.0.2-Df9Czl4wr4mFBBYPyfd34r
+Registering library for wcwidth-0.0.2..

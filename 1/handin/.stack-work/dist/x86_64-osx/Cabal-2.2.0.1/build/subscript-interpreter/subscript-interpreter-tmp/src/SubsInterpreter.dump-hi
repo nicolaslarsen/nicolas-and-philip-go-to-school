@@ -1,0 +1,1446 @@
+
+==================== FINAL INTERFACE ====================
+2018-10-14 14:55:18.843441 UTC
+
+interface main:SubsInterpreter 8043
+  interface hash: dc3334e3afc8cd70b66aa54dc8e5b24a
+  ABI hash: caae4b365f9bb2d6d23a085cdac480e9
+  export-list hash: 7e550c7c409666aa3f23d25ea9ad546d
+  orphan hash: 7f189f3b0bdf3537bdbfb8661ea686b4
+  flag hash: 63dc788d73c869a7cbd91cd2b8d6f9bf
+  opt_hash: 14e536840aca4e889cad654e6f9b79c1
+  hpc_hash: 93b885adfe0da089cdf634904fd59f71
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  SubsInterpreter.runExpr
+  SubsInterpreter.Value{SubsInterpreter.ArrayVal SubsInterpreter.FalseVal SubsInterpreter.IntVal SubsInterpreter.StringVal SubsInterpreter.TrueVal SubsInterpreter.UndefinedVal}
+module dependencies: SubsAst
+package dependencies: array-0.5.2.0 base-4.11.1.0*
+                      containers-0.5.11.0 deepseq-1.4.3.0 ghc-prim-0.5.2.0
+                      integer-gmp-1.0.2.0
+orphans: base-4.11.1.0:GHC.Float base-4.11.1.0:GHC.Base
+family instance modules: base-4.11.1.0:Control.Applicative
+                         base-4.11.1.0:Data.Complex base-4.11.1.0:Data.Functor.Compose
+                         base-4.11.1.0:Data.Functor.Const
+                         base-4.11.1.0:Data.Functor.Identity
+                         base-4.11.1.0:Data.Functor.Product base-4.11.1.0:Data.Functor.Sum
+                         base-4.11.1.0:Data.Monoid base-4.11.1.0:Data.Semigroup
+                         base-4.11.1.0:Data.Semigroup.Internal base-4.11.1.0:Data.Version
+                         base-4.11.1.0:Data.Void base-4.11.1.0:GHC.Exts
+                         base-4.11.1.0:GHC.Generics base-4.11.1.0:GHC.IO.Exception
+                         containers-0.5.11.0:Data.Map.Internal
+                         containers-0.5.11.0:Data.Set.Internal
+import  -/  base-4.11.1.0:Control.Monad c5f960c67d822497578bffbd3e4c01cf
+import  -/  base-4.11.1.0:Data.Either 39d922b371c4c52d426e9ee66de8371a
+import  -/  base-4.11.1.0:Data.Foldable 8ed35c38958063956af33c935ea03444
+import  -/  base-4.11.1.0:GHC.Base 604111500e81281298777e721c75643b
+import  -/  base-4.11.1.0:GHC.List 1e4357702d8d00cded0703bd293e50e8
+import  -/  base-4.11.1.0:GHC.Num 8e54b26dce4495382dc4b50cf36ab754
+import  -/  base-4.11.1.0:GHC.Real b4beb0389ba1ad5d9640aae67848c5d3
+import  -/  base-4.11.1.0:GHC.Show 73be67392447c974f19c3befd83c46c0
+import  -/  base-4.11.1.0:Prelude 0750c25585e2b797cd78291d423d39dd
+import  -/  containers-0.5.11.0:Data.Map 0dbdaec812ef695a364aa6c69e7f7d53
+import  -/  containers-0.5.11.0:Data.Map.Internal 0150e210d0ae8df0f3a0669d5e32d8fa
+import  -/  ghc-prim-0.5.2.0:GHC.Classes 122abfcd7450c6c11602933c9ca5f80d
+import  -/  SubsAst c74540fca0b1eb5bea5fbea0c832250b
+  exports: 3536a714d730113149456556ed1aef81
+  ACBody 69a6ca9a1652e9fc81fe82533e94ff25
+  ACFor b63defb24c3d4a2b9b2481b126a37d2b
+  ACIf 7f95b660f08b1ae0ccce11527e10657b
+  Array c06af8863f8e972d3773d5e089c06d9a
+  Assign 7c47b397f9cbb99687b00bf3b319a99a
+  Call a35c682c09e3d41d4cfd5e5b776781ff
+  Comma fa9c1cf4f8c9f74de1c8f587a9e38221
+  Compr 29ae1d744a4a0e984e7cce4bd16594d1
+  Expr 2e836210eba0ae56be4e572aacdfe5aa
+  FalseConst fca628d18443db6b77acfab8910a3af3
+  FunName 04b1e6ba22bb97dad522f9d9f612715b
+  Ident db1fda3ab649fdd4db779cae6905afc1
+  Number 19f2bfe144b3e239b78c9a126b5dfa85
+  String 744c9d90b51ba4c091b5c67f37561525
+  TrueConst d40d060ca2655356c03bdc7e3a15243c
+  Undefined 80390a062d8ec4476b51df54f3d10fad
+  Var 4eb29c0817d5c3fac9d08fd2c8eb2b5e
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fApplicativeSubsM :: GHC.Base.Applicative SubsInterpreter.SubsM
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SubsInterpreter.SubsM
+                  SubsInterpreter.$fFunctorSubsM
+                  SubsInterpreter.$fApplicativeSubsM5
+                    `cast`
+                  (forall (a :: <*>_N).
+                   <a>_R ->_R Sym (SubsInterpreter.N:SubsM[0] <a>_R))
+                  (\ @ a @ b -> SubsInterpreter.$fApplicativeSubsM4 @ b @ a)
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <SubsInterpreter.SubsM (a -> b)>_R
+                   ->_R <SubsInterpreter.SubsM a>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <b>_R))
+                  SubsInterpreter.$fApplicativeSubsM3
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N) (c :: <*>_N).
+                   <a -> b -> c>_R
+                   ->_R <SubsInterpreter.SubsM a>_R
+                   ->_R <SubsInterpreter.SubsM b>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <c>_R))
+                  SubsInterpreter.$fApplicativeSubsM2
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <SubsInterpreter.SubsM a>_R
+                   ->_R <SubsInterpreter.SubsM b>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <b>_R))
+                  SubsInterpreter.$fApplicativeSubsM1
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <SubsInterpreter.SubsM a>_R
+                   ->_R <SubsInterpreter.SubsM b>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <a>_R)) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fApplicativeSubsM1 ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (a, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><S,1*U(U,U)>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: SubsInterpreter.SubsM b)
+                   (w2 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w2 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$c<* @ a @ b w w1 ww1 ww2 }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fApplicativeSubsM2 ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><S,1*U(U,U)>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: SubsInterpreter.SubsM b)
+                   (w2 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w2 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$c*> @ a @ b w w1 ww1 ww2 }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fApplicativeSubsM3 ::
+    (a -> b -> c)
+    -> SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (c, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,1*C1(C1(U))><C(S),1*C1(U)><L,1*C1(U)><S,1*U(U,U)>,
+     Inline: [0],
+     Unfolding: InlineRule (4, True, False)
+                (\ @ a
+                   @ b
+                   @ c
+                   (w :: a -> b -> c)
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (w2 :: SubsInterpreter.SubsM b)
+                   (w3 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w3 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$cliftA2 @ a @ b @ c w w1 w2 ww1 ww2 }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fApplicativeSubsM4 ::
+    SubsInterpreter.SubsM (a -> b)
+    -> SubsInterpreter.SubsM a
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><S,1*U(U,U)>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ b
+                   @ a
+                   (w :: SubsInterpreter.SubsM (a -> b))
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (w2 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w2 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$c<*> @ b @ a w w1 ww1 ww2 }) -}
+9e144ddcc35f51ee003cec1fd38c169b
+  $fApplicativeSubsM5 ::
+    a
+    -> SubsInterpreter.Context
+    -> Data.Either.Either
+         SubsInterpreter.Error (a, SubsInterpreter.Env)
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U(U,A)>m2,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a (x :: a) (c :: SubsInterpreter.Context) ->
+                 case c of wild { (,) env ds ->
+                 Data.Either.Right
+                   @ SubsInterpreter.Error
+                   @ (a, SubsInterpreter.Env)
+                   (x, env) }) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fEqValue :: GHC.Classes.Eq SubsInterpreter.Value
+  DFunId
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SubsInterpreter.Value
+                  SubsInterpreter.$fEqValue_$c==
+                  SubsInterpreter.$fEqValue_$c/= -}
+d9a7c81ab59e8c4806658444081122aa
+  $fEqValue_$c/= ::
+    SubsInterpreter.Value -> SubsInterpreter.Value -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Inline: (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ (x :: SubsInterpreter.Value) (y :: SubsInterpreter.Value) ->
+                 case SubsInterpreter.$fEqValue_$c== x y of wild {
+                   GHC.Types.False -> GHC.Types.True
+                   GHC.Types.True -> GHC.Types.False }) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fEqValue_$c== ::
+    SubsInterpreter.Value -> SubsInterpreter.Value -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U> -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fFunctorSubsM :: GHC.Base.Functor SubsInterpreter.SubsM
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SubsInterpreter.SubsM
+                  (\ @ a @ b -> SubsInterpreter.$fFunctorSubsM2 @ b @ a)
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <a -> b>_R
+                   ->_R <SubsInterpreter.SubsM a>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <b>_R))
+                  SubsInterpreter.$fFunctorSubsM1
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <a>_R
+                   ->_R <SubsInterpreter.SubsM b>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <a>_R)) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fFunctorSubsM1 ::
+    a
+    -> SubsInterpreter.SubsM b
+    -> SubsInterpreter.Context
+    -> Data.Either.Either
+         SubsInterpreter.Error (a, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,U><C(S),1*C1(U)><S,1*U(U,U)>,
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   @ b
+                   (x :: a)
+                   (eta :: SubsInterpreter.SubsM b)
+                   (eta1 :: SubsInterpreter.Context) ->
+                 case eta1 of wild { (,) env penv ->
+                 case eta `cast` (SubsInterpreter.N:SubsM[0] <b>_R)
+                        (env, penv) of wild1 {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (a, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild2 { (,) a1 newEnv ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ (a, SubsInterpreter.Env)
+                        (x, newEnv) } } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fFunctorSubsM2 ::
+    (a -> b)
+    -> SubsInterpreter.SubsM a
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,1*C1(U)><C(S),1*C1(U)><S,1*U(U,U)>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ b
+                   @ a
+                   (w :: a -> b)
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (w2 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w2 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$cfmap @ b @ a w w1 ww1 ww2 }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fMonadSubsM :: GHC.Base.Monad SubsInterpreter.SubsM
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SubsInterpreter.SubsM
+                  SubsInterpreter.$fApplicativeSubsM
+                  SubsInterpreter.$fMonadSubsM2
+                    `cast`
+                  (forall (a :: <*>_N) (b :: <*>_N).
+                   <SubsInterpreter.SubsM a>_R
+                   ->_R <a -> SubsInterpreter.SubsM b>_R
+                   ->_R Sym (SubsInterpreter.N:SubsM[0] <b>_R))
+                  SubsInterpreter.$fMonadSubsM_$c>>
+                  SubsInterpreter.$fApplicativeSubsM5
+                    `cast`
+                  (forall (a :: <*>_N).
+                   <a>_R ->_R Sym (SubsInterpreter.N:SubsM[0] <a>_R))
+                  SubsInterpreter.$fMonadSubsM1
+                    `cast`
+                  (forall (a :: <*>_N).
+                   <GHC.Base.String>_R ->_R Sym (SubsInterpreter.N:SubsM[0] <a>_R)) -}
+e944aa61cd836d0defe904e3d85ccaae
+  $fMonadSubsM1 ::
+    GHC.Base.String
+    -> SubsInterpreter.Context
+    -> Data.Either.Either GHC.Base.String (a, SubsInterpreter.Env)
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><L,A>m1,
+     Unfolding: InlineRule (2, True, True)
+                (\ @ a (s :: GHC.Base.String) (ds :: SubsInterpreter.Context) ->
+                 Data.Either.Left @ GHC.Base.String @ (a, SubsInterpreter.Env) s) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fMonadSubsM2 ::
+    SubsInterpreter.SubsM a
+    -> (a -> SubsInterpreter.SubsM b)
+    -> (SubsInterpreter.Env, SubsInterpreter.PEnv)
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(C1(U))><S,1*U(U,U)>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: a -> SubsInterpreter.SubsM b)
+                   (w2 :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case w2 of ww { (,) ww1 ww2 ->
+                 SubsInterpreter.$w$c>>= @ a @ b w w1 ww1 ww2 }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $fMonadSubsM_$c>> ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b -> SubsInterpreter.SubsM b
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><S,1*U(U,U)>,
+     Inline: (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ @ a
+                   @ b
+                   (m1 :: SubsInterpreter.SubsM a)
+                   (k :: SubsInterpreter.SubsM b)
+                   (ds :: (SubsInterpreter.Env, SubsInterpreter.PEnv)) ->
+                 case ds of wild { (,) env penv ->
+                 case m1 `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (env, penv) of wild1 {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds1
+                   -> case ds1 of wild2 { (,) a1 newEnv ->
+                      k `cast` (SubsInterpreter.N:SubsM[0] <b>_R) (newEnv, penv) } } })
+                  `cast`
+                (forall (a :: <*>_N) (b :: <*>_N).
+                 <SubsInterpreter.SubsM a>_R
+                 ->_R <SubsInterpreter.SubsM b>_R
+                 ->_R Sym (SubsInterpreter.N:SubsM[0] <b>_R)) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fShowValue :: GHC.Show.Show SubsInterpreter.Value
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SubsInterpreter.Value
+                  SubsInterpreter.$fShowValue_$cshowsPrec
+                  SubsInterpreter.$fShowValue_$cshow
+                  SubsInterpreter.$fShowValue_$cshowList -}
+d9a7c81ab59e8c4806658444081122aa
+  $fShowValue1 :: SubsInterpreter.Value -> GHC.Show.ShowS
+  {- Arity: 2,
+     Unfolding: (SubsInterpreter.$fShowValue_$cshowsPrec
+                   SubsInterpreter.$fShowValue2) -}
+5563e1e75f53f5373c41de6284c9965f
+  $fShowValue2 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fShowValue_$cshow :: SubsInterpreter.Value -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (x :: SubsInterpreter.Value) ->
+                 SubsInterpreter.$fShowValue_$cshowsPrec
+                   SubsInterpreter.$fShowValue2
+                   x
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fShowValue_$cshowList :: [SubsInterpreter.Value] -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (ls :: [SubsInterpreter.Value]) (s :: GHC.Base.String) ->
+                 GHC.Show.showList__
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.$fShowValue1
+                   ls
+                   s) -}
+d9a7c81ab59e8c4806658444081122aa
+  $fShowValue_$cshowsPrec ::
+    GHC.Types.Int -> SubsInterpreter.Value -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,1*U(U)><S,1*U><L,U> -}
+a370ccb6abe657ef4fb790b00b970793
+  $sfromList ::
+    [([GHC.Types.Char], a)] -> Data.Map.Internal.Map [GHC.Types.Char] a
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ @ a (ds :: [([GHC.Types.Char], a)]) ->
+                 case ds of wild {
+                   [] -> Data.Map.Internal.Tip @ [GHC.Types.Char] @ a
+                   : ds1 ds2
+                   -> case ds1 of wild1 { (,) kx x ->
+                      case ds2 of wild2 {
+                        []
+                        -> case kx of dt { DEFAULT ->
+                           Data.Map.Internal.Bin
+                             @ [GHC.Types.Char]
+                             @ a
+                             1#
+                             dt
+                             x
+                             (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a)
+                             (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a) }
+                        : ipv ipv1
+                        -> case ipv of wild3 { (,) ky ds3 ->
+                           case GHC.Classes.$fOrd[]_$s$ccompare1 kx ky of wild4 {
+                             DEFAULT
+                             -> case kx of dt { DEFAULT ->
+                                SubsInterpreter.$sfromList1
+                                  @ a
+                                  (Data.Map.Internal.Bin
+                                     @ [GHC.Types.Char]
+                                     @ a
+                                     1#
+                                     dt
+                                     x
+                                     (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a)
+                                     (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a))
+                                  wild2 }
+                             GHC.Types.LT
+                             -> case kx of dt { DEFAULT ->
+                                SubsInterpreter.$wpoly_go13
+                                  @ a
+                                  1#
+                                  (Data.Map.Internal.Bin
+                                     @ [GHC.Types.Char]
+                                     @ a
+                                     1#
+                                     dt
+                                     x
+                                     (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a)
+                                     (Data.Map.Internal.Tip @ [GHC.Types.Char] @ a))
+                                  wild2 } } } } } }) -}
+3db48b554fa02eb8c026a941b8e29cee
+  $sfromList1 ::
+    Data.Map.Internal.Map [GHC.Types.Char] a
+    -> [([GHC.Types.Char], a)]
+    -> Data.Map.Internal.Map [GHC.Types.Char] a
+  {- Arity: 2, Strictness: <S,1*U><S,1*U> -}
+6fb3e532ae88fbc9103ba0b166a46f1b
+  $sinsert_$sgo13 ::
+    SubsAst.Ident
+    -> SubsAst.Ident
+    -> a1
+    -> Data.Map.Internal.Map SubsAst.Ident a1
+    -> Data.Map.Internal.Map SubsAst.Ident a1
+  {- Arity: 4, Strictness: <L,U><S,1*U><L,U><S,1*U> -}
+52447ca49a0d90aec6b682fc04d7a332
+  $slookup1 ::
+    SubsAst.FunName
+    -> Data.Map.Internal.Map SubsAst.FunName a -> GHC.Base.Maybe a
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U> -}
+cde35c40097dd4c47aadb5bf2e1b046c
+  $tc'ArrayVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   7137848829023507730##
+                   17283616849972207419##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'ArrayVal2
+                   0#
+                   SubsInterpreter.$tc'ArrayVal1) -}
+57884e68462f8a31d7122d60a578960b
+  $tc'ArrayVal1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+7533032ec4ab62607066e4d0bf6aade2
+  $tc'ArrayVal2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'ArrayVal3) -}
+f2e74431570daddd5e84ddb6ddf7a8a3
+  $tc'ArrayVal3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'ArrayVal"#) -}
+655d043c96252671e067aeabacfaa571
+  $tc'FalseVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   4879210752742912232##
+                   5022957264621297654##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'FalseVal2
+                   0#
+                   SubsInterpreter.$tc'FalseVal1) -}
+f4c05deb9c1d63979eed0f082c993d19
+  $tc'FalseVal1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m1, Inline: [~] -}
+ebb590e92bca63a57abac21dcbcb6935
+  $tc'FalseVal2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'FalseVal3) -}
+d27cc7e0fa8dc4a2c8547feff0ddea1a
+  $tc'FalseVal3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'FalseVal"#) -}
+00bde24820d3e02c9ff50f8c911ce870
+  $tc'IntVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   2947026560504984876##
+                   4269486877357498787##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'IntVal2
+                   0#
+                   SubsInterpreter.$tc'IntVal1) -}
+0ad054927ba077b13eb964f1b42e91f2
+  $tc'IntVal1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+2a515ab4549f9e29bdc4c47a854683b0
+  $tc'IntVal2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'IntVal3) -}
+caca715f273b480fd054f000b848d9a2
+  $tc'IntVal3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'IntVal"#) -}
+394a024bd2a135ab991d4cc8f972a221
+  $tc'StringVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   9014632049582210905##
+                   4102375166623568447##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'StringVal2
+                   0#
+                   SubsInterpreter.$tc'StringVal1) -}
+fd60ddd8a34f5fe9f17049af8e271323
+  $tc'StringVal1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+2f9f3a022814e462c05b849a05fd9edb
+  $tc'StringVal2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'StringVal3) -}
+5c7957b9683fb2aabac61c77b6ecb10e
+  $tc'StringVal3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'StringVal"#) -}
+67622700069c7934296a846ae946667b
+  $tc'SubsM :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   6093647105077879627##
+                   11648303624156864183##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'SubsM2
+                   1#
+                   SubsInterpreter.$tc'SubsM1) -}
+781a1bfd1999e9b7ab3c6f59eaa21111
+  $tc'SubsM1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m4, Inline: [~] -}
+a48c980379672df42fe4ce9d69ed8265
+  $tc'SubsM2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'SubsM3) -}
+5ca269b1a4f1f55586be6e3002de9040
+  $tc'SubsM3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'SubsM"#) -}
+c6e91259cafe8f30ef2a3f00c8d32c9b
+  $tc'TrueVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   3518248926734395954##
+                   16175936249811458143##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'TrueVal1
+                   0#
+                   SubsInterpreter.$tc'FalseVal1) -}
+f45c288d0983e35844b3f315a37e8521
+  $tc'TrueVal1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'TrueVal2) -}
+27fc1c585c9154ca95e648b4c09094ab
+  $tc'TrueVal2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'TrueVal"#) -}
+3402c232e5d732713ff334e08b18b7f1
+  $tc'UndefinedVal :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   13710395254861402092##
+                   2185451597153184677##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tc'UndefinedVal1
+                   0#
+                   SubsInterpreter.$tc'FalseVal1) -}
+4f4b607de7af1a170d3ed82d6ffeea99
+  $tc'UndefinedVal1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tc'UndefinedVal2) -}
+8626daae02683f67a0a499dad819ce93
+  $tc'UndefinedVal2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'UndefinedVal"#) -}
+588d9217855a43a737510c1991cb20cc
+  $tcSubsM :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   13991505476182102212##
+                   11907062954197560687##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tcSubsM1
+                   0#
+                   GHC.Types.krep$*Arr*) -}
+ab7bf32c71262b9c6c5b57b0d9cac1dc
+  $tcSubsM1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tcSubsM2) -}
+6f3a58fb17c92b25d62d4ba6019f901e
+  $tcSubsM2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("SubsM"#) -}
+d1b0af73f1437c29e7767dd2deb6713d
+  $tcValue :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   10131734853375253911##
+                   2185186096699529215##
+                   SubsInterpreter.$trModule
+                   SubsInterpreter.$tcValue1
+                   0#
+                   GHC.Types.krep$*) -}
+7b43ce2afb74be74b7d452075d7b2f25
+  $tcValue1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$tcValue2) -}
+3512629d8b6a3f24d61044575c1e6504
+  $tcValue2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Value"#) -}
+b426837e01ef658d42d35341138e90b2
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module
+                   SubsInterpreter.$trModule3
+                   SubsInterpreter.$trModule1) -}
+1b8844b48334464dc07873ca00678bd8
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$trModule2) -}
+f74d6542500539c1d13c07d71470171f
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("SubsInterpreter"#) -}
+0292e6d57ed470b9d64d402c74966f48
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SubsInterpreter.$trModule4) -}
+f3c3e3aea187c6ab57adb944be972334
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("main"#) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$c*> ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><L,U><L,U>, Inline: [0],
+     Unfolding: (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: SubsInterpreter.SubsM b)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      case w1 `cast` (SubsInterpreter.N:SubsM[0] <b>_R)
+                             (newEnv, ww1) of wild2 {
+                        Data.Either.Left err -> wild2
+                        Data.Either.Right ds1
+                        -> case ds1 of wild3 { (,) a2 newEnv1 -> wild2 } } } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$c<* ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (a, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><L,U><L,U>, Inline: [0],
+     Unfolding: (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: SubsInterpreter.SubsM b)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err -> wild
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      case w1 `cast` (SubsInterpreter.N:SubsM[0] <b>_R)
+                             (newEnv, ww1) of wild2 {
+                        Data.Either.Left err
+                        -> Data.Either.Left
+                             @ SubsInterpreter.Error
+                             @ (a, SubsInterpreter.Env)
+                             err
+                        Data.Either.Right ds1
+                        -> case ds1 of wild3 { (,) a2 newEnv1 ->
+                           Data.Either.Right
+                             @ SubsInterpreter.Error
+                             @ (a, SubsInterpreter.Env)
+                             (a1, newEnv1) } } } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$c<*> ::
+    SubsInterpreter.SubsM (a -> b)
+    -> SubsInterpreter.SubsM a
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(U)><L,U><L,U>, Inline: [0],
+     Unfolding: (\ @ b
+                   @ a
+                   (w :: SubsInterpreter.SubsM (a -> b))
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w `cast` (SubsInterpreter.N:SubsM[0] <a -> b>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      case w1 `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                             (newEnv, ww1) of wild2 {
+                        Data.Either.Left err
+                        -> Data.Either.Left
+                             @ SubsInterpreter.Error
+                             @ (b, SubsInterpreter.Env)
+                             err
+                        Data.Either.Right ds1
+                        -> case ds1 of wild3 { (,) a2 newEnv1 ->
+                           Data.Either.Right
+                             @ SubsInterpreter.Error
+                             @ (b, SubsInterpreter.Env)
+                             (a1 a2, newEnv1) } } } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$c>>= ::
+    SubsInterpreter.SubsM a
+    -> (a -> SubsInterpreter.SubsM b)
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <C(S),1*C1(U)><L,1*C1(C1(U))><L,U><L,U>, Inline: [0],
+     Unfolding: (\ @ a
+                   @ b
+                   (w :: SubsInterpreter.SubsM a)
+                   (w1 :: a -> SubsInterpreter.SubsM b)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      (w1 a1) `cast` (SubsInterpreter.N:SubsM[0] <b>_R)
+                        (newEnv, ww1) } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$cfmap ::
+    (a -> b)
+    -> SubsInterpreter.SubsM a
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (b, SubsInterpreter.Env)
+  {- Arity: 4, HasNoCafRefs,
+     Strictness: <L,1*C1(U)><C(S),1*C1(U)><L,U><L,U>, Inline: [0],
+     Unfolding: (\ @ b
+                   @ a
+                   (w :: a -> b)
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w1 `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ (b, SubsInterpreter.Env)
+                        (w a1, newEnv) } }) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  $w$cliftA2 ::
+    (a -> b -> c)
+    -> SubsInterpreter.SubsM a
+    -> SubsInterpreter.SubsM b
+    -> SubsInterpreter.Env
+    -> SubsInterpreter.PEnv
+    -> Data.Either.Either
+         SubsInterpreter.Error (c, SubsInterpreter.Env)
+  {- Arity: 5, HasNoCafRefs,
+     Strictness: <L,1*C1(C1(U))><C(S),1*C1(U)><L,1*C1(U)><L,U><L,U>,
+     Inline: [0],
+     Unfolding: (\ @ a
+                   @ b
+                   @ c
+                   (w :: a -> b -> c)
+                   (w1 :: SubsInterpreter.SubsM a)
+                   (w2 :: SubsInterpreter.SubsM b)
+                   (ww :: SubsInterpreter.Env)
+                   (ww1 :: SubsInterpreter.PEnv) ->
+                 case w1 `cast` (SubsInterpreter.N:SubsM[0] <a>_R)
+                        (ww, ww1) of wild {
+                   Data.Either.Left err
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ (c, SubsInterpreter.Env)
+                        err
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a1 newEnv ->
+                      case w2 `cast` (SubsInterpreter.N:SubsM[0] <b>_R)
+                             (newEnv, ww1) of wild2 {
+                        Data.Either.Left err
+                        -> Data.Either.Left
+                             @ SubsInterpreter.Error
+                             @ (c, SubsInterpreter.Env)
+                             err
+                        Data.Either.Right ds1
+                        -> case ds1 of wild3 { (,) a2 newEnv1 ->
+                           Data.Either.Right
+                             @ SubsInterpreter.Error
+                             @ (c, SubsInterpreter.Env)
+                             (w a1 a2, newEnv1) } } } }) -}
+f845a7c9d1d192575cd58d0d87c77914
+  $wpoly_go13 ::
+    GHC.Prim.Int#
+    -> Data.Map.Internal.Map [GHC.Types.Char] a
+    -> [([GHC.Types.Char], a)]
+    -> Data.Map.Internal.Map [GHC.Types.Char] a
+  {- Arity: 3, Strictness: <L,U><S,1*U><S,1*U>, Inline: [0] -}
+b624a8370c31e4c6bda15b7b2bd7f49b
+  $wxs :: GHC.Prim.Int# -> [SubsInterpreter.Value]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>m2, Inline: [0] -}
+904f52ad1c5de0e6f5b7b9d22738e7ea
+  type Context = (SubsInterpreter.Env, SubsInterpreter.PEnv)
+f251df2874386340b74ae205ea70f37d
+  type Env =
+    Data.Map.Internal.Map SubsAst.Ident SubsInterpreter.Value
+be6cb23c38138b9fef40e9e46ad8ff31
+  type Error = GHC.Base.String
+afd9699498ab4a98868f7be369d67c15
+  type PEnv =
+    Data.Map.Internal.Map SubsAst.FunName SubsInterpreter.Primitive
+b6f5ab8675d752712d5b599536f5f4cc
+  type Primitive =
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  newtype SubsM a
+    = SubsM {runSubsM :: SubsInterpreter.Context
+                         -> Data.Either.Either
+                              SubsInterpreter.Error (a, SubsInterpreter.Env)}
+d9a7c81ab59e8c4806658444081122aa
+  data Value
+    = IntVal GHC.Types.Int
+    | UndefinedVal
+    | TrueVal
+    | FalseVal
+    | StringVal GHC.Base.String
+    | ArrayVal [SubsInterpreter.Value]
+1195c3e131423439c45c4f09bacd2a92
+  evalExpr ::
+    SubsAst.Expr -> SubsInterpreter.SubsM SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U> -}
+4f0e4cb9bd6db928d0ea81f05ab5e95b
+  initialContext :: SubsInterpreter.Context
+  {- Strictness: m,
+     Unfolding: ((Data.Map.Internal.Tip
+                    @ SubsAst.Ident
+                    @ SubsInterpreter.Value,
+                  SubsInterpreter.runExpr_initialPEnv)) -}
+383dc95740089b881f70a2a74eac68ba
+  runExpr ::
+    SubsAst.Expr
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (exp1 :: SubsAst.Expr) ->
+                 case (SubsInterpreter.evalExpr exp1)
+                        `cast`
+                      (SubsInterpreter.N:SubsM[0] <SubsInterpreter.Value>_R)
+                        SubsInterpreter.initialContext of wild {
+                   Data.Either.Left er
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        er
+                   Data.Either.Right ds
+                   -> case ds of wild1 { (,) a ds1 ->
+                      Data.Either.Right
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        a } }) -}
+6e25ae1bc8b1df6e89b99fb598158002
+  runExpr1 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr51
+                   SubsInterpreter.runExpr2) -}
+d21c7cb53f2ddadfcfdfb5e554b641b2
+  runExpr10 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr11) -}
+21fa732f049b4c3157f5c967683160c3
+  runExpr11 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("Array() called with wrong number or type of arguments"#) -}
+6569c85b7447b85dd7312d1d60e1a362
+  runExpr12 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr13) -}
+ff59725a8cbd10b5cee9f804d2b52315
+  runExpr13 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Array"#) -}
+7e97bdf24819e6eed575d007378caa1f
+  runExpr14 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr19,
+                  SubsInterpreter.runExpr15)) -}
+8f30aa690de861bcdde458a568c8ca3f
+  runExpr15 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr16
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT -> SubsInterpreter.runExpr16
+                        SubsInterpreter.IntVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr16
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr16
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.IntVal
+                                               (GHC.Real.$fIntegralInt_$cmod x y))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr16 } } } } }) -}
+bd36fbad2bdcdc08342f56c01cda8376
+  runExpr16 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.runExpr17) -}
+591a5a571607611a8f32b9e9b0b27638
+  runExpr17 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr18) -}
+9bd9c7bbad4d75167279c0bd49247437
+  runExpr18 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Values can not be modded"#) -}
+a6412a51552f9dcbf2fe98635032bb2b
+  runExpr19 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr20) -}
+2149fc70e138e02e90beff81dc1be9b2
+  runExpr2 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr42
+                   SubsInterpreter.runExpr3) -}
+af0c8b8544ec3595695399d79e767380
+  runExpr20 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("%"#) -}
+d48fb966cc3f829a9d9d7f978f25171a
+  runExpr21 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr26,
+                  SubsInterpreter.runExpr22)) -}
+67bbee62399c370d26f826947f6edf61
+  runExpr22 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr23
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT -> SubsInterpreter.runExpr23
+                        SubsInterpreter.IntVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr23
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr23
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.IntVal (GHC.Num.$fNumInt_$c- x y))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr23 } } } } }) -}
+766a8a572018571eb9360003f0ea288a
+  runExpr23 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.runExpr24) -}
+72030fe33e2aea6b1451a612b991f418
+  runExpr24 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr25) -}
+651535e55cbe5638f1d17a1ebce51142
+  runExpr25 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Values can not be subtracted"#) -}
+88bb6e3c596d86018b9bec85a1787b2b
+  runExpr26 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr27) -}
+2c69b6c30d22b2c106216633ff8ccd30
+  runExpr27 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("-"#) -}
+4318e1bc5da104d7415ba1f56565f819
+  runExpr28 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr33,
+                  SubsInterpreter.runExpr29)) -}
+9cde30c0c19a1b4f3fddbf32624ea882
+  runExpr29 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr30
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT -> SubsInterpreter.runExpr30
+                        SubsInterpreter.IntVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr30
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr30
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.IntVal (GHC.Num.$fNumInt_$c* x y))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr30 } } } } }) -}
+6cd017d90a4d0506859023eec90b9921
+  runExpr3 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr35
+                   SubsInterpreter.runExpr4) -}
+b9afe15db192600baed6d07ce3df2e48
+  runExpr30 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.runExpr31) -}
+2710aa67eb07fccbd5b143a3dcdd96c4
+  runExpr31 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr32) -}
+d09f1f60f384af41cffe18d2c3a8bc04
+  runExpr32 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Values can not be multiplied"#) -}
+a4a223d99761e882c3f635084d0fe5fa
+  runExpr33 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr34) -}
+db5dee9f6dd9d4e726b010051f6d8899
+  runExpr34 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("*"#) -}
+ab50b22bc122832466b24439455eec82
+  runExpr35 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr40,
+                  SubsInterpreter.runExpr36)) -}
+4a393a302cd3cdfe7e4b3cedf7407407
+  runExpr36 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr37
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT -> SubsInterpreter.runExpr37
+                        SubsInterpreter.IntVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr37
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr37
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.IntVal (GHC.Num.$fNumInt_$c+ x y))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr37 }
+                                  SubsInterpreter.StringVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.StringVal
+                                               (case x of ww2 { GHC.Types.I# ww3 ->
+                                                case GHC.Show.$wshowSignedInt
+                                                       0#
+                                                       ww3
+                                                       (GHC.Types.[]
+                                                          @ GHC.Types.Char) of ww4 { (#,#) ww5 ww6 ->
+                                                GHC.Base.++_$s++ @ GHC.Types.Char y ww5 ww6 } }))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr37 } } }
+                        SubsInterpreter.StringVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr37
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr37
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.StringVal
+                                               (GHC.Base.++
+                                                  @ GHC.Types.Char
+                                                  x
+                                                  (case y of ww2 { GHC.Types.I# ww3 ->
+                                                   case GHC.Show.$wshowSignedInt
+                                                          0#
+                                                          ww3
+                                                          (GHC.Types.[]
+                                                             @ GHC.Types.Char) of ww4 { (#,#) ww5 ww6 ->
+                                                   GHC.Types.: @ GHC.Types.Char ww5 ww6 } })))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr37 }
+                                  SubsInterpreter.StringVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> Data.Either.Right
+                                            @ SubsInterpreter.Error
+                                            @ SubsInterpreter.Value
+                                            (SubsInterpreter.StringVal
+                                               (GHC.Base.++ @ GHC.Types.Char x y))
+                                       : ipv ipv1 -> SubsInterpreter.runExpr37 } } } } }) -}
+8f8f826ee9badf40c4020b806d818bfe
+  runExpr37 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.runExpr38) -}
+c3394877fe909002d7ecc3cdc97807f7
+  runExpr38 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr39) -}
+3293b1eb2948925172f35b12424c0d6b
+  runExpr39 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Values can not be added"#) -}
+2b965185a49e9575d1817dc362d32106
+  runExpr4 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr28
+                   SubsInterpreter.runExpr5) -}
+ddbb2f851060c9b826f33381418b9f83
+  runExpr40 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr41) -}
+8008d3d6c78168cc3b936c7ac0e2bf39
+  runExpr41 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("+"#) -}
+f5559de06b1277aa563a85c5c165e4c9
+  runExpr42 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr49,
+                  SubsInterpreter.runExpr43)) -}
+91bc72c94e030c55c36928a9e5726a96
+  runExpr43 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr46
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT -> SubsInterpreter.runExpr46
+                        SubsInterpreter.IntVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr46
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr46
+                                  SubsInterpreter.IntVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> case x of wild5 { GHC.Types.I# x1 ->
+                                          case y of wild6 { GHC.Types.I# y1 ->
+                                          case GHC.Prim.<# x1 y1 of lwild {
+                                            DEFAULT -> SubsInterpreter.runExpr45
+                                            1# -> SubsInterpreter.runExpr44 } } }
+                                       : ipv ipv1 -> SubsInterpreter.runExpr46 } } }
+                        SubsInterpreter.StringVal x
+                        -> case ds2 of wild2 {
+                             [] -> SubsInterpreter.runExpr46
+                             : ds3 ds4
+                             -> case ds3 of wild3 {
+                                  DEFAULT -> SubsInterpreter.runExpr46
+                                  SubsInterpreter.StringVal y
+                                  -> case ds4 of wild4 {
+                                       []
+                                       -> case GHC.Classes.$fOrd[]_$s$ccompare1 x y of wild5 {
+                                            DEFAULT -> SubsInterpreter.runExpr45
+                                            GHC.Types.LT -> SubsInterpreter.runExpr44 }
+                                       : ipv ipv1 -> SubsInterpreter.runExpr46 } } } } }) -}
+b174e3612bd93d1ea9c3abe910e1558c
+  runExpr44 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.TrueVal) -}
+b35900d7c2b1721eb92c14b4d0fd721b
+  runExpr45 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.FalseVal) -}
+c011bff27fbcca8e73060317153c7e66
+  runExpr46 ::
+    Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ SubsInterpreter.Error
+                   @ SubsInterpreter.Value
+                   SubsInterpreter.runExpr47) -}
+1c75c84eb8d2c4a718c327b218004a2c
+  runExpr47 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr48) -}
+f5200f7d59948765b8b79ba4cdf295b7
+  runExpr48 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Values can not be compared"#) -}
+c951d5d43d8d436a1a4215a6c3efa172
+  runExpr49 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr50) -}
+0f71628fd20a474f2cc6826fe90fe5dd
+  runExpr5 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr21
+                   SubsInterpreter.runExpr6) -}
+d49b2cf45f05c585bffd3294442bb4ee
+  runExpr50 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("<"#) -}
+f99971be9ed7dd569bc5af916092faf4
+  runExpr51 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr53,
+                  SubsInterpreter.runExpr52)) -}
+c73e0fb4cede4c9f58fe406e5778e604
+  runExpr52 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   [] -> SubsInterpreter.runExpr46
+                   : x ds1
+                   -> case ds1 of wild1 {
+                        [] -> SubsInterpreter.runExpr46
+                        : y ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case SubsInterpreter.$fEqValue_$c== x y of wild3 {
+                                  GHC.Types.False -> SubsInterpreter.runExpr45
+                                  GHC.Types.True -> SubsInterpreter.runExpr44 }
+                             : ipv ipv1 -> SubsInterpreter.runExpr46 } } }) -}
+bfe6f55291949b59c884777a7a271ecb
+  runExpr53 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SubsInterpreter.runExpr54) -}
+5e8726449ce8598d2b8051e4cd8e684b
+  runExpr54 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("==="#) -}
+82398dd69e583a1ae99fb77bf6ab7215
+  runExpr6 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr14
+                   SubsInterpreter.runExpr7) -}
+bba8c270d2a11e8667b4130721079eee
+  runExpr7 :: [([GHC.Types.Char], SubsInterpreter.Primitive)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ ([GHC.Types.Char], SubsInterpreter.Primitive)
+                   SubsInterpreter.runExpr8
+                   (GHC.Types.[] @ ([GHC.Types.Char], SubsInterpreter.Primitive))) -}
+ff4f56f3e8e7d3a3358636b69af19387
+  runExpr8 :: ([GHC.Types.Char], SubsInterpreter.Primitive)
+  {- Strictness: m,
+     Unfolding: ((SubsInterpreter.runExpr12,
+                  SubsInterpreter.runExpr9)) -}
+d7d09a07d0934c64f7675fe7a1e8c76f
+  runExpr9 ::
+    [SubsInterpreter.Value]
+    -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ (ds :: [SubsInterpreter.Value]) ->
+                 case ds of wild {
+                   []
+                   -> Data.Either.Left
+                        @ SubsInterpreter.Error
+                        @ SubsInterpreter.Value
+                        SubsInterpreter.runExpr10
+                   : ds1 ds2
+                   -> case ds1 of wild1 {
+                        DEFAULT
+                        -> Data.Either.Left
+                             @ SubsInterpreter.Error
+                             @ SubsInterpreter.Value
+                             SubsInterpreter.runExpr10
+                        SubsInterpreter.IntVal n
+                        -> case ds2 of wild2 {
+                             []
+                             -> case n of wild3 { GHC.Types.I# x ->
+                                case GHC.Prim.>=# x 0# of lwild {
+                                  DEFAULT
+                                  -> Data.Either.Left
+                                       @ SubsInterpreter.Error
+                                       @ SubsInterpreter.Value
+                                       SubsInterpreter.runExpr10
+                                  1#
+                                  -> Data.Either.Right
+                                       @ [GHC.Types.Char]
+                                       @ SubsInterpreter.Value
+                                       (SubsInterpreter.ArrayVal
+                                          (case GHC.Prim.<# 0# x of lwild1 {
+                                             DEFAULT -> GHC.Types.[] @ SubsInterpreter.Value
+                                             1# -> SubsInterpreter.$wxs x })) } }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ SubsInterpreter.Error
+                                  @ SubsInterpreter.Value
+                                  SubsInterpreter.runExpr10 } } }) -}
+ab58e92d7e56c0a1f21e269f4170917f
+  runExpr_initialPEnv ::
+    Data.Map.Internal.Map [GHC.Types.Char] SubsInterpreter.Primitive
+  {- Unfolding: (SubsInterpreter.$sfromList
+                   @ ([SubsInterpreter.Value]
+                      -> Data.Either.Either SubsInterpreter.Error SubsInterpreter.Value)
+                   SubsInterpreter.runExpr1) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  runSubsM ::
+    SubsInterpreter.SubsM a
+    -> SubsInterpreter.Context
+    -> Data.Either.Either
+         SubsInterpreter.Error (a, SubsInterpreter.Env)
+  RecSel Left SubsInterpreter.SubsM
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (0, True, True)
+                SubsInterpreter.runSubsM1
+                  `cast`
+                (forall (a :: <*>_N).
+                 <SubsInterpreter.SubsM a>_R
+                 ->_R SubsInterpreter.N:SubsM[0] <a>_R) -}
+0b7ac857159b38e2a78dd6f3c3f28d9b
+  runSubsM1 :: SubsInterpreter.SubsM a -> SubsInterpreter.SubsM a
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, True)
+                (\ @ a (ds :: SubsInterpreter.SubsM a) -> ds) -}
+instance [safe] GHC.Base.Applicative [SubsInterpreter.SubsM]
+  = SubsInterpreter.$fApplicativeSubsM
+instance [safe] GHC.Classes.Eq [SubsInterpreter.Value]
+  = SubsInterpreter.$fEqValue
+instance [safe] GHC.Base.Functor [SubsInterpreter.SubsM]
+  = SubsInterpreter.$fFunctorSubsM
+instance [safe] GHC.Base.Monad [SubsInterpreter.SubsM]
+  = SubsInterpreter.$fMonadSubsM
+instance [safe] GHC.Show.Show [SubsInterpreter.Value]
+  = SubsInterpreter.$fShowValue
+"SPEC/SubsInterpreter fromList @ [Char] _" [orphan] forall @ a
+                                                           ($dOrd :: GHC.Classes.Ord
+                                                                       [GHC.Types.Char])
+  Data.Map.Internal.fromList @ [GHC.Types.Char] @ a $dOrd
+  = SubsInterpreter.$sfromList @ a
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+
