@@ -1,7 +1,7 @@
 -module(flamingo).
 
 
--export([new/1, test/1, route/4, request/,loop/3]).
+-export([new/1, test/1, route/4, loop/3, getRoute/2]).
 
 
 
@@ -24,7 +24,8 @@ loop(State, RouteMap, StateMap) ->
   receive
     {From, {route, Prefixes, Action, Init}} ->
       Ref = make_ref(),
-      Pairs = lists:zip(Prefixes, lists:duplicate(length(Prefixes), Ref)),
+      %Pairs = lists:zip(Prefixes, lists:duplicate(length(Prefixes), Ref)),
+      Pairs = [{P, Ref} || P <- Prefixes],
       Fun = fun(K, V, AccIn) -> maps:put(K, V, AccIn) end,
       NewRouteMap = maps:fold(Fun, RouteMap, maps:from_list(Pairs)),
       NewStateMap = maps:put(Ref, {Action, Init}, StateMap),
@@ -35,5 +36,16 @@ loop(State, RouteMap, StateMap) ->
       loop(State, RouteMap, StateMap)
   end.
 
-request(Flamingo, Request, From, Ref) ->
-  
+request(Flamingo, Request, From, Ref) -> 
+  Flamingo ! {request, Request, From, Ref},
+  receive
+  {message, }:s
+  {
+
+%Routes must be in reverse order"
+getRoute(_, []) -> {error, 404};
+getRoute(Path, [H | T]) ->
+  case  string:substr(Path, 1, length(H)) of
+    H -> {ok, H};
+    _ -> getRoute(Path, T)
+  end.
