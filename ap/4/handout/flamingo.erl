@@ -1,7 +1,7 @@
 -module(flamingo).
 
 
--export([new/1, test/1, route/4, loop/3, getRoute/2]).
+-export([new/1, test/1, route/4, loop/3, getRoute/2, request/4]).
 
 
 
@@ -33,14 +33,26 @@ loop(State, RouteMap, StateMap) ->
       loop(State, NewRouteMap, NewStateMap);
     {From, {test}} ->
       From ! {results, RouteMap, StateMap},
-      loop(State, RouteMap, StateMap)
+      loop(State, RouteMap, StateMap);
+    {_, {request, {Path, Args}, From, Ref}} -> 
+      % StateRef = maps:get(Path, getRoute(RouteMap),
+      case getRoute(Path, lists:reverse(maps:keys(RouteMap))) of
+        {error, 404} -> From ! {Ref, {error, 404}}, %No Matching routes
+                        loop(State, RouteMap, StateMap);
+        {ok, P} ->  
+          R = maps:get(P, RouteMap),
+          {F, LocalState} = maps:get(R, StateMap),
+          Result = apply(F, [{P, Args}, State, LocalState]),
+          case Result of
+            {new_state, Content, NewState} -> 
+              NewStateMap = maps:put(R, {F, NewState}, StateMap)
+              From ! {
+              
+      
   end.
 
 request(Flamingo, Request, From, Ref) -> 
-  Flamingo ! {request, Request, From, Ref},
-  receive
-  {message, }:s
-  {
+  Flamingo ! {request, Request, From, Ref}.
 
 %Routes must be in reverse order"
 getRoute(_, []) -> {error, 404};
