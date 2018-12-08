@@ -1,21 +1,42 @@
--module(greetings).
--export([server/0, try_it/1]).
+-module(mood).
+-export([server/0, moo/1, mood/1, mooHandler/3]).
 
-greeter({_Path, [{"name", Name} | _ ]}, Server, _) ->
-    {no_change,
-     lists:concat(["Greetings ", Name, "\n",
-                   "You have reached ", Server])}.
+mooHandler({_Path, _}, _, LocalState) ->
+  case _Path of
+    "/moo" -> Content = "That's funny.",
+              if
+                LocalState -> {no_change, Content};
+              true -> 
+                {new_state, Content, false}
+              end;
+    "/mood" -> if
+                 LocalState -> {no_change, "Happy!"};
+               true -> 
+                 {new_state, "Sad", true}
+               end
+    end.
 
+    
 server() ->
     {ok, F} = flamingo:new("The Flamingo Server"),
-    flamingo:route(F, ["/hello"], fun greeter/3, none),
+    flamingo:route(F, ["/mood", "/moo"], fun mooHandler/3, false),
     F.
 
-try_it(Server) ->
+moo(Server) ->
     Me = self(),
     Ref = make_ref(),
-    flamingo:request(Server, {"/hello", [{"name", "Student"}]},
+    flamingo:request(Server, {"/moo", []},
                      Me, Ref),
     receive
         {Ref, Reply} -> Reply
     end.
+
+
+mood(Server) -> 
+    Me = self(),
+    Ref = make_ref(),
+    flamingo:request(Server, {"/mood", []}, Me, Ref),
+    receive
+      {Ref, Reply} -> Reply
+    end.
+

@@ -2,10 +2,10 @@
 -export([server/0, try_hello/1, try_bye/1]).
 
 hello({_Path, _}, _, _) ->
-    "Hello my friend".
+    {no_change, "Hello my friend"}.
 
 bye({_Path, _}, _, _) ->
-    "Sad to see you go.".
+    {no_change, "Sad to see you go."}.
 
 
 
