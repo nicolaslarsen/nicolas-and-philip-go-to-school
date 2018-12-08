@@ -11,6 +11,10 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 import com.acertainbookstore.interfaces.BookStore;
 import com.acertainbookstore.interfaces.StockManager;
@@ -28,7 +32,6 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 
 	/** The mapping of books from ISBN to {@link BookStoreBook}. */
 	private Map<Integer, BookStoreBook> bookMap = null;
-
 	/**
 	 * Instantiates a new {@link CertainBookStore}.
 	 */

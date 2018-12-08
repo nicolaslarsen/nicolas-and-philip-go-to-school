@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,7 +37,11 @@ public class BookStoreTest {
 	private static final int TEST_ISBN = 3044560;
 
 	/** The Constant NUM_COPIES. */
-	private static final int NUM_COPIES = 5;
+	private static final int NUM_COPIES = 1000;
+
+	/** The Fixed number of operations */
+	private static final int OPERATIONS = 300;
+	final CyclicBarrier gate = new CyclicBarrier(3);
 
 	/** The local test. */
 	private static boolean localTest = true;
@@ -123,6 +128,7 @@ public class BookStoreTest {
 		Set<StockBook> booksToAdd = new HashSet<StockBook>();
 		booksToAdd.add(getDefaultBook());
 		storeManager.addBooks(booksToAdd);
+
 	}
 
 	/**
@@ -142,6 +148,88 @@ public class BookStoreTest {
 	 * @throws BookStoreException
 	 *             the book store exception
 	 */
+
+	@Test
+	public void Test1() throws InterruptedException, BrokenBarrierException {
+		try {
+			System.out.println("entry");
+			Thread t1 = new Thread() {
+				public void run() {
+					try {
+						gate.await();
+					} catch (InterruptedException e) {
+
+					} catch (BrokenBarrierException e) {
+
+					}
+					System.out.println("before for loop");
+					for (int i = 0; i < 20; i++) {
+						System.out.println(i);
+						System.out.println("after checkpoint");
+						HashSet<BookCopy> booksToBuy = new HashSet<BookCopy>();
+						booksToBuy.add(new BookCopy(TEST_ISBN, 1));
+						try {
+							client.buyBooks(booksToBuy);
+						} catch (BookStoreException b) {
+							System.out.println("we ended up in catch when we tried to purchase books on the " + i +"th iteratoin");
+						}
+						System.out.println("last line of for loop");
+					//	System.out.println("I is thread 1");
+					}
+					//do stuff
+				}
+			};
+			Thread t2 = new Thread() {
+				public void run() {
+					try {
+						gate.await();
+					} catch (InterruptedException e) {
+
+				} catch (BrokenBarrierException e) {
+
+				}
+					for (int i = 0; i < OPERATIONS; i++) {
+						HashSet<BookCopy> booksToAdd = new HashSet<BookCopy>();
+						booksToAdd.add(new BookCopy(TEST_ISBN, 1));
+						/*try {
+							storeManager.addCopies(booksToAdd);
+						} catch (BookStoreException b) {
+							System.out.println("we ended up in catch when we tried to purchase books");
+						}
+						//System.out.println("I is thread 2");
+						*/
+					}
+					//do stuff
+				}
+			};
+			t1.start();
+			t2.start();
+
+
+			System.out.println("threads have started");
+
+			gate.await();
+		} catch (InterruptedException e) {
+
+		} catch (BrokenBarrierException e) {
+
+		}
+		System.out.println();
+		Set<Integer> s = new HashSet<Integer>();
+		s.add(TEST_ISBN);
+		System.out.println("we are before the try");
+		try {
+
+			System.out.println(storeManager.getBooksByISBN(s).get(0).getNumCopies());
+			System.out.println("we are in the try");
+
+		} catch (BookStoreException b){
+
+		}
+
+	}
+
+
 	@Test
 	public void testBuyAllCopiesDefaultBook() throws BookStoreException {
 		// Set of books to buy
