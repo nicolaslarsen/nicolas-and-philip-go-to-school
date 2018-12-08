@@ -34,7 +34,7 @@ loop(State, RouteMap, StateMap) ->
     {From, {test}} ->
       From ! {results, RouteMap, StateMap},
       loop(State, RouteMap, StateMap);
-    {_, {request, {Path, Args}, From, Ref}} -> 
+    {request, {Path, Args}, From, Ref} -> 
       % StateRef = maps:get(Path, getRoute(RouteMap),
       case getRoute(Path, lists:reverse(maps:keys(RouteMap))) of
         {error, 404} -> From ! {Ref, {error, 404}}, %No Matching routes
