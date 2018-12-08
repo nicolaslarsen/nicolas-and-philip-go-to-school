@@ -45,10 +45,14 @@ loop(State, RouteMap, StateMap) ->
           Result = apply(F, [{P, Args}, State, LocalState]),
           case Result of
             {new_state, Content, NewState} -> 
-              NewStateMap = maps:put(R, {F, NewState}, StateMap)
-              From ! {
-              
-      
+              NewStateMap = maps:put(R, {F, NewState}, StateMap),
+              From ! {Ref, Content},
+              loop(State, RouteMap, NewStateMap);
+            {no_change, Content} ->
+              From ! {Ref, Content},
+              loop(State, RouteMap, StateMap)
+         end
+      end
   end.
 
 request(Flamingo, Request, From, Ref) -> 
