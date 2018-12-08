@@ -128,7 +128,6 @@ public class BookStoreTest {
 		Set<StockBook> booksToAdd = new HashSet<StockBook>();
 		booksToAdd.add(getDefaultBook());
 		storeManager.addBooks(booksToAdd);
-
 	}
 
 	/**
@@ -150,6 +149,68 @@ public class BookStoreTest {
 	 */
 
 	@Test
+	public void Client1() throws BookStoreException {
+		HashSet<Integer> booksToGet = new HashSet<>();
+		booksToGet.add(TEST_ISBN);
+
+		Thread t1 = new Thread() {
+			public void run(){
+				System.out.println("Thread 1 running");
+
+				HashSet<BookCopy> booksToBuy = new HashSet<BookCopy>();
+				booksToBuy.add(new BookCopy(TEST_ISBN, 1));
+
+				try {
+					client.buyBooks(booksToBuy);
+					System.out.println("After first buyBooks");
+					for (int i = 1; i < OPERATIONS; i++) {
+						client.buyBooks(booksToBuy);
+						System.out.println(storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies());
+					}
+				}
+				catch (BookStoreException e){
+					System.out.println(e);
+				}
+
+				System.out.println("Thread 1 finished");
+			}
+		};
+
+		Thread t2 = new Thread(){
+			public void run(){
+				System.out.println("Thread 2 running");
+
+				HashSet<BookCopy> booksToAdd = new HashSet<BookCopy>();
+				booksToAdd.add(new BookCopy(TEST_ISBN, 1));
+
+				try {
+					storeManager.addCopies(booksToAdd);
+					System.out.println("After first addCopies");
+					for (int i = 1; i < OPERATIONS; i++){
+						storeManager.addCopies(booksToAdd);
+						System.out.println(storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies());
+					}
+				}
+				catch (BookStoreException e){
+					System.out.println(e);
+				}
+
+				System.out.println("Thread 2 finished");
+			}
+		};
+
+		int numBooksBefore = storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies();
+
+		t1.start();
+		t2.start();
+
+		int numBooksAfter = storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies();
+
+		System.out.println(numBooksBefore);
+		System.out.println(numBooksAfter);
+		assertEquals(numBooksBefore, numBooksAfter);
+	}
+
 	public void Test1() throws InterruptedException, BrokenBarrierException {
 		try {
 			System.out.println("entry");
