@@ -72,7 +72,6 @@ public class SingleLockConcurrentCertainBookStore implements BookStore, StockMan
 			throw new BookStoreException(BookStoreConstants.BOOK + book.toString() + BookStoreConstants.INVALID);
 		}
 
-		// We assume that the readlock is already held at this point
 		if (bookMap.containsKey(isbn)) {// Check if the book is not in stock
 			throw new BookStoreException(BookStoreConstants.ISBN + isbn + BookStoreConstants.DUPLICATED);
 		}
@@ -116,19 +115,12 @@ public class SingleLockConcurrentCertainBookStore implements BookStore, StockMan
 			throw new BookStoreException(BookStoreConstants.NULL_INPUT);
 		}
 
-		bookLock.writeLock().lock();
 		// Check if all are there
 		for (StockBook book : bookSet) {
-		    try {
-				validate(book);
-			}
-		    // We need to unlock before we throw an exception.
-		    catch (BookStoreException e){
-		    	bookLock.writeLock().unlock();
-		    	throw e;
-			}
+			validate(book);
 		}
 
+		bookLock.writeLock().lock();
 		for (StockBook book : bookSet) {
 			int isbn = book.getISBN();
 			bookMap.put(isbn, new BookStoreBook(book));
@@ -424,7 +416,7 @@ public class SingleLockConcurrentCertainBookStore implements BookStore, StockMan
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.acertainbookstore.interfaces.StockManager#removeBooks(java.util.Set)
 	 */

@@ -47,7 +47,7 @@ public class BookStoreTest {
 	private static boolean localTest = true;
 
 	/** Single lock test */
-	private static boolean singleLock = true;
+	private static boolean singleLock = false;
 
 	
 	/** The store manager. */
@@ -148,27 +148,49 @@ public class BookStoreTest {
 	 *             the book store exception
 	 */
 
+	public void buyOperations() throws BookStoreException{
+		Set<BookCopy> booksToBuy = new HashSet<>();
+		booksToBuy.add(new BookCopy(TEST_ISBN, 1));
+
+		for (int i = 0; i < OPERATIONS; i++) {
+			client.buyBooks(booksToBuy);
+			System.out.println(storeManager.getBooks().get(0).getNumCopies());
+		}
+	}
+
+	public void addOperations() throws BookStoreException{
+		Set<BookCopy> booksToAdd = new HashSet<BookCopy>();
+		booksToAdd.add(new BookCopy(TEST_ISBN, 1));
+
+		for (int i = 0; i < OPERATIONS; i++){
+			storeManager.addCopies(booksToAdd);
+			System.out.println(storeManager.getBooks().get(0).getNumCopies());
+		}
+	}
+
+	/**
+	 * Runs two threads, t1 and t2, where t1 buys OPERATIONS number of books 1 at a time,
+	 * and t2 adds OPERATIONS number of copies 1 at a time. We make sure we have the
+	 * same number of books at the end.
+	 *
+	 * @throws InterruptedException
+	 * @throws BookStoreException
+	 * @throws BrokenBarrierException
+	 */
 	@Test
-	public void Client1() throws BookStoreException {
-		HashSet<Integer> booksToGet = new HashSet<>();
+	public void clients() throws InterruptedException, BookStoreException, BrokenBarrierException {
+		Set<Integer> booksToGet = new HashSet<>();
 		booksToGet.add(TEST_ISBN);
 
 		Thread t1 = new Thread() {
 			public void run(){
 				System.out.println("Thread 1 running");
 
-				HashSet<BookCopy> booksToBuy = new HashSet<BookCopy>();
-				booksToBuy.add(new BookCopy(TEST_ISBN, 1));
-
 				try {
-					client.buyBooks(booksToBuy);
-					System.out.println("After first buyBooks");
-					for (int i = 1; i < OPERATIONS; i++) {
-						client.buyBooks(booksToBuy);
-						System.out.println(storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies());
-					}
+					gate.await();
+					buyOperations();
 				}
-				catch (BookStoreException e){
+				catch (Exception e){
 					System.out.println(e);
 				}
 
@@ -180,18 +202,12 @@ public class BookStoreTest {
 			public void run(){
 				System.out.println("Thread 2 running");
 
-				HashSet<BookCopy> booksToAdd = new HashSet<BookCopy>();
-				booksToAdd.add(new BookCopy(TEST_ISBN, 1));
 
 				try {
-					storeManager.addCopies(booksToAdd);
-					System.out.println("After first addCopies");
-					for (int i = 1; i < OPERATIONS; i++){
-						storeManager.addCopies(booksToAdd);
-						System.out.println(storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies());
-					}
+					gate.await();
+					addOperations();
 				}
-				catch (BookStoreException e){
+				catch (Exception e){
 					System.out.println(e);
 				}
 
@@ -204,13 +220,18 @@ public class BookStoreTest {
 		t1.start();
 		t2.start();
 
+		gate.await();
+
+		t1.join();
+		t2.join();
+
 		int numBooksAfter = storeManager.getBooksByISBN(booksToGet).get(0).getNumCopies();
 
-		System.out.println(numBooksBefore);
-		System.out.println(numBooksAfter);
 		assertEquals(numBooksBefore, numBooksAfter);
 	}
 
+	/*
+	@Test
 	public void Test1() throws InterruptedException, BrokenBarrierException {
 		try {
 			System.out.println("entry");
@@ -252,13 +273,13 @@ public class BookStoreTest {
 					for (int i = 0; i < OPERATIONS; i++) {
 						HashSet<BookCopy> booksToAdd = new HashSet<BookCopy>();
 						booksToAdd.add(new BookCopy(TEST_ISBN, 1));
-						/*try {
+						{
 							storeManager.addCopies(booksToAdd);
 						} catch (BookStoreException b) {
 							System.out.println("we ended up in catch when we tried to purchase books");
 						}
 						//System.out.println("I is thread 2");
-						*/
+
 					}
 					//do stuff
 				}
@@ -289,7 +310,7 @@ public class BookStoreTest {
 		}
 
 	}
-
+	*/
 
 	@Test
 	public void testBuyAllCopiesDefaultBook() throws BookStoreException {
@@ -323,6 +344,7 @@ public class BookStoreTest {
 	@Test
 	public void testBuyInvalidISBN() throws BookStoreException {
 		List<StockBook> booksInStorePreTest = storeManager.getBooks();
+		System.out.println("hej");
 
 		// Try to buy a book with invalid ISBN.
 		HashSet<BookCopy> booksToBuy = new HashSet<BookCopy>();
@@ -468,8 +490,8 @@ public class BookStoreTest {
 		booksToAdd.add(new ImmutableStockBook(TEST_ISBN + 2, "The C Programming Language",
 				"Dennis Ritchie and Brian Kerninghan", (float) 50, NUM_COPIES, 0, 0, 0, false));
 
+/*
 		storeManager.addBooks(booksToAdd);
-
 		// Get a list of ISBNs to retrieved.
 		Set<Integer> isbnList = new HashSet<Integer>();
 		isbnList.add(TEST_ISBN + 1);
@@ -479,7 +501,7 @@ public class BookStoreTest {
 		List<Book> books = client.getBooks(isbnList);
 
 		// Make sure the lists equal each other
-		assertTrue(books.containsAll(booksToAdd) && books.size() == booksToAdd.size());
+		assertTrue(books.containsAll(booksToAdd) && books.size() == booksToAdd.size());*/
 	}
 
 	/**
