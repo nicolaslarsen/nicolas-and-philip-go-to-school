@@ -177,10 +177,7 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 	 */
 	public List<StockBook> getBooks() {
 		topLevelLock.readLock().lock();
-		//Collection<ReadWriteLock> lockMapValues = lockMap.values();
-		//lockMapValues.forEach(lock -> lock.readLock().lock());
 		Collection<BookStoreBook> bookMapValues = bookMap.values();
-		//lockMapValues.forEach(lock -> lock.readLock().unlock());
 		topLevelLock.readLock().unlock();
 
 		List<StockBook> books = bookMapValues.stream()
@@ -197,7 +194,7 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 	 * .Set)
 	 */
 	public void updateEditorPicks(Set<BookEditorPick> editorPicks) throws BookStoreException {
-		// Check that all ISBNs that we add/remove are there first.
+		// Checkthat all ISBNs that we add/remove are there first.
 		if (editorPicks == null) {
 			throw new BookStoreException(BookStoreConstants.NULL_INPUT);
 		}
@@ -267,12 +264,10 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 				// If we cannot sell the copies of the book, it is a miss.
 				salesMisses.put(isbn, bookCopyToBuy.getNumCopies() - book.getNumCopies());
 				saleMiss = true;
+				lock.writeLock().unlock();
 			}
 			// We can add sales misses later on without any issues since we hold the toplevel readlock,
 			// but we release the local writelock for now since we will not be buying.
-			if (saleMiss){
-				lock.writeLock().unlock();
-			}
 		}
 
 		// We throw exception now since we want to see how many books in the
@@ -287,6 +282,7 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 				book.addSaleMiss(saleMissEntry.getValue());
 				lock.writeLock().unlock();
 			}
+			topLevelLock.readLock().unlock();
 			throw new BookStoreException(BookStoreConstants.BOOK + BookStoreConstants.NOT_AVAILABLE);
 		}
 
@@ -300,6 +296,7 @@ public class TwoLevelLockingConcurrentCertainBookStore implements BookStore, Sto
 			book.buyCopies(bookCopyToBuy.getNumCopies());
 			lock.writeLock().unlock();
 		}
+		topLevelLock.readLock().unlock();
 	}
 
 	/*

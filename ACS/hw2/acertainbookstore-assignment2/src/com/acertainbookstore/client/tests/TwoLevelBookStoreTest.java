@@ -1,37 +1,28 @@
 package com.acertainbookstore.client.tests;
 
-import static org.junit.Assert.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.acertainbookstore.business.Book;
-import com.acertainbookstore.business.BookCopy;
-import com.acertainbookstore.business.SingleLockConcurrentCertainBookStore;
-import com.acertainbookstore.business.ImmutableStockBook;
-import com.acertainbookstore.business.StockBook;
-import com.acertainbookstore.business.TwoLevelLockingConcurrentCertainBookStore;
+import com.acertainbookstore.business.*;
 import com.acertainbookstore.client.BookStoreHTTPProxy;
 import com.acertainbookstore.client.StockManagerHTTPProxy;
 import com.acertainbookstore.interfaces.BookStore;
 import com.acertainbookstore.interfaces.StockManager;
 import com.acertainbookstore.utils.BookStoreConstants;
 import com.acertainbookstore.utils.BookStoreException;
+import org.junit.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
+import static org.junit.Assert.*;
 
 /**
- * {@link BookStoreTest} tests the {@link BookStore} interface.
+ * {@link TwoLevelBookStoreTest} tests the {@link BookStore} interface.
  * 
  * @see BookStore
  */
-public class BookStoreTest {
+public class TwoLevelBookStoreTest {
 
 	/** The Constant TEST_ISBN. */
 	private static final int TEST_ISBN = 3044560;
@@ -47,7 +38,7 @@ public class BookStoreTest {
 	private static boolean localTest = true;
 
 	/** Single lock test */
-	private static boolean singleLock = true;
+	private static boolean singleLock = false;
 
 	
 	/** The store manager. */
@@ -230,6 +221,7 @@ public class BookStoreTest {
 
 		assertEquals(numBooksBefore, numBooksAfter);
 	}
+
 
 	/**
 	 * Tests basic buyBook() functionality.
