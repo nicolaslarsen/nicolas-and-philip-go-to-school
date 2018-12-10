@@ -3,16 +3,16 @@
 
 mooHandler({_Path, _}, _, LocalState) ->
   case _Path of
-    "/moo" -> Content = "That's funny.",
+    "/moo" -> Content = "That's funny",
               if
                 LocalState -> {no_change, Content};
               true -> 
-                {new_state, Content, false}
+                {new_state, Content, true}
               end;
     "/mood" -> if
                  LocalState -> {no_change, "Happy!"};
                true -> 
-                 {new_state, "Sad", true}
+                 {no_change, "Sad"}
                end
     end.
 

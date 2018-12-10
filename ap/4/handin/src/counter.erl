@@ -4,14 +4,19 @@
 
 argParser([]) -> 1;
 argParser([{"x", Val} | Remainder]) -> 
-                              io:fwrite("matched with x"),
-                              if
-                                  is_integer(Val) and (Val > 0) -> io:fwrite("got the int"),
-                                  Val;
-                               true ->
-                                  io:fwrite("made it to the else branch"),
-                                  argParser(Remainder)
-                               end;
+                              %io:fwrite("matched with x"),
+                              try 
+                                Arg = list_to_integer(Val),
+                                if 
+                                  is_integer(Arg) and (Arg > 0) -> Arg;
+                                true ->
+                              %    io:fwrite("made it to the else branch"),
+                                    argParser(Remainder)
+                                end
+                              catch error:badarg ->
+                                argParser(Remainder)
+                              end;
+
 argParser([_ | Remainder]) -> argParser(Remainder).
 
 countHandler({_Path, Array}, _, LocalState) ->

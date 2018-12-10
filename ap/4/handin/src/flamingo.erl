@@ -1,56 +1,82 @@
 -module(flamingo).
 
--export([new/1, request/4, route/4, drop_group/2, request_reply/2, loop/2, new_mapping/4]).
 
-request_reply(Pid, Request) ->
-    Pid ! {self(), Request},
-    receive
-        {Pid, Response} -> Response
-    end.
+-export([new/1, test/1, route/4, loop/3, getRoute/2, request/4, drop_group/2]).
 
 
 
-new(_Global) -> {ok, spawn(flamingo, loop, [_Global, #{}])}.
+new(_Global) -> try
+                  {ok, spawn(flamingo, loop, [_Global, #{}, #{}])}
+                catch _:_ ->
+                  {error, "There was an issue"}
+                end.
 
-request(_Flamingo, _Request, _From, _Ref) ->
-    _Flamingo ! {_From, {request, _Request, _Ref}}.
-    %receive
-     %   {_Ref, Response} -> Response;
-      %  _ -> "this failed epically"
-    %end.
+route(Flamingo, Prefixes, Action, Init) ->
+  Flamingo ! {self(), {route, Prefixes, Action, Init}},
+  receive 
+    {ok, Ref} -> {ok, Ref}
+  end.
 
-route(_Flamingo, _Path, _Fun, _Arg) ->
-    _Flamingo ! {self(), {route, _Path, _Fun, _Arg}},
-    receive
-        {ok, _Flamingo} -> {ok, _Flamingo};
-        _ -> "we super failed"
-    end.
+test(Flamingo) -> 
+  Flamingo ! {self(), {test}},
+  receive
+    {results, RouteMap, StateMap} -> {RouteMap, StateMap}
+  end.
+
+loop(State, RouteMap, StateMap) ->
+  %Me = self(),
+  receive
+    {From, {route, Prefixes, Action, Init}} ->
+      Ref = make_ref(),
+      %Pairs = lists:zip(Prefixes, lists:duplicate(length(Prefixes), Ref)),
+      Pairs = [{P, Ref} || P <- Prefixes],
+      Fun = fun(K, V, AccIn) -> maps:put(K, V, AccIn) end,
+      NewRouteMap = maps:fold(Fun, RouteMap, maps:from_list(Pairs)),
+      NewStateMap = maps:put(Ref, {Action, Init}, StateMap),
+      From ! {ok, Ref},
+      loop(State, NewRouteMap, NewStateMap);
+    {From, {test}} ->
+      From ! {results, RouteMap, StateMap},
+      loop(State, RouteMap, StateMap);
+    {request, {Path, Args}, From, Ref} -> 
+      % StateRef = maps:get(Path, getRoute(RouteMap),
+      case getRoute(Path, lists:reverse(maps:keys(RouteMap))) of
+        {error, 404} -> From ! {Ref, {404, "There are no matching routes"}}, %No Matching routes
+                        loop(State, RouteMap, StateMap);
+        {ok, P} ->  
+          R = maps:get(P, RouteMap),
+          {F, LocalState} = maps:get(R, StateMap),
+          try 
+            Result = apply(F, [{P, Args}, State, LocalState]),
+            case Result of
+              {new_state, Content, NewState} -> 
+                NewStateMap = maps:put(R, {F, NewState}, StateMap),
+                From ! {Ref, {200, Content}},
+                loop(State, RouteMap, NewStateMap);
+              {no_change, Content} ->
+                From ! {Ref, {200, Content}},
+                loop(State, RouteMap, StateMap);
+              _ ->
+                From ! {Ref, {500, "Action failed on the flamingo server"}},
+                loop(State, RouteMap, StateMap)
+           end
+         catch _:_ -> 
+            From ! {Ref, {500, "Action failed on the flamingo server"}},
+            loop(State, RouteMap, StateMap)
+         end
+      end
+  end.
+
+request(Flamingo, Request, From, Ref) -> 
+  Flamingo ! {request, Request, From, Ref}.
+
+%Routes must be in reverse order"
+getRoute(_, []) -> {error, 404};
+getRoute(Path, [H | T]) ->
+  case  string:substr(Path, 1, length(H)) of
+    H -> {ok, H};
+    _ -> getRoute(Path, T)
+  end.
 
 drop_group(_Flamingo, _Id) ->
     not_implemented.
-
-
-loop(State, LocalState) ->
-    Me = self(),
-    receive
-        {From, {request, {_Path, _Args}, _Ref}} ->
-            case maps:find(_Path, LocalState) of
-              {ok, Fun} -> 
-                From ! {_Ref, {200, apply(Fun, [{_Path, _Args}, State, LocalState])}};
-              {error} -> 
-                From ! {_Ref, {404, "Path not found"}}
-            end,
-            loop(State, LocalState);
-        {From, {route, Path, Fun, Args}} ->
-            NewMap = new_mapping(Path, Fun, Args, LocalState),
-            From ! {ok, Me},
-            loop(State, NewMap);
-        _ -> "we Failed"
-    end.
-
-new_mapping(Path, Fun, Args, Map) ->
-    case (Path) of
-        [H|T] -> new_mapping(T, Fun, Args, Map#{H => Fun});
-        [] -> Map
-    end.
-
