@@ -1,18 +1,21 @@
 -module(counter).
--export([server/0, inc/1, inc/2, dec/1, dec/2, countHandler/3]).
+-export([server/0, inc/1, inc/2, dec/1, dec/2, countHandler/3, argParser/1]).
 
 
-argParser([]) -> 1.
-argParser([{"x", Val} | Remainder]) -> if
-                                  is_integer(Val) and Val > 0 -> Val;
+argParser([]) -> 1;
+argParser([{"x", Val} | Remainder]) -> 
+                              io:fwrite("matched with x"),
+                              if
+                                  is_integer(Val) and (Val > 0) -> io:fwrite("got the int"),
+                                  Val;
                                true ->
+                                  io:fwrite("made it to the else branch"),
                                   argParser(Remainder)
-                               end.
+                               end;
+argParser([_ | Remainder]) -> argParser(Remainder).
 
-argParser([_ | Remainder) -> argParser(Remainder).
-
-countHandler({_Path, Array, LocalState) ->
-  Val = argParser(Array)
+countHandler({_Path, Array}, _, LocalState) ->
+  Val = argParser(Array),
   case _Path of
     "/inc_with" -> {new_state, integer_to_list(Val + LocalState), Val + LocalState};
     "/dec_with" -> {new_state, integer_to_list(LocalState - Val), LocalState - Val}

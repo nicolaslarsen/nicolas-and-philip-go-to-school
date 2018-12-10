@@ -37,7 +37,7 @@ loop(State, RouteMap, StateMap) ->
     {request, {Path, Args}, From, Ref} -> 
       % StateRef = maps:get(Path, getRoute(RouteMap),
       case getRoute(Path, lists:reverse(maps:keys(RouteMap))) of
-        {error, 404} -> From ! {Ref, {error, 404}}, %No Matching routes
+        {error, 404} -> From ! {Ref, {404, "There are no matching routes"}}, %No Matching routes
                         loop(State, RouteMap, StateMap);
         {ok, P} ->  
           R = maps:get(P, RouteMap),
@@ -46,10 +46,13 @@ loop(State, RouteMap, StateMap) ->
           case Result of
             {new_state, Content, NewState} -> 
               NewStateMap = maps:put(R, {F, NewState}, StateMap),
-              From ! {Ref, Content},
+              From ! {Ref, {200, Content}},
               loop(State, RouteMap, NewStateMap);
             {no_change, Content} ->
-              From ! {Ref, Content},
+              From ! {Ref, {200, Content}},
+              loop(State, RouteMap, StateMap);
+            _ ->
+              From ! {Ref, {500, "Action failed on the flamingo server"}},
               loop(State, RouteMap, StateMap)
          end
       end
