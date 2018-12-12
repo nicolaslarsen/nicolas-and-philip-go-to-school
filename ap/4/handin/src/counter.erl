@@ -1,5 +1,5 @@
 -module(counter).
--export([server/0, inc/1, inc/2, dec/1, dec/2, countHandler/3, argParser/1]).
+-export([server/0, countHandler/3, argParser/1]).
 
 
 argParser([]) -> 1;
@@ -33,42 +33,4 @@ server() ->
     {ok, F} = flamingo:new("The Counter Server"),
     flamingo:route(F, ["/inc_with", "/dec_with"], fun countHandler/3, 0),
     F.
-
-inc(Server) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/inc_with", []},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
-
-inc(Server, N) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/inc_with", [{"y", "temp"}, {"x", N}]},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
-dec(Server) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/dec_with", []},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
-dec(Server, N) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/dec_with", [{"y", "temp"}, {"x", N}]},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
 

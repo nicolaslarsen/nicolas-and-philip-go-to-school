@@ -1,26 +1,21 @@
 -module(flamingo).
 
 
--export([new/1, test/1, route/4, loop/3, getRoute/2, request/4, drop_group/2]).
+-export([new/1, route/4, loop/3, getRoute/2, request/4, drop_group/2]).
 
 
-
+%Create and return a new Server
 new(_Global) -> try
                   {ok, spawn(flamingo, loop, [_Global, #{}, #{}])}
                 catch _:_ ->
                   {error, "There was an issue"}
                 end.
 
+%Route a prefix group on the Flamingo Server with an Action and Initial Local State
 route(Flamingo, Prefixes, Action, Init) ->
   Flamingo ! {self(), {route, Prefixes, Action, Init}},
   receive 
     {ok, Ref} -> {ok, Ref}
-  end.
-
-test(Flamingo) -> 
-  Flamingo ! {self(), {test}},
-  receive
-    {results, RouteMap, StateMap} -> {RouteMap, StateMap}
   end.
 
 loop(State, RouteMap, StateMap) ->
@@ -28,7 +23,6 @@ loop(State, RouteMap, StateMap) ->
   receive
     {From, {route, Prefixes, Action, Init}} ->
       Ref = make_ref(),
-      %Pairs = lists:zip(Prefixes, lists:duplicate(length(Prefixes), Ref)),
       Pairs = [{P, Ref} || P <- Prefixes],
       Fun = fun(K, V, AccIn) -> maps:put(K, V, AccIn) end,
       NewRouteMap = maps:fold(Fun, RouteMap, maps:from_list(Pairs)),
@@ -39,7 +33,6 @@ loop(State, RouteMap, StateMap) ->
       From ! {results, RouteMap, StateMap},
       loop(State, RouteMap, StateMap);
     {request, {Path, Args}, From, Ref} -> 
-      % StateRef = maps:get(Path, getRoute(RouteMap),
       case getRoute(Path, lists:reverse(maps:keys(RouteMap))) of
         {error, 404} -> From ! {Ref, {404, "There are no matching routes"}}, %No Matching routes
                         loop(State, RouteMap, StateMap);
