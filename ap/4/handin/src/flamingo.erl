@@ -19,7 +19,6 @@ route(Flamingo, Prefixes, Action, Init) ->
   end.
 
 loop(State, RouteMap, StateMap) ->
-  %Me = self(),
   receive
     {From, {route, Prefixes, Action, Init}} ->
       Ref = make_ref(),
