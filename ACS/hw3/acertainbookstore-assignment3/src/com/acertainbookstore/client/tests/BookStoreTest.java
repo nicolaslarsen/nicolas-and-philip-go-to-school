@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.acertainbookstore.client.workloads.BookSetGenerator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,6 +47,9 @@ public class BookStoreTest {
 	/** The client. */
 	private static BookStore client;
 
+	/** A bookset generator */
+	private static BookSetGenerator generator;
+
 	/**
 	 * Sets the up before class.
 	 */
@@ -59,9 +63,11 @@ public class BookStoreTest {
 				CertainBookStore store = new CertainBookStore();
 				storeManager = store;
 				client = store;
+				generator = new BookSetGenerator();
 			} else {
 				storeManager = new StockManagerHTTPProxy("http://localhost:8081/stock");
 				client = new BookStoreHTTPProxy("http://localhost:8081");
+				generator = new BookSetGenerator();
 			}
 
 			storeManager.removeAllBooks();
@@ -120,6 +126,20 @@ public class BookStoreTest {
 	@After
 	public void cleanupBooks() throws BookStoreException {
 		storeManager.removeAllBooks();
+	}
+
+	/**
+	 * Tests sampleFromSetOfIsbns.
+	 */
+	@Test
+	public void testSampleFromSetOfIsbns(){
+		HashSet<Integer> isbns = new HashSet<>();
+		for (int i = 1; i < 5; i++){
+			isbns.add(i);
+		}
+		Set<Integer> sampleSet = generator.sampleFromSetOfISBNs(isbns, 3);
+		assertEquals(3, sampleSet.size());
+		assert(sampleSet.contains(1) || sampleSet.contains(2));
 	}
 
 	/**

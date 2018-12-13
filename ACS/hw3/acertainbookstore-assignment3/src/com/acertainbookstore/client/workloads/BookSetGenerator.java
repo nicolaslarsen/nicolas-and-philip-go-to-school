@@ -1,7 +1,8 @@
 package com.acertainbookstore.client.workloads;
 
-import java.util.Set;
+import java.util.*;
 
+import com.acertainbookstore.business.ImmutableStockBook;
 import com.acertainbookstore.business.StockBook;
 
 /**
@@ -21,7 +22,9 @@ public class BookSetGenerator {
 	 * @return
 	 */
 	public Set<Integer> sampleFromSetOfISBNs(Set<Integer> isbns, int num) {
-		return null;
+	    ArrayList<Integer> newIsbns = new ArrayList<>(isbns);
+	    Collections.shuffle(newIsbns);
+	    return new HashSet<Integer>(newIsbns.subList(0,num));
 	}
 
 	/**
@@ -31,7 +34,33 @@ public class BookSetGenerator {
 	 * @return
 	 */
 	public Set<StockBook> nextSetOfStockBooks(int num) {
-		return null;
-	}
+		Random rand = new Random();
 
+		int isbn, numCopies;
+		String title, author;
+		float price;
+		long numSaleMisses, numTimesRated, totalRating;
+		boolean editorPick;
+
+		StockBook book;
+		HashSet<StockBook> nextSet = new HashSet<>();
+
+		for (int i = 0; i < num; i++) {
+			isbn = rand.nextInt(10000);
+			title = "title";
+			author = "author";
+			price = (float) (Math.round(rand.nextFloat() * 100.0) / 100.0);
+			numCopies = rand.nextInt(5000);
+			numSaleMisses = rand.nextLong();
+			numTimesRated = rand.nextLong();
+			totalRating = numTimesRated;
+			editorPick = rand.nextBoolean();
+
+			book = new ImmutableStockBook(isbn, title, author, price, numCopies,
+					numSaleMisses, numTimesRated, totalRating, editorPick);
+			nextSet.add(book);
+		}
+
+		return nextSet;
+	}
 }
