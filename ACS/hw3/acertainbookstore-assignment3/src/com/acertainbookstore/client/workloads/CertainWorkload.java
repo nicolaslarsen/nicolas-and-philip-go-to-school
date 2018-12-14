@@ -5,11 +5,13 @@ package com.acertainbookstore.client.workloads;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import com.acertainbookstore.business.CertainBookStore;
+import com.acertainbookstore.business.StockBook;
 import com.acertainbookstore.client.BookStoreHTTPProxy;
 import com.acertainbookstore.client.StockManagerHTTPProxy;
 import com.acertainbookstore.interfaces.BookStore;
@@ -30,9 +32,12 @@ public class CertainWorkload {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		int numConcurrentWorkloadThreads = 10;
+		int numConcurrentWorkloadThreads = 160;
+
+		System.out.println("Number of threads running: " + numConcurrentWorkloadThreads);
+
 		String serverAddress = "http://localhost:8081";
-		boolean localTest = true;
+		boolean localTest = false;
 		List<WorkerRunResult> workerRunResults = new ArrayList<WorkerRunResult>();
 		List<Future<WorkerRunResult>> runResults = new ArrayList<Future<WorkerRunResult>>();
 
@@ -92,6 +97,17 @@ public class CertainWorkload {
 	 */
 	public static void reportMetric(List<WorkerRunResult> workerRunResults) {
 		// TODO: You should aggregate metrics and output them for plotting here
+		long latency = 0;
+
+		double aggThroughPut = 0;
+		for (WorkerRunResult result : workerRunResults){
+			latency += result.getElapsedTimeInNanoSecs() / 500;
+			aggThroughPut += (double) result.getSuccessfulInteractions() /
+					result.getElapsedTimeInNanoSecs();
+		}
+
+		System.out.println("Average latency: " + latency / workerRunResults.size());
+		System.out.println("Aggregate throughput: " + aggThroughPut);
 	}
 
 	/**
@@ -102,8 +118,8 @@ public class CertainWorkload {
 	 */
 	public static void initializeBookStoreData(BookStore bookStore,
 			StockManager stockManager) throws BookStoreException {
-
-		// TODO: You should initialize data for your bookstore here
-
+		BookSetGenerator generator = new BookSetGenerator();
+		Set<StockBook> books = generator.nextSetOfStockBooks(100);
+		stockManager.addBooks(books);
 	}
 }

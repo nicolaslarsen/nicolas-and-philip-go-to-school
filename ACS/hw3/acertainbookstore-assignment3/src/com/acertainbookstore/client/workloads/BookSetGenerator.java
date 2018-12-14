@@ -11,9 +11,7 @@ import com.acertainbookstore.business.StockBook;
  */
 public class BookSetGenerator {
 
-	public BookSetGenerator() {
-		// TODO Auto-generated constructor stub
-	}
+	public BookSetGenerator() {}
 
 	/**
 	 * Returns num randomly selected isbns from the input set
@@ -24,7 +22,8 @@ public class BookSetGenerator {
 	public Set<Integer> sampleFromSetOfISBNs(Set<Integer> isbns, int num) {
 	    ArrayList<Integer> newIsbns = new ArrayList<>(isbns);
 	    Collections.shuffle(newIsbns);
-	    return new HashSet<Integer>(newIsbns.subList(0,num));
+	    int n = num > isbns.size() ? isbns.size() : num;
+		return new HashSet<Integer>(newIsbns.subList(0, n));
 	}
 
 	/**
@@ -46,11 +45,11 @@ public class BookSetGenerator {
 		HashSet<StockBook> nextSet = new HashSet<>();
 
 		for (int i = 0; i < num; i++) {
-			isbn = rand.nextInt(10000);
+			isbn = rand.nextInt(10000) + 1; // We do not want 0
 			title = "title";
 			author = "author";
 			price = (float) (Math.round(rand.nextFloat() * 100.0) / 100.0);
-			numCopies = rand.nextInt(5000);
+			numCopies = rand.nextInt(5000) + 100; // At least a hundred copies
 			numSaleMisses = rand.nextLong();
 			numTimesRated = rand.nextLong();
 			totalRating = numTimesRated;
