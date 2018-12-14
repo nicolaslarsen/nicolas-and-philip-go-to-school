@@ -1,6 +1,6 @@
 ## Nicolas and Philip go to School
 
-Two lost students at the University of Copenhagen were stumbling to find their way. By chance they found each other. Their names were Philip Lassen and Nicolas Larsen. They decided (naively it must be said) that they should be partners for their school work. This is their repo and these are their stories 
+Two lost students at the University of Copenhagen were stumbling to find their way. By chance they found each other. Their names were Philip Lassen and Nicolas Larsen. They decided (naively it must be said) that they should be partners for their school work. This is their repo and these are their stories...
 
 ## Classes
 ----

@@ -3,9 +3,14 @@
  */
 package com.acertainbookstore.client.workloads;
 
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Callable;
 
+import com.acertainbookstore.business.Book;
+import com.acertainbookstore.business.BookCopy;
+import com.acertainbookstore.business.StockBook;
+import com.acertainbookstore.interfaces.BookStore;
+import com.acertainbookstore.interfaces.StockManager;
 import com.acertainbookstore.utils.BookStoreException;
 
 /**
@@ -98,7 +103,19 @@ public class Worker implements Callable<WorkerRunResult> {
      * @throws BookStoreException
      */
     private void runRareStockManagerInteraction() throws BookStoreException {
-	// TODO: Add code for New Stock Acquisition Interaction
+		StockManager stockManager = configuration.getStockManager();
+		List<StockBook> books = stockManager.getBooks();
+
+		Set<StockBook> generatedBooks= configuration.getBookSetGenerator().nextSetOfStockBooks(configuration.getNumBooksToAdd());
+		Set<StockBook> toAdd = new HashSet<>();
+		for (StockBook b : generatedBooks) {
+			if (!books.contains(b)) {
+				toAdd.add(b);
+			}
+		}
+		stockManager.addBooks(toAdd);
+
+
     }
 
     /**
@@ -107,8 +124,26 @@ public class Worker implements Callable<WorkerRunResult> {
      * @throws BookStoreException
      */
     private void runFrequentStockManagerInteraction() throws BookStoreException {
-	// TODO: Add code for Stock Replenishment Interaction
-    }
+    	StockManager stockManager = configuration.getStockManager();
+    	List<StockBook> books = stockManager.getBooks();
+		books.sort(new Comparator<StockBook>(){
+			public int compare(StockBook b1, StockBook b2){
+				if (b1.getNumCopies() == b2.getNumCopies()) {
+					return 0;
+				}
+				else {
+					return b1.getNumCopies() > b2.getNumCopies() ? -1 : 1;
+				}
+			}
+		});
+		HashSet<StockBook>  booksToCopy = new HashSet<>(books.subList(0, configuration.getNumBooksWithLeastCopies()));
+		HashSet<BookCopy> bookCopies= new HashSet<>();
+		for (StockBook b : booksToCopy) {
+			bookCopies.add(new BookCopy(b.getISBN(), configuration.getNumAddCopies()));
+		}
+		stockManager.addCopies(bookCopies);
+
+		}
 
     /**
      * Runs the customer interaction
@@ -116,7 +151,19 @@ public class Worker implements Callable<WorkerRunResult> {
      * @throws BookStoreException
      */
     private void runFrequentBookStoreInteraction() throws BookStoreException {
-	// TODO: Add code for Customer Interaction
-    }
+		BookStore store = configuration.getBookStore();
+		List<Book> picks = store.getEditorPicks(configuration.getNumEditorPicksToGet());
+		HashSet<Integer> isbns = new HashSet<>();
+		for (Book b : picks) {
+			isbns.add(b.getISBN());
+		}
+		Set<Integer> toBuy = configuration.getBookSetGenerator().sampleFromSetOfISBNs(isbns, configuration.getNumBooksToBuy());
+		Set<BookCopy> bc = new HashSet<>();
+		for (Integer i : toBuy) {
+			bc.add(new BookCopy(i, configuration.getNumBookCopiesToBuy()));
+		}
+		store.buyBooks(bc);
+	}
+
 
 }
