@@ -3,10 +3,12 @@ package com.acertainbookstore.client.tests;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import com.acertainbookstore.client.workloads.BookSetGenerator;
+import com.acertainbookstore.utils.BookStoreUtility;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -76,6 +78,36 @@ public class BookStoreTest {
 		}
 	}
 
+	// We want to borrow this function for testing
+	private synchronized boolean validate(StockBook book){
+		int isbn = book.getISBN();
+		String bookTitle = book.getTitle();
+		String bookAuthor = book.getAuthor();
+		int noCopies = book.getNumCopies();
+		float bookPrice = book.getPrice();
+
+		if (BookStoreUtility.isInvalidISBN(isbn)) { // Check if the book has valid ISBN
+		    return false;
+		}
+
+		if (BookStoreUtility.isEmpty(bookTitle)) { // Check if the book has valid title
+		    return false;
+		}
+
+		if (BookStoreUtility.isEmpty(bookAuthor)) { // Check if the book has valid author
+		    return false;
+		}
+
+		if (BookStoreUtility.isInvalidNoCopies(noCopies)) { // Check if the book has at least one copy
+		    return false;
+		}
+
+		if (bookPrice < 0.0) { // Check if the price of the book is valid
+		    return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Helper method to add some books.
 	 *
@@ -139,7 +171,25 @@ public class BookStoreTest {
 		}
 		Set<Integer> sampleSet = generator.sampleFromSetOfISBNs(isbns, 3);
 		assertEquals(3, sampleSet.size());
+		// Just to see that at least one of two values from the list [1,2,3,4] is in there
 		assert(sampleSet.contains(1) || sampleSet.contains(2));
+	}
+
+	/**
+	 * Tests nextSetOfStockBooks
+	 */
+	@Test
+	public void testNextSetOfStockBooks() {
+		Set<StockBook> books = generator.nextSetOfStockBooks(5);
+		StockBook book;
+
+		Iterator<StockBook> bookIter = books.iterator();
+
+		while(bookIter.hasNext()){
+			book = bookIter.next();
+			assert(validate(book));
+		}
+		assertEquals(5, books.size());
 	}
 
 	/**

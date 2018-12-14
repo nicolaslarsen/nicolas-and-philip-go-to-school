@@ -6,6 +6,7 @@ import java.util.Set;
 import com.acertainbookstore.business.Book;
 import com.acertainbookstore.business.BookCopy;
 import com.acertainbookstore.business.BookRating;
+import com.acertainbookstore.business.StockBook;
 import com.acertainbookstore.utils.BookStoreException;
 
 /**
@@ -13,7 +14,6 @@ import com.acertainbookstore.utils.BookStoreException;
  * clients. These methods need to be implemented by both server and client ends.
  */
 public interface BookStore {
-
 	/**
 	 * Buys the sets of books specified.
 	 *
