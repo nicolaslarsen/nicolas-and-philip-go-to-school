@@ -13,7 +13,6 @@ import com.acertainbookstore.utils.BookStoreException;
  * clients who sell items in the book store.
  */
 public interface StockManager {
-
 	/**
 	 * Adds the books in bookSet to the stock.
 	 *
