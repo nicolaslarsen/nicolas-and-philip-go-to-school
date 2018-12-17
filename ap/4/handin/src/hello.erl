@@ -1,5 +1,5 @@
 -module(hello).
--export([server/0, try_hello/1, try_bye/1]).
+-export([server/0]).
 
 hello({_Path, _}, _, _) ->
     {no_change, "Hello my friend"}.
@@ -15,23 +15,5 @@ server() ->
     flamingo:route(F, ["/hello"], fun hello/3, none),
     flamingo:route(F, ["/goodbye"], fun bye/3, none),
     F.
-
-try_hello(Server) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/hello", []},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
-try_bye(Server) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/goodbye", []},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
 
 

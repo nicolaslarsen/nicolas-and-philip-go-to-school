@@ -1,5 +1,5 @@
 -module(counter).
--export([server/0, countHandler/3, argParser/1]).
+-export([server/0]).
 
 
 argParser([]) -> 1;

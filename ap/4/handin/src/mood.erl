@@ -1,5 +1,5 @@
 -module(mood).
--export([server/0, moo/1, mood/1, mooHandler/3]).
+-export([server/0]).
 
 mooHandler({_Path, _}, _, LocalState) ->
   case _Path of
@@ -21,22 +21,4 @@ server() ->
     {ok, F} = flamingo:new("The Flamingo Server"),
     flamingo:route(F, ["/mood", "/moo"], fun mooHandler/3, false),
     F.
-
-moo(Server) ->
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/moo", []},
-                     Me, Ref),
-    receive
-        {Ref, Reply} -> Reply
-    end.
-
-
-mood(Server) -> 
-    Me = self(),
-    Ref = make_ref(),
-    flamingo:request(Server, {"/mood", []}, Me, Ref),
-    receive
-      {Ref, Reply} -> Reply
-    end.
 
