@@ -1,0 +1,42 @@
+Topics
+
+1) Max Flow (2)
+
+---- MIT Youtube ----
+- https://www.youtube.com/watch?v=VYZGlgzr_As&t=11s
+- https://www.youtube.com/watch?v=8C_T4iTzPCU
+----------------------
+
+2) Linear Programming
+
+---- MIT Youtube ----
+https://www.youtube.com/watch?v=WwMz2fJwUCg&t=3529s
+---------------------
+
+3) Randomized Algorithms
+
+4) Hashing
+
+---- MIT Youtube ----
+https://www.youtube.com/watch?v=z0lJ2k0sl1g
+
+
+5) Van Embde Boas Trees
+
+---- MIT Youtube ----
+https://www.youtube.com/watch?v=hmReJCupbNU
+---------------------
+
+6) NP-Completeness
+
+---- MIT Youtube ----
+---------------------
+
+7) Exact Exponential Algorithms and Parameterized Complexity
+
+---- MIT Youtube ----
+
+8) Approximation Algorithms
+
+---- MIT Youtube ----
+
